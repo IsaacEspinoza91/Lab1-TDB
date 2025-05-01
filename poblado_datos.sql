@@ -4,7 +4,7 @@ INSERT INTO Clientes (RUT, Nombre, Apellido, Direccion, Email, Telefono) VALUES
 ('17654321-0', 'Pedro', 'Perez', 'Calle Maipu 123', 'pedro.perez@gmail.com', '+56987654321'),
 ('19283746-5', 'Ana', 'Ramirez', 'Los Olivos 456', 'ana.ramirez@gmail.com', '+56911223344'),
 ('6473829-1', 'Jorge', 'Silva', 'Av. Central 789', 'jorge.silva@gmail.com', '+56999887766'),
-('15374659-7', 'Laura', 'Torres', 'Pje. Las Rosas 321', 'laura.torres@gmail.com', '+56955667788');
+('15374659-7', 'Laura', 'Torres', 'Pje. Las Rosas 321', 'laura.torres@gmail.com', '+56955667788'),
 ('12839201-3', 'Diego', 'Morales', 'Av. Sur 1001', 'diego.morales@gmail.com', '+56966778899'),
 ('20213487-6', 'Camila', 'Fernandez', 'Pasaje Norte 45', 'camila.fernandez@gmail.com', '+56977889900'),
 ('18820194-2', 'Ignacio', 'Vega', 'Calle Secundaria 21', 'ignacio.vega@gmail.com', '+56988990011'),
@@ -53,7 +53,7 @@ VALUES
     ('Simvastatina', 12600, 100, true),
     ('Cetirizina', 7800, 120, false),
     ('Prednisona', 15000, 65, true),
-    ('Miconazol', 8800, 70, false);
+    ('Miconazol', 8800, 70, false),
     ('Paroxetina', 24000, 40, true);
 
 -- Insertar datos en la tabla Repartidores
