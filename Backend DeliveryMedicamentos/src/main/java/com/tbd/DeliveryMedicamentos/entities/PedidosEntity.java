@@ -12,12 +12,13 @@ public class PedidosEntity {
     private Date fechaEntrega;
     private int clienteId;
     private int medioPagoId;
+    private int farmacia_id;
 
     // Constructores
     public PedidosEntity() {}
 
     public PedidosEntity(int id, Date fecha, boolean urgencia, int totalPagado,
-                         String estadoEntrega, Date fechaEntrega, int clienteId, int medioPagoId) {
+                         String estadoEntrega, Date fechaEntrega, int clienteId, int medioPagoId, int farmacia_id) {
         this.id = id;
         this.fecha = fecha;
         this.urgencia = urgencia;
@@ -26,6 +27,7 @@ public class PedidosEntity {
         this.fechaEntrega = fechaEntrega;
         this.clienteId = clienteId;
         this.medioPagoId = medioPagoId;
+        this.farmacia_id = farmacia_id;
     }
 
     // Getters
@@ -61,6 +63,10 @@ public class PedidosEntity {
         return medioPagoId;
     }
 
+    public int getFarmacia_id() {
+        return farmacia_id;
+    }
+
     // Setters
     public void setId(int id) {
         this.id = id;
@@ -94,5 +100,8 @@ public class PedidosEntity {
         this.medioPagoId = medioPagoId;
     }
 
+    public void setFarmacia_id(int farmacia_id) {
+        this.farmacia_id = farmacia_id;
+    }
 
 }
