@@ -1,3 +1,9 @@
+-- Creamos la base de datos primeramente
+CREATE DATABASE farmaciaLabs1;
+
+-- Conectamos a la base de datos creada previamente
+\connect farmaciaLabs1s;
+
 -- Crear tabla Clientes
 CREATE TABLE Clientes (
     ID SERIAL PRIMARY KEY,
