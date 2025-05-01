@@ -1,3 +1,16 @@
+-- Insertar datos en la tabla Clientes
+INSERT INTO Clientes (RUT, Nombre, Apellido, Direccion, Email, Telefono) VALUES
+('12345678-9', 'Maria', 'Gonzalez', 'Av. Libertador 1234', 'maria.gonzalez@gmail.com', '+56912345678'),
+('17654321-0', 'Pedro', 'Perez', 'Calle Maipu 123', 'pedro.perez@gmail.com', '+56987654321'),
+('19283746-5', 'Ana', 'Ramirez', 'Los Olivos 456', 'ana.ramirez@gmail.com', '+56911223344'),
+('6473829-1', 'Jorge', 'Silva', 'Av. Central 789', 'jorge.silva@gmail.com', '+56999887766'),
+('15374659-7', 'Laura', 'Torres', 'Pje. Las Rosas 321', 'laura.torres@gmail.com', '+56955667788');
+('12839201-3', 'Diego', 'Morales', 'Av. Sur 1001', 'diego.morales@gmail.com', '+56966778899'),
+('20213487-6', 'Camila', 'Fernandez', 'Pasaje Norte 45', 'camila.fernandez@gmail.com', '+56977889900'),
+('18820194-2', 'Ignacio', 'Vega', 'Calle Secundaria 21', 'ignacio.vega@gmail.com', '+56988990011'),
+('17928476-4', 'Valentina', 'Navarro', 'Calle Principal 88', 'valentina.navarro@gmail.com', '+56999001122'),
+('16029375-1', 'Matias', 'Cortes', 'El Roble 1123', 'matias.cortes@gmail.com', '+56912344321');
+
 -- Insertar datos en la tabla Farmacias
 INSERT INTO Farmacias (Nombre, Lugar)
 VALUES 
@@ -9,6 +22,13 @@ VALUES
     ('Farmacia La Vida', 'Avenida Libertad 303');
 
 -- Insertar datos en la tabla Productos
+-- Insertar datos en la tabla Medios_de_pago
+INSERT INTO Medios_de_pago (Tipo) VALUES
+('Efectivo'),
+('Tarjeta');
+
+
+-- Insertar datos en la tabla Productos con precios ajustados a pesos chilenos (CLP) como enteros
 INSERT INTO Productos (Nombre, Precio, Stock, Requiere_receta)
 VALUES
     ('Aspirina', 8400, 100, false),
@@ -34,3 +54,12 @@ VALUES
     ('Cetirizina', 7800, 120, false),
     ('Prednisona', 15000, 65, true),
     ('Miconazol', 8800, 70, false);
+    ('Paroxetina', 24000, 40, true);
+
+-- Insertar datos en la tabla Repartidores
+INSERT INTO Repartidores (RUT, Nombre, Telefono) VALUES
+('11223344-5', 'Carlos Diaz', '+56911112222'),
+('22334455-6', 'Francisca Soto', '+56922223333'),
+('20445566-7', 'Luis Rojas', '+56933334444'),
+('19556677-8', 'Paula Reyes', '+56944445555'),
+('18667788-9', 'Tomas Fuentes', '+56955556666');    
