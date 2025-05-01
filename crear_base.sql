@@ -34,7 +34,7 @@ CREATE TABLE Pedidos (
     ID SERIAL PRIMARY KEY,
     Fecha DATE,
     Urgencia BOOLEAN,
-    Total_pagado DECIMAL(10,2),
+    Total_pagado INT,
     Estado_entrega VARCHAR(50),
     Fecha_entrega DATE,
     Cliente_ID INT REFERENCES Clientes(ID),
@@ -52,8 +52,7 @@ CREATE TABLE Farmacias (
 CREATE TABLE Productos (
     ID SERIAL PRIMARY KEY,
     Nombre VARCHAR(100),
-    Precio DECIMAL(10,2),
-    Stock INT,
+    Precio INT,
     Requiere_receta BOOLEAN
 );
 
@@ -81,16 +80,10 @@ CREATE TABLE Pedidos_Repartidores (
     PRIMARY KEY (Pedido_ID, Repartidor_ID)
 );
 
--- Crear tabla Pedidos_Farmacias
-CREATE TABLE Pedidos_Farmacias (
-    Pedido_ID INT REFERENCES Pedidos(ID),
-    Farmacia_ID INT REFERENCES Farmacias(ID),
-    PRIMARY KEY (Pedido_ID, Farmacia_ID)
-);
-
 -- Crear tabla Farmacias_Productos
 CREATE TABLE Farmacias_Productos (
     Farmacia_ID INT REFERENCES Farmacias(ID),
     Producto_ID INT REFERENCES Productos(ID),
+    Stock INT,
     PRIMARY KEY (Farmacia_ID, Producto_ID)
 );
