@@ -100,28 +100,28 @@ INSERT INTO Farmacias_Productos (Farmacia_ID, Producto_ID) VALUES
 (6, 3),  (6, 6),  (6, 9),  (6, 12), (6, 18);
 
 
--- Insertar datos en la tabla Pedidos con farmacia_id
-INSERT INTO Pedidos (Fecha, Urgencia, Total_pagado, Estado_entrega, Fecha_entrega, Cliente_ID, Medio_pago_ID, farmacia_id) VALUES
-('2025-04-01', false, 21200, 'Entregado', '2025-04-03', 1, 1, 1),
-('2025-04-02', true, 44000, 'Pendiente', NULL, 2, 2, 2),
-('2025-04-03', false, 6400, 'Entregado', '2025-04-04', 3, 1, 3),
-('2025-04-03', true, 38880, 'Pendiente', NULL, 4, 2, 4),
-('2025-04-04', false, 9600, 'Entregado', '2025-04-06', 5, 1, 5),
-('2025-04-05', true, 32000, 'Pendiente', NULL, 6, 2, 6),
-('2025-04-06', false, 8800, 'Entregado', '2025-04-08', 7, 1, 1),
-('2025-04-06', true, 25200, 'Pendiente', NULL, 8, 2, 2),
-('2025-04-07', false, 7200, 'Entregado', '2025-04-09', 9, 1, 3),
-('2025-04-07', true, 22400, 'Pendiente', NULL, 10, 2, 4),
-('2025-04-08', false, 12800, 'Entregado', '2025-04-10', 1, 1, 5),
-('2025-04-08', true, 17600, 'Pendiente', NULL, 2, 2, 6),
-('2025-04-09', false, 24900, 'Entregado', '2025-04-11', 3, 1, 1),
-('2025-04-09', true, 10200, 'Pendiente', NULL, 4, 2, 2),
-('2025-04-10', false, 15600, 'Entregado', '2025-04-12', 5, 1, 3),
-('2025-04-11', true, 23800, 'Pendiente', NULL, 6, 2, 4),
-('2025-04-11', false, 28000, 'Entregado', '2025-04-13', 7, 1, 5),
-('2025-04-12', true, 6000, 'Pendiente', NULL, 8, 2, 6),
-('2025-04-13', false, 9800, 'Entregado', '2025-04-15', 9, 1, 1),
-('2025-04-13', true, 15000, 'Pendiente', NULL, 10, 2, 2);
+-- Insertar datos en la tabla Pedidos con farmacia_id y repartidor_id
+INSERT INTO Pedidos (Fecha, Urgencia, Total_pagado, Estado_entrega, Fecha_entrega, Cliente_ID, Medio_pago_ID, Farmacia_ID, Repartidor_ID) VALUES
+('2025-04-01', false, 21200, 'Entregado', '2025-04-03', 1, 1, 1, 1),
+('2025-04-02', true, 44000, 'Pendiente', NULL, 2, 2, 2, 2),
+('2025-04-03', false, 6400, 'Entregado', '2025-04-04', 3, 1, 3, 3),
+('2025-04-03', true, 38880, 'Pendiente', NULL, 4, 2, 4, 4),
+('2025-04-04', false, 9600, 'Entregado', '2025-04-06', 5, 1, 5, 5),
+('2025-04-05', true, 32000, 'Pendiente', NULL, 6, 2, 6, 1),
+('2025-04-06', false, 8800, 'Entregado', '2025-04-08', 7, 1, 1, 2),
+('2025-04-06', true, 25200, 'Pendiente', NULL, 8, 2, 2, 3),
+('2025-04-07', false, 7200, 'Entregado', '2025-04-09', 9, 1, 3, 4),
+('2025-04-07', true, 22400, 'Pendiente', NULL, 10, 2, 4, 5),
+('2025-04-08', false, 12800, 'Entregado', '2025-04-10', 1, 1, 5, 1),
+('2025-04-08', true, 17600, 'Pendiente', NULL, 2, 2, 6, 2),
+('2025-04-09', false, 24900, 'Entregado', '2025-04-11', 3, 1, 1, 3),
+('2025-04-09', true, 10200, 'Pendiente', NULL, 4, 2, 2, 4),
+('2025-04-10', false, 15600, 'Entregado', '2025-04-12', 5, 1, 3, 5),
+('2025-04-11', true, 23800, 'Pendiente', NULL, 6, 2, 4, 1),
+('2025-04-11', false, 28000, 'Entregado', '2025-04-13', 7, 1, 5, 2),
+('2025-04-12', true, 6000, 'Pendiente', NULL, 8, 2, 6, 3),
+('2025-04-13', false, 9800, 'Entregado', '2025-04-15', 9, 1, 1, 4),
+('2025-04-13', true, 15000, 'Pendiente', NULL, 10, 2, 2, 5);
 
 
 -- Insertar datos para detalle de pedidos
