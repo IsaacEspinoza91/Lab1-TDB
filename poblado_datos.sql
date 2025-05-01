@@ -26,7 +26,6 @@ INSERT INTO Medios_de_pago (Tipo) VALUES
 ('Efectivo'),
 ('Tarjeta');
 
-
 -- Insertar datos en la tabla Productos
 INSERT INTO Productos (Nombre, Precio, Stock, Requiere_receta)
 VALUES
@@ -99,4 +98,60 @@ INSERT INTO Farmacias_Productos (Farmacia_ID, Producto_ID) VALUES
 (4, 16), (4, 17), (4, 18), (4, 19), (4, 20),
 (5, 21), (5, 22), (5, 23), (5, 1),  (5, 2),
 (6, 3),  (6, 6),  (6, 9),  (6, 12), (6, 18);
+
+
+-- Insertar datos en la tabla Pedidos con farmacia_id
+INSERT INTO Pedidos (Fecha, Urgencia, Total_pagado, Estado_entrega, Fecha_entrega, Cliente_ID, Medio_pago_ID, farmacia_id) VALUES
+('2025-04-01', false, 12800, 'Entregado', '2025-04-03', 1, 1, 1),
+('2025-04-02', true, 24000, 'Pendiente', NULL, 2, 2, 2),
+('2025-04-03', false, 6400, 'Entregado', '2025-04-04', 3, 1, 3),
+('2025-04-03', true, 20000, 'Pendiente', NULL, 4, 2, 4),
+('2025-04-04', false, 9600, 'Entregado', '2025-04-06', 5, 1, 5),
+('2025-04-05', true, 14400, 'Pendiente', NULL, 6, 2, 6),
+('2025-04-06', false, 11000, 'Entregado', '2025-04-08', 7, 1, 1),
+('2025-04-06', true, 13400, 'Pendiente', NULL, 8, 2, 2),
+('2025-04-07', false, 7200, 'Entregado', '2025-04-09', 9, 1, 3),
+('2025-04-07', true, 22400, 'Pendiente', NULL, 10, 2, 4),
+('2025-04-08', false, 4400, 'Entregado', '2025-04-10', 1, 1, 5),
+('2025-04-08', true, 17600, 'Pendiente', NULL, 2, 2, 6),
+('2025-04-09', false, 9800, 'Entregado', '2025-04-11', 3, 1, 1),
+('2025-04-09', true, 12600, 'Pendiente', NULL, 4, 2, 2),
+('2025-04-10', false, 7800, 'Entregado', '2025-04-12', 5, 1, 3),
+('2025-04-11', true, 15000, 'Pendiente', NULL, 6, 2, 4),
+('2025-04-11', false, 12800, 'Entregado', '2025-04-13', 7, 1, 5),
+('2025-04-12', true, 10200, 'Pendiente', NULL, 8, 2, 6),
+('2025-04-13', false, 11500, 'Entregado', '2025-04-15', 9, 1, 1),
+('2025-04-13', true, 8800, 'Pendiente', NULL, 10, 2, 2);
+
+
+-- Insertar datos para detalle de pedidos
+INSERT INTO Detalle_de_pedidos (Pedido_ID, Producto_ID, Cantidad) VALUES
+(1, 1, 2),
+(1, 7, 1),
+(2, 3, 1),
+(2, 14, 1),
+(3, 4, 1),
+(4, 2, 2),
+(4, 5, 1),
+(5, 8, 1),
+(6, 5, 1),
+(6, 10, 1),
+(7, 15, 1),
+(8, 16, 2),
+(9, 9, 1),
+(10, 12, 1),
+(11, 7, 1),
+(11, 1, 1),
+(12, 10, 1),
+(13, 17, 1),
+(13, 18, 1),
+(14, 20, 1),
+(15, 21, 2),
+(16, 13, 1),
+(16, 19, 1),
+(17, 6, 1),
+(18, 11, 1),
+(19, 22, 1),
+(20, 23, 1);
+
 
