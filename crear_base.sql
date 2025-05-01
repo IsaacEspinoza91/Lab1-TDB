@@ -29,7 +29,7 @@ CREATE TABLE Medios_de_pago (
     Tipo VARCHAR(50)
 );
 
--- Crear tabla Pedidos
+-- Crear tabla Pedidos (con referencia a Farmacias)
 CREATE TABLE Pedidos (
     ID SERIAL PRIMARY KEY,
     Fecha DATE,
@@ -38,7 +38,9 @@ CREATE TABLE Pedidos (
     Estado_entrega VARCHAR(50),
     Fecha_entrega DATE,
     Cliente_ID INT REFERENCES Clientes(ID),
-    Medio_pago_ID INT REFERENCES Medios_de_pago(ID)
+    Medio_pago_ID INT REFERENCES Medios_de_pago(ID),
+    Farmacia_ID INT REFERENCES Farmacias(ID),
+    Repartidor_ID INT REFERENCES Repartidores(ID) 
 );
 
 -- Crear tabla Farmacias
