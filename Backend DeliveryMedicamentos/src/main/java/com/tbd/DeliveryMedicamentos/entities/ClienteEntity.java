@@ -24,23 +24,76 @@ public class ClienteEntity {
         this.telefono = telefono;
     }
 
-    // Getters y Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    // ... (otros getters y setters)
-
-    // Métodos para operaciones CRUD
-    public void insertar() {
-        String sql = "INSERT INTO clientes (rut, nombre, apellido, direccion, email, telefono) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
-        // Ejecutar consulta con JDBC
+    // Getters
+    public int getId() {
+        return id;
     }
 
-    public static ClienteEntity buscarPorId(int id) {
-        String sql = "SELECT * FROM clientes WHERE id = ?";
-        // Ejecutar consulta y mapear resultados
-        return null; // Retornar objeto Cliente
+    public String getRut() {
+        return rut;
     }
 
-    // Otros métodos según necesidad
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    // Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    // Metodo toString, util para hacer debugging
+    @Override
+    public String toString() {
+        return "ClienteEntity{" +
+                "id=" + id +
+                ", rut='" + rut + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", email='" + email + '\'' +
+                ", telefono='" + telefono + '\'' +
+                '}';
+    }
+
 }
