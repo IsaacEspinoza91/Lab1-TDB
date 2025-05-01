@@ -90,3 +90,13 @@ VALUES
     ('Se pasó la hora', 2, 2, 4),
     ('Todo correcto', 4, 3, 2),
     ('Amable y atento', 5, 4, 1);
+
+-- Poblar Tabla intermediaria Farmacia y productos
+INSERT INTO Farmacias_Productos (Farmacia_ID, Producto_ID) VALUES
+(1, 1),  (1, 2),  (1, 3),  (1, 4),  (1, 5),
+(2, 6),  (2, 7),  (2, 8),  (2, 9),  (2, 10),
+(3, 11), (3, 12), (3, 13), (3, 14), (3, 15),
+(4, 16), (4, 17), (4, 18), (4, 19), (4, 20),
+(5, 21), (5, 22), (5, 23), (5, 1),  (5, 2),
+(6, 3),  (6, 6),  (6, 9),  (6, 12), (6, 18);
+
