@@ -21,14 +21,13 @@ VALUES
     ('Farmacia Central', 'Plaza Principal 202'),
     ('Farmacia La Vida', 'Avenida Libertad 303');
 
--- Insertar datos en la tabla Productos
 -- Insertar datos en la tabla Medios_de_pago
 INSERT INTO Medios_de_pago (Tipo) VALUES
 ('Efectivo'),
 ('Tarjeta');
 
 
--- Insertar datos en la tabla Productos con precios ajustados a pesos chilenos (CLP) como enteros
+-- Insertar datos en la tabla Productos
 INSERT INTO Productos (Nombre, Precio, Stock, Requiere_receta)
 VALUES
     ('Aspirina', 8400, 100, false),
@@ -63,3 +62,31 @@ INSERT INTO Repartidores (RUT, Nombre, Telefono) VALUES
 ('20445566-7', 'Luis Rojas', '+56933334444'),
 ('19556677-8', 'Paula Reyes', '+56944445555'),
 ('18667788-9', 'Tomas Fuentes', '+56955556666');    
+
+-- Poblar tabla Calificaciones
+INSERT INTO Calificaciones (Puntuacion, Estrellas, Cliente_ID, Repartidor_ID)
+VALUES
+    ('Muy rápido y amable', 5, 1, 1),
+    ('Demorado pero llegó', 3, 2, 2),
+    ('Excelente servicio', 5, 3, 1),
+    ('Poco cordial', 2, 4, 3),
+    ('Normal', 4, 5, 2),
+    ('No trajo todo', 2, 6, 4),
+    ('Perfecto', 5, 7, 1),
+    ('Se perdió en el camino', 1, 8, 5),
+    ('Servicio aceptable', 3, 9, 2),
+    ('Amable y rápido', 5, 10, 3),
+    ('Atención excelente', 5, 1, 4),
+    ('Muy educado', 4, 2, 5),
+    ('Se equivocó de dirección', 2, 3, 2),
+    ('Llegó frío el pedido', 2, 4, 1),
+    ('Volvería a pedir', 5, 5, 5),
+    ('Sin problemas', 4, 6, 3),
+    ('Tardó demasiado', 2, 7, 4),
+    ('Buen trato', 5, 8, 2),
+    ('Me llamó para confirmar', 4, 9, 1),
+    ('Entrega incompleta', 1, 10, 5),
+    ('Entrega puntual', 5, 1, 3),
+    ('Se pasó la hora', 2, 2, 4),
+    ('Todo correcto', 4, 3, 2),
+    ('Amable y atento', 5, 4, 1);
