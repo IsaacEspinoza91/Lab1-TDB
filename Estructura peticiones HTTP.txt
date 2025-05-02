@@ -1,0 +1,11 @@
+Farmacias:
+- GET, obtener todas las farmacias: http://localhost:8080/api/farmacias
+- GET, obtener farmacia por id: http://localhost:8080/api/farmacias/1
+- POST, crear farmacia: http://localhost:8080/api/farmacias
+Cuerpo,   Se ingresa id???
+{
+    "nombre": "Farmacia Cruz Verde",
+    "lugar": "Gran Avenida 14"
+}
+- PUT, update de farmacia segun id: http://localhost:8080/api/farmacias/1
+- DELETE, eliminar farmcia segun id: http://localhost:8080/api/farmacias/1
