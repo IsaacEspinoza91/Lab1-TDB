@@ -20,7 +20,7 @@ VALUES
     ('Farmacia Santa Maria', 'Calle de la Paz 101'),
     ('Farmacia Central', 'Plaza Principal 202'),
     ('Farmacia La Vida', 'Avenida Libertad 303'),
-    ('Farmcia Salud Usach','Av. Victor Jara 91');
+    ('Farmacia Salud Usach','Av. Victor Jara 91');
 
 -- Insertar datos en la tabla Medios_de_pago
 INSERT INTO Medios_de_pago (Tipo) VALUES
