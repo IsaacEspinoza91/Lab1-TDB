@@ -1,24 +1,21 @@
 package com.tbd.DeliveryMedicamentos.entities;
 
-import java.sql.Date;
-import java.util.List;
-
 public class ProductosEntity {
     private int id;
     private String nombre;
     private int precio;
-    private int stock;
-    private boolean requiereReceta;
+    //private int stock;          // Recordar que no nos importa el stock, eso es tema de la farmacia
+    private boolean requiere_receta;
 
     // Constructores
     public ProductosEntity() {}
 
-    public ProductosEntity(int id, String nombre, int precio, int stock, boolean requiereReceta) {
+    public ProductosEntity(int id, String nombre, int precio, boolean requiere_receta) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
-        this.stock = stock;
-        this.requiereReceta = requiereReceta;
+        //this.stock = stock;
+        this.requiere_receta = requiere_receta;
     }
 
     // Getters
@@ -34,12 +31,10 @@ public class ProductosEntity {
         return precio;
     }
 
-    public int getStock() {
-        return stock;
-    }
+    //public int getStock() { return stock;}
 
-    public boolean isRequiereReceta() {
-        return requiereReceta;
+    public boolean getRequiere_receta() {
+        return requiere_receta;
     }
 
     // Setters
@@ -55,11 +50,9 @@ public class ProductosEntity {
         this.precio = precio;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
+    //public void setStock(int stock) {this.stock = stock;}
 
-    public void setRequiereReceta(boolean requiereReceta) {
-        this.requiereReceta = requiereReceta;
+    public void setRequiere_receta(boolean requiere_receta) {
+        this.requiere_receta = requiere_receta;
     }
 }

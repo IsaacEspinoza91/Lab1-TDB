@@ -1,0 +1,64 @@
+package com.tbd.DeliveryMedicamentos.repositories;
+
+import com.tbd.DeliveryMedicamentos.entities.FarmaciasProductosEntity;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class FarmaciasProductosRepository {
+    private final Sql2o sql2o;
+
+    public FarmaciasProductosRepository(Sql2o sql2o) {
+        this.sql2o = sql2o;
+    }
+
+    public List<FarmaciasProductosEntity> findAll() {
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery("SELECT * FROM Farmacias_Productos").executeAndFetch(FarmaciasProductosEntity.class);
+        }
+    }
+
+    public FarmaciasProductosEntity findByFarmaciaProductoId(Integer farmaciaId, Integer productoId) {
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery("SELECT * FROM Farmacias_Productos WHERE farmacia_id = :farmaciaId AND producto_id = :productoId")
+                    .addParameter("farmaciaId", farmaciaId)
+                    .addParameter("productoId", productoId)
+                    .executeAndFetchFirst(FarmaciasProductosEntity.class);
+        }
+    }
+
+    public FarmaciasProductosEntity save(FarmaciasProductosEntity farmaciaProducto) {
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery("INSERT INTO Farmacias_Productos(farmacia_id, producto_id, stock) " +
+                            "VALUES (:farmaciaId, :productoId, :stock)")
+                    .addParameter("farmaciaId", farmaciaProducto.getFarmacia_id())
+                    .addParameter("productoId", farmaciaProducto.getProducto_id())
+                    .addParameter("stock", farmaciaProducto.getStock())
+                    .executeUpdate();
+            return farmaciaProducto;
+        }
+    }
+
+    public void update(FarmaciasProductosEntity farmaciaProducto) {
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery("UPDATE Farmacias_Productos SET stock = :stock " +
+                            "WHERE farmacia_id = :farmaciaId AND producto_id = :productoId")
+                    .addParameter("stock", farmaciaProducto.getStock())
+                    .addParameter("farmaciaId", farmaciaProducto.getFarmacia_id())
+                    .addParameter("productoId", farmaciaProducto.getProducto_id())
+                    .executeUpdate();
+        }
+    }
+
+    public void delete(Integer farmaciaId, Integer productoId) {
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery("DELETE FROM Farmacias_Productos WHERE farmacia_id = :farmaciaId AND producto_id = :productoId")
+                    .addParameter("farmaciaId", farmaciaId)
+                    .addParameter("productoId", productoId)
+                    .executeUpdate();
+        }
+    }
+}

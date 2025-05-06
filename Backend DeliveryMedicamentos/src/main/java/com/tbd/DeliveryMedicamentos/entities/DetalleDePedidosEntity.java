@@ -1,12 +1,9 @@
 package com.tbd.DeliveryMedicamentos.entities;
 
-import java.sql.Date;
-import java.util.List;
-
 public class DetalleDePedidosEntity {
     private int id;
-    private int pedidoId;
-    private int productoId;
+    private int pedido_id;
+    private int producto_id;
     private int cantidad;
 
     // Constructores
@@ -14,8 +11,8 @@ public class DetalleDePedidosEntity {
 
     public DetalleDePedidosEntity(int id, int pedidoId, int productoId, int cantidad) {
         this.id = id;
-        this.pedidoId = pedidoId;
-        this.productoId = productoId;
+        this.pedido_id = pedidoId;
+        this.producto_id = productoId;
         this.cantidad = cantidad;
     }
 
@@ -24,12 +21,12 @@ public class DetalleDePedidosEntity {
         return id;
     }
 
-    public int getPedidoId() {
-        return pedidoId;
+    public int getPedido_id() {
+        return pedido_id;
     }
 
-    public int getProductoId() {
-        return productoId;
+    public int getProducto_id() {
+        return producto_id;
     }
 
     public int getCantidad() {
@@ -41,12 +38,12 @@ public class DetalleDePedidosEntity {
         this.id = id;
     }
 
-    public void setPedidoId(int pedidoId) {
-        this.pedidoId = pedidoId;
+    public void setPedido_id(int pedido_id) {
+        this.pedido_id = pedido_id;
     }
 
-    public void setProductoId(int productoId) {
-        this.productoId = productoId;
+    public void setProducto_id(int producto_id) {
+        this.producto_id = producto_id;
     }
 
     public void setCantidad(int cantidad) {

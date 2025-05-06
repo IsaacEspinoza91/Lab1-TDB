@@ -16,24 +16,24 @@ public class FarmaciasService {
     }
 
     // Metodos
-    public List<FarmaciasEntity> getAllFarmacias() {
+    public List<FarmaciasEntity> findAll() {
         return farmaciasRepository.findAll();
     }
 
-    public FarmaciasEntity getFarmaciaById(int id) {
+    public FarmaciasEntity findById(Integer id) {
         return farmaciasRepository.findById(id);
     }
 
-    public FarmaciasEntity createFarmacia(FarmaciasEntity farmaciasEntity) {
+    public FarmaciasEntity save(FarmaciasEntity farmaciasEntity) {
         return farmaciasRepository.save(farmaciasEntity);
     }
 
-    public FarmaciasEntity updateFarmacia(FarmaciasEntity farmaciasEntity) {
+    public FarmaciasEntity update(FarmaciasEntity farmaciasEntity) {
         farmaciasRepository.update(farmaciasEntity);
         return farmaciasRepository.findById(farmaciasEntity.getId());
     }
 
-    public void deleteFarmaciaById(int id) {
+    public void delete(Integer id) {
         farmaciasRepository.delete(id);
     }
 }

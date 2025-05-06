@@ -20,36 +20,34 @@ public class FarmaciasController {
 
     // Get todas las farmacias
     @GetMapping
-    public ResponseEntity<List<FarmaciasEntity>> getAllFarmacias() {
-        return ResponseEntity.ok(farmaciasService.getAllFarmacias());
+    public ResponseEntity<List<FarmaciasEntity>> findAll() {
+        return ResponseEntity.ok(farmaciasService.findAll());
     }
 
     // Get de farmacia segun id
     @GetMapping("/{id}")
-    public ResponseEntity<FarmaciasEntity> getFarmaciaById(@PathVariable int id) {
-        FarmaciasEntity farmacia = farmaciasService.getFarmaciaById(id);
+    public ResponseEntity<FarmaciasEntity> findById(@PathVariable Integer id) {
+        FarmaciasEntity farmacia = farmaciasService.findById(id);
         return farmacia != null ? ResponseEntity.ok(farmacia) : ResponseEntity.notFound().build();
     }
 
     // Create de farmacia
     @PostMapping
-    public ResponseEntity<FarmaciasEntity> createFarmacia(@RequestBody FarmaciasEntity farmacia) {
-        FarmaciasEntity newFarmacia = farmaciasService.createFarmacia(farmacia);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newFarmacia);
+    public ResponseEntity<FarmaciasEntity> create(@RequestBody FarmaciasEntity farmacia) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(farmaciasService.save(farmacia));
     }
 
     // Update de farmacia
     @PutMapping("/{id}")
-    public ResponseEntity<FarmaciasEntity> updateFarmacia(@PathVariable int id, @RequestBody FarmaciasEntity farmacia) {
+    public ResponseEntity<FarmaciasEntity> update(@PathVariable Integer id, @RequestBody FarmaciasEntity farmacia) {
         farmacia.setId(id);
-        FarmaciasEntity farmaciaUpdate = farmaciasService.updateFarmacia(farmacia);
-        return ResponseEntity.ok(farmaciaUpdate);
+        return ResponseEntity.ok(farmaciasService.update(farmacia));
     }
 
     // Delete de farmacia
     @DeleteMapping("/{id}")
-    public ResponseEntity<FarmaciasEntity> deleteFarmacia(@PathVariable int id) {
-        farmaciasService.deleteFarmaciaById(id);
+    public ResponseEntity<FarmaciasEntity> delete(@PathVariable Integer id) {
+        farmaciasService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

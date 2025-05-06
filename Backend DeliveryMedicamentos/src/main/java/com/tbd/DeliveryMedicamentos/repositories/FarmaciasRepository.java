@@ -23,7 +23,7 @@ public class FarmaciasRepository {
         }
     }
 
-    public FarmaciasEntity findById(int id) {
+    public FarmaciasEntity findById(Integer id) {
         try (Connection conn = sql2o.open()) {
             return conn.createQuery("SELECT id, nombre, lugar FROM Farmacias WHERE id = :id")
                     .addParameter("id", id)
@@ -54,7 +54,7 @@ public class FarmaciasRepository {
         }
     }
 
-    public void delete(int id) {
+    public void delete(Integer id) {
         try (Connection conn = sql2o.open()) {
             conn.createQuery("DELETE FROM Farmacias WHERE id = :id")
                     .addParameter("id", id)

@@ -28,32 +28,32 @@ INSERT INTO Medios_de_pago (Tipo) VALUES
 ('Tarjeta');
 
 -- Insertar datos en la tabla Productos
-INSERT INTO Productos (Nombre, Precio, Stock, Requiere_receta)
+INSERT INTO Productos (Nombre, Precio, Requiere_receta)
 VALUES
-    ('Aspirina', 8400, 100, false),
-    ('Ibuprofeno', 12240, 150, false),
-    ('Amoxicilina', 20000, 50, true),
-    ('Paracetamol', 6400, 200, false),
-    ('Diazepam', 14400, 80, true),
-    ('Antibiótico', 28000, 60, true),
-    ('Vitamina C', 4400, 300, false),
-    ('Jarabe para la tos', 9600, 120, false),
-    ('Loratadina', 7200, 130, false),
-    ('Clonazepam', 17600, 90, true),
-    ('Glicerina', 6000, 180, false),
-    ('Cefalexina', 22400, 70, true),
-    ('Lactulosa', 12800, 150, false),
-    ('Paroxetina', 24000, 40, true),
-    ('Omeprazol', 11000, 160, false),
-    ('Metformina', 13400, 140, true),
-    ('Enalapril', 9800, 75, true),
-    ('Losartán', 10200, 85, true),
-    ('Salbutamol', 11500, 95, false),
-    ('Simvastatina', 12600, 100, true),
-    ('Cetirizina', 7800, 120, false),
-    ('Prednisona', 15000, 65, true),
-    ('Miconazol', 8800, 70, false),
-    ('Paroxetina', 24000, 40, true);
+    ('Aspirina', 8400, false),
+    ('Ibuprofeno', 12240, false),
+    ('Amoxicilina', 20000, true),
+    ('Paracetamol', 6400, false),
+    ('Diazepam', 14400, true),
+    ('Antibiótico', 28000, true),
+    ('Vitamina C', 4400, false),
+    ('Jarabe para la tos', 9600, false),
+    ('Loratadina', 7200, false),
+    ('Clonazepam', 17600, true),
+    ('Glicerina', 6000, false),
+    ('Cefalexina', 22400, true),
+    ('Lactulosa', 12800, false),
+    ('Paroxetina', 24000, true),
+    ('Omeprazol', 11000, false),
+    ('Metformina', 13400, true),
+    ('Enalapril', 9800, true),
+    ('Losartán', 10200, true),
+    ('Salbutamol', 11500, false),
+    ('Simvastatina', 12600, true),
+    ('Cetirizina', 7800, false),
+    ('Prednisona', 15000, true),
+    ('Miconazol', 8800, false),
+    ('Paroxetina', 24000, true);
 
 -- Insertar datos en la tabla Repartidores
 INSERT INTO Repartidores (RUT, Nombre, Telefono) VALUES
@@ -92,13 +92,13 @@ VALUES
     ('Amable y atento', 5, 4, 1);
 
 -- Poblar Tabla intermediaria Farmacia y productos
-INSERT INTO Farmacias_Productos (Farmacia_ID, Producto_ID) VALUES
-(1, 1),  (1, 2),  (1, 3),  (1, 4),  (1, 5),
-(2, 6),  (2, 7),  (2, 8),  (2, 9),  (2, 10),
-(3, 11), (3, 12), (3, 13), (3, 14), (3, 15),
-(4, 16), (4, 17), (4, 18), (4, 19), (4, 20),
-(5, 21), (5, 22), (5, 23), (5, 1),  (5, 2),
-(6, 3),  (6, 6),  (6, 9),  (6, 12), (6, 18);
+INSERT INTO Farmacias_Productos (Farmacia_ID, Producto_ID, stock) VALUES
+(1, 1, 100),  (1, 2, 22),  (1, 3, 534),  (1, 4, 23),  (1, 5, 87),
+(2, 6, 92),  (2, 7, 43),  (2, 8, 21),  (2, 9, 89),  (2, 10, 23),
+(3, 11, 234), (3, 12, 24), (3, 13, 56), (3, 14, 65), (3, 15,76),
+(4, 16, 65), (4, 17, 65), (4, 18, 23), (4, 19, 65), (4, 20, 36),
+(5, 21, 65), (5, 22, 82), (5, 23, 892), (5, 1, 93),  (5, 2, 12),
+(6, 3, 92),  (6, 6, 90),  (6, 9, 40),  (6, 12, 30), (6, 18, 39);
 
 
 -- Insertar datos en la tabla Pedidos con farmacia_id y repartidor_id

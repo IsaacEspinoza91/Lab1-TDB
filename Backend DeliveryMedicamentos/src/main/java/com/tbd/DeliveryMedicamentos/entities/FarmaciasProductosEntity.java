@@ -1,36 +1,43 @@
 package com.tbd.DeliveryMedicamentos.entities;
 
-import java.sql.Date;
-import java.util.List;
-
 public class FarmaciasProductosEntity {
-    private int farmaciaId;   // FK a Farmacia
-    private int productoId;   // FK a Producto
+    private int farmacia_id;   // FK a Farmacia
+    private int producto_id;   // FK a Producto
+    private int stock;
 
     // Constructores
     public FarmaciasProductosEntity() {}
 
-    public FarmaciasProductosEntity(int farmaciaId, int productoId) {
-        this.farmaciaId = farmaciaId;
-        this.productoId = productoId;
+    public FarmaciasProductosEntity(int farmaciaId, int productoId, int stock) {
+        this.farmacia_id = farmaciaId;
+        this.producto_id = productoId;
+        this.stock = stock;
     }
 
     // Getters
-    public int getFarmaciaId() {
-        return farmaciaId;
+    public int getFarmacia_id() {
+        return farmacia_id;
     }
 
-    public int getProductoId() {
-        return productoId;
+    public int getProducto_id() {
+        return producto_id;
+    }
+
+    public int getStock() {
+        return stock;
     }
 
     // Setters
-    public void setFarmaciaId(int farmaciaId) {
-        this.farmaciaId = farmaciaId;
+    public void setFarmacia_id(int farmacia_id) {
+        this.farmacia_id = farmacia_id;
     }
 
-    public void setProductoId(int productoId) {
-        this.productoId = productoId;
+    public void setProducto_id(int producto_id) {
+        this.producto_id = producto_id;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
 }

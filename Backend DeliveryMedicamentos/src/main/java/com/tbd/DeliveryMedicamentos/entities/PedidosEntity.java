@@ -1,34 +1,33 @@
 package com.tbd.DeliveryMedicamentos.entities;
 
 import java.sql.Date;
-import java.util.List;
 
 public class PedidosEntity {
     private int id;
     private Date fecha;
     private boolean urgencia;
-    private int totalPagado;
-    private String estadoEntrega;
-    private Date fechaEntrega;
-    private int clienteId;
-    private int medioPagoId;
+    private int total_pagado;
+    private String estado_entrega;
+    private Date fecha_entrega;
+    private int cliente_id;
+    private int medio_pago_id;
     private int farmacia_id;
     private int repartidor_id;
     // Constructores
     public PedidosEntity() {}
 
     public PedidosEntity(int id, Date fecha, boolean urgencia, int totalPagado,
-                         String estadoEntrega, Date fechaEntrega, int clienteId, int medioPagoId, int farmacia_id, int repartidor_id) {
+                         String estadoEntrega, Date fechaEntrega, int clienteId, int medioPagoId, int farmaciaId, int repartidorId) {
         this.id = id;
         this.fecha = fecha;
         this.urgencia = urgencia;
-        this.totalPagado = totalPagado;
-        this.estadoEntrega = estadoEntrega;
-        this.fechaEntrega = fechaEntrega;
-        this.clienteId = clienteId;
-        this.medioPagoId = medioPagoId;
-        this.farmacia_id = farmacia_id;
-        this.repartidor_id = repartidor_id;
+        this.total_pagado = totalPagado;
+        this.estado_entrega = estadoEntrega;
+        this.fecha_entrega = fechaEntrega;
+        this.cliente_id = clienteId;
+        this.medio_pago_id = medioPagoId;
+        this.farmacia_id = farmaciaId;
+        this.repartidor_id = repartidorId;
     }
 
     // Getters
@@ -40,28 +39,28 @@ public class PedidosEntity {
         return fecha;
     }
 
-    public boolean isUrgencia() {
+    public boolean getUrgencia() {
         return urgencia;
     }
 
-    public int getTotalPagado() {
-        return totalPagado;
+    public int getTotal_pagado() {
+        return total_pagado;
     }
 
-    public String getEstadoEntrega() {
-        return estadoEntrega;
+    public String getEstado_entrega() {
+        return estado_entrega;
     }
 
-    public Date getFechaEntrega() {
-        return fechaEntrega;
+    public Date getFecha_entrega() {
+        return fecha_entrega;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public int getCliente_id() {
+        return cliente_id;
     }
 
-    public int getMedioPagoId() {
-        return medioPagoId;
+    public int getMedio_pago_id() {
+        return medio_pago_id;
     }
 
     public int getFarmacia_id() {
@@ -85,24 +84,24 @@ public class PedidosEntity {
         this.urgencia = urgencia;
     }
 
-    public void setTotalPagado(int totalPagado) {
-        this.totalPagado = totalPagado;
+    public void setTotal_pagado(int total_pagado) {
+        this.total_pagado = total_pagado;
     }
 
-    public void setEstadoEntrega(String estadoEntrega) {
-        this.estadoEntrega = estadoEntrega;
+    public void setEstado_entrega(String estado_entrega) {
+        this.estado_entrega = estado_entrega;
     }
 
-    public void setFechaEntrega(Date fechaEntrega) {
-        this.fechaEntrega = fechaEntrega;
+    public void setFecha_entrega(Date fecha_entrega) {
+        this.fecha_entrega = fecha_entrega;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setCliente_id(int cliente_id) {
+        this.cliente_id = cliente_id;
     }
 
-    public void setMedioPagoId(int medioPagoId) {
-        this.medioPagoId = medioPagoId;
+    public void setMedio_pago_id(int medio_pago_id) {
+        this.medio_pago_id = medio_pago_id;
     }
 
     public void setFarmacia_id(int farmacia_id) {

@@ -1,15 +1,12 @@
 package com.tbd.DeliveryMedicamentos.entities;
 
-import java.sql.Date;
-import java.util.List;
-
 public class CalificacionesEntity {
 
     private int id;
     private String puntuacion;
     private int estrellas;
-    private int clienteId;
-    private int repartidorId;
+    private int cliente_id;
+    private int repartidor_id;
 
     // Constructores
     public CalificacionesEntity() {}
@@ -18,8 +15,8 @@ public class CalificacionesEntity {
         this.id = id;
         this.puntuacion = puntuacion;
         this.estrellas = estrellas;
-        this.clienteId = clienteId;
-        this.repartidorId = repartidorId;
+        this.cliente_id = clienteId;
+        this.repartidor_id = repartidorId;
     }
 
     // Getters
@@ -35,12 +32,12 @@ public class CalificacionesEntity {
         return estrellas;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public int getCliente_id() {
+        return cliente_id;
     }
 
-    public int getRepartidorId() {
-        return repartidorId;
+    public int getRepartidor_id() {
+        return repartidor_id;
     }
 
     // Setters
@@ -56,11 +53,11 @@ public class CalificacionesEntity {
         this.estrellas = estrellas;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setCliente_id(int cliente_id) {
+        this.cliente_id = cliente_id;
     }
 
-    public void setRepartidorId(int repartidorId) {
-        this.repartidorId = repartidorId;
+    public void setRepartidor_id(int repartidor_id) {
+        this.repartidor_id = repartidor_id;
     }
 }

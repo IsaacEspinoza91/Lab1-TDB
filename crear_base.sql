@@ -1,8 +1,8 @@
 -- Creamos la base de datos primeramente
-CREATE DATABASE farmaciaLabs1;
+CREATE DATABASE delivery_medicamentos;
 
 -- Conectamos a la base de datos creada previamente
-\connect farmaciaLabs1s;
+\connect delivery_medicamentos;
 
 -- Crear tabla Clientes
 CREATE TABLE Clientes (
@@ -29,6 +29,13 @@ CREATE TABLE Medios_de_pago (
     Tipo VARCHAR(50)
 );
 
+-- Crear tabla Farmacias
+CREATE TABLE Farmacias (
+    ID SERIAL PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Lugar VARCHAR(100)
+);
+
 -- Crear tabla Pedidos (con referencia a Farmacias)
 CREATE TABLE Pedidos (
     ID SERIAL PRIMARY KEY,
@@ -41,13 +48,6 @@ CREATE TABLE Pedidos (
     Medio_pago_ID INT REFERENCES Medios_de_pago(ID),
     Farmacia_ID INT REFERENCES Farmacias(ID),
     Repartidor_ID INT REFERENCES Repartidores(ID) 
-);
-
--- Crear tabla Farmacias
-CREATE TABLE Farmacias (
-    ID SERIAL PRIMARY KEY,
-    Nombre VARCHAR(100),
-    Lugar VARCHAR(100)
 );
 
 -- Crear tabla Productos
