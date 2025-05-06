@@ -110,12 +110,14 @@ Productos:
 {
     "nombre": "Neopren",
     "precio": 9990,
+    "stock": 3,
     "requiere_receta": false
 }
 - PUT, actualizar producto: http://localhost:8080/api/productos/25
 {
     "nombre": "Neopren",
     "precio": 13990,
+    "stock": 10,
     "requiere_receta": false
 }
 - DELETE, eliminar producto: http://localhost:8080/api/productos/25
@@ -162,13 +164,9 @@ Farmacia Productos:
 - POST, crear: http://localhost:8080/api/farmacias_productos
 {
     "farmacia_id": 3,
-    "producto_id": 8,
-    "stock": 99
+    "producto_id": 8
 }
-- PUT, actualizar: http://localhost:8080/api/farmacias_productos/farmacia/3/producto/8
-{
-    "stock": 101
-}
+- (Al ser tabla intermedia con solo llave compuesta, no es necesario update)
 - DELETE, eliminar: http://localhost:8080/api/farmacias_productos/farmacia/3/producto/8
 
 
@@ -189,4 +187,4 @@ Detalles De Pedido:
     "producto_id": 11,
     "cantidad": 4
 }
-- DELETE, eliminar detalle: 
+- DELETE, eliminar detalle: http://localhost:8080/api/detalle_pedidos/28

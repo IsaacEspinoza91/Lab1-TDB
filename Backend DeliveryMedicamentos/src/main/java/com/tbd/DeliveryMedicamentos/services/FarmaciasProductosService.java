@@ -26,10 +26,10 @@ public class FarmaciasProductosService {
         return repository.save(farmaciaProducto);
     }
 
-    public FarmaciasProductosEntity update(FarmaciasProductosEntity farmaciaProducto) {
+    /*public FarmaciasProductosEntity update(FarmaciasProductosEntity farmaciaProducto) {
         repository.update(farmaciaProducto);
         return repository.findByFarmaciaProductoId(farmaciaProducto.getFarmacia_id(), farmaciaProducto.getProducto_id());
-    }
+    }*/
 
     public void delete(Integer farmaciaId, Integer productoId) {
         repository.delete(farmaciaId, productoId);

@@ -32,26 +32,25 @@ public class FarmaciasProductosRepository {
 
     public FarmaciasProductosEntity save(FarmaciasProductosEntity farmaciaProducto) {
         try (Connection conn = sql2o.open()) {
-            conn.createQuery("INSERT INTO Farmacias_Productos(farmacia_id, producto_id, stock) " +
-                            "VALUES (:farmaciaId, :productoId, :stock)")
+            conn.createQuery("INSERT INTO Farmacias_Productos(farmacia_id, producto_id) " +
+                            "VALUES (:farmaciaId, :productoId)")
                     .addParameter("farmaciaId", farmaciaProducto.getFarmacia_id())
                     .addParameter("productoId", farmaciaProducto.getProducto_id())
-                    .addParameter("stock", farmaciaProducto.getStock())
                     .executeUpdate();
             return farmaciaProducto;
         }
     }
 
-    public void update(FarmaciasProductosEntity farmaciaProducto) {
+    // No tiene sentido hacer update de tabla intermedia con solo id compuesta
+    /*public void update(FarmaciasProductosEntity farmaciaProducto) {
         try (Connection conn = sql2o.open()) {
-            conn.createQuery("UPDATE Farmacias_Productos SET stock = :stock " +
+            conn.createQuery("UPDATE Farmacias_Productos" +
                             "WHERE farmacia_id = :farmaciaId AND producto_id = :productoId")
-                    .addParameter("stock", farmaciaProducto.getStock())
                     .addParameter("farmaciaId", farmaciaProducto.getFarmacia_id())
                     .addParameter("productoId", farmaciaProducto.getProducto_id())
                     .executeUpdate();
         }
-    }
+    }*/
 
     public void delete(Integer farmaciaId, Integer productoId) {
         try (Connection conn = sql2o.open()) {

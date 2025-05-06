@@ -4,17 +4,17 @@ public class ProductosEntity {
     private int id;
     private String nombre;
     private int precio;
-    //private int stock;          // Recordar que no nos importa el stock, eso es tema de la farmacia
+    private int stock;
     private boolean requiere_receta;
 
     // Constructores
     public ProductosEntity() {}
 
-    public ProductosEntity(int id, String nombre, int precio, boolean requiere_receta) {
+    public ProductosEntity(int id, String nombre, int precio, int stock, boolean requiere_receta) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
-        //this.stock = stock;
+        this.stock = stock;
         this.requiere_receta = requiere_receta;
     }
 
@@ -31,7 +31,9 @@ public class ProductosEntity {
         return precio;
     }
 
-    //public int getStock() { return stock;}
+    public int getStock() {
+        return stock;
+    }
 
     public boolean getRequiere_receta() {
         return requiere_receta;
@@ -50,7 +52,9 @@ public class ProductosEntity {
         this.precio = precio;
     }
 
-    //public void setStock(int stock) {this.stock = stock;}
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
     public void setRequiere_receta(boolean requiere_receta) {
         this.requiere_receta = requiere_receta;

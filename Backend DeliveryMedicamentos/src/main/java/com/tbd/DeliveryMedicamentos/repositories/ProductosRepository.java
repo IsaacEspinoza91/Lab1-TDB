@@ -31,10 +31,11 @@ public class ProductosRepository {
 
     public ProductosEntity save(ProductosEntity producto) {
         try (Connection conn = sql2o.open()) {
-            int id = (Integer) conn.createQuery("INSERT INTO Productos(nombre, precio, requiere_receta) " +
-                            "VALUES (:nombre, :precio, :requiereReceta)", true)
+            int id = (Integer) conn.createQuery("INSERT INTO Productos(nombre, precio, stock, requiere_receta) " +
+                            "VALUES (:nombre, :precio, :stock, :requiereReceta)", true)
                     .addParameter("nombre", producto.getNombre())
                     .addParameter("precio", producto.getPrecio())
+                    .addParameter("stock", producto.getStock())
                     .addParameter("requiereReceta", producto.getRequiere_receta())
                     .executeUpdate()
                     .getKey();
@@ -46,9 +47,10 @@ public class ProductosRepository {
     public void update(ProductosEntity producto) {
         try (Connection conn = sql2o.open()) {
             conn.createQuery("UPDATE Productos SET nombre = :nombre, precio = :precio, " +
-                            "requiere_receta = :requiereReceta WHERE id = :id")
+                            "stock = :stock, requiere_receta = :requiereReceta WHERE id = :id")
                     .addParameter("nombre", producto.getNombre())
                     .addParameter("precio", producto.getPrecio())
+                    .addParameter("stock", producto.getStock())
                     .addParameter("requiereReceta", producto.getRequiere_receta())
                     .addParameter("id", producto.getId())
                     .executeUpdate();

@@ -55,6 +55,7 @@ CREATE TABLE Productos (
     ID SERIAL PRIMARY KEY,
     Nombre VARCHAR(100),
     Precio INT,
+    Stock INT,
     Requiere_receta BOOLEAN
 );
 
@@ -86,6 +87,5 @@ CREATE TABLE Pedidos_Repartidores (
 CREATE TABLE Farmacias_Productos (
     Farmacia_ID INT REFERENCES Farmacias(ID),
     Producto_ID INT REFERENCES Productos(ID),
-    Stock INT,
     PRIMARY KEY (Farmacia_ID, Producto_ID)
 );

@@ -36,14 +36,14 @@ public class FarmaciasProductosController {
         return ResponseEntity.status(HttpStatus.CREATED).body(farmaciasProductosService.save(fp));
     }
 
-    @PutMapping("/farmacia/{farmaciaId}/producto/{productoId}")
+    /*@PutMapping("/farmacia/{farmaciaId}/producto/{productoId}")
     public ResponseEntity<FarmaciasProductosEntity> update(
             @PathVariable Integer farmaciaId, @PathVariable Integer productoId,
             @RequestBody FarmaciasProductosEntity fp) {
         fp.setFarmacia_id(farmaciaId);
         fp.setProducto_id(productoId);
         return ResponseEntity.ok(farmaciasProductosService.update(fp));
-    }
+    }*/
 
     @DeleteMapping("/farmacia/{farmaciaId}/producto/{productoId}")
     public ResponseEntity<Void> delete(
