@@ -95,3 +95,11 @@ CREATE TABLE Farmacias_Productos (
     Producto_ID INT REFERENCES Productos(ID),
     PRIMARY KEY (Farmacia_ID, Producto_ID)
 );
+
+-- Crear tabla Notificaciones
+CREATE TABLE Notificaciones (
+    id SERIAL PRIMARY KEY,
+    mensaje TEXT,       
+    pedido_id INT,         
+    fecha DATE       
+);

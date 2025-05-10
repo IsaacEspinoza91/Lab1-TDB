@@ -171,6 +171,7 @@ Productos:
 Pedidos:
 - GET, obtener todos los pedidos: http://localhost:8080/api/pedidos
 - GET, obtener pedido según id: http://localhost:8080/api/pedidos/2
+- GET, obtener el tiempo promedio de entrega de los repartidores: http://localhost:8080/api/pedidos/tiempo-promedio-repartidor
 - POST, crear pedido: http://localhost:8080/api/pedidos
 {
     "fecha": "2025-05-01",
@@ -220,6 +221,7 @@ Detalles De Pedido:
 - GET, obtener todos los detalles: http://localhost:8080/api/detalle_pedidos
 - GET, obtener detalle según id: http://localhost:8080/api/detalle_pedidos/2
 - POST, crear detalle: http://localhost:8080/api/detalle_pedidos
+- POST, detalle: http://localhost:8080/api/detalle_pedidos/detalle
 {
     "pedido_id": 19,
     "producto_id": 11,

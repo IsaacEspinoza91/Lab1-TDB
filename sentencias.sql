@@ -22,6 +22,15 @@ ORDER BY entregas_fallidas DESC;
 
 
 -- 4. Calcular el tiempo promedio entre pedido y entrega por repartidor.
+SELECT 
+    u.nombre AS repartidores_nombre,
+    ROUND(AVG(EXTRACT(DAY FROM AGE(p.fecha_entrega, p.fecha))), 1) AS tiempo_promedio_dias
+FROM Pedidos p
+JOIN Repartidores r ON p.repartidor_id = r.usuario_id
+JOIN Usuarios u ON r.usuario_id = u.id
+WHERE p.fecha_entrega IS NOT NULL
+GROUP BY u.id, u.nombre;
+
 
 
 -- 5. Obtener los 3 repartidores con mejor rendimiento (basado en entregas y puntuación).
@@ -115,6 +124,30 @@ CALL cambiar_estado_pedido(2,'Fallido', NULL);
 
 
 -- 11. Registrar una notificación si un medicamento con receta es pedido sin validación.
+CREATE OR REPLACE FUNCTION registrar_notificacion_medicamento_sin_validacion()
+RETURNS trigger AS
+$$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM Productos p
+        JOIN Pedidos pe ON pe.id = NEW.pedido_id
+        WHERE p.id = NEW.producto_id
+        AND p.requiere_receta = TRUE
+        AND pe.estado_entrega != 'Entregado'
+    ) THEN
+        INSERT INTO Notificaciones (mensaje, pedido_id, fecha)
+        VALUES ('El medicamento con receta fue pedido sin validación.', NEW.pedido_id, CURRENT_DATE);
+    END IF;
+    RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_registrar_notificacion_medicamento_sin_validacion
+AFTER INSERT ON DetalleDePedidos
+FOR EACH ROW
+EXECUTE FUNCTION registrar_notificacion_medicamento_sin_validacion();
 
 
 -- 12. Insertar una calificación automática si no se recibe en 48 horas.
