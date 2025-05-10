@@ -1,5 +1,12 @@
 -- CONSULTAS
--- 1. ¿Qué cliente ha gastado más dinero en pedidos entregados?
+-- 1. ¿Qué cliente ha gastado más dinero en pedidos entregados? [Omar]
+SELECT c.Usuario_ID AS Cliente_ID, SUM(p.Total_pagado) AS TotalGastado
+FROM Clientes c
+JOIN Pedidos p ON p.Cliente_ID = c.Usuario_ID
+WHERE p.Estado_entrega = 'Entregado'
+GROUP BY c.Usuario_ID
+ORDER BY TotalGastado DESC
+LIMIT 1;
 
 
 --2. ¿Cuáles son los productos más pedidos en el último mes por categoría?
@@ -25,7 +32,47 @@ ORDER BY entregas_fallidas DESC;
 
 
 -- PROCEDIMIENTOS ALMACENADOS
--- 7. Registrar un pedido completo.
+-- 7. Registrar un pedido completo. [Omar]
+CREATE OR REPLACE PROCEDURE registrar_pedido(
+  p_fecha DATE,
+  p_urgencia BOOLEAN,
+  p_total INT,
+  p_estado TEXT,
+  p_fecha_entrega DATE,
+  p_medio_pago_id INT,
+  p_farmacia_id INT,
+  p_repartidor_id INT,
+  p_cliente_id INT,
+  p_detalles JSON
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  item JSON;
+  pedido_id INT;
+BEGIN
+  INSERT INTO "pedidos" (
+    "fecha", "urgencia", "total_pagado", "estado_entrega", "fecha_entrega", "cliente_id",
+    "medio_pago_id", "farmacia_id", "repartidor_id"
+  )
+  VALUES (
+    p_fecha, p_urgencia, p_total, p_estado, p_fecha_entrega,
+    p_medio_pago_id, p_farmacia_id, p_repartidor_id, p_cliente_id
+  )
+  RETURNING "id" INTO pedido_id;
+
+  FOR item IN SELECT * FROM json_array_elements(p_detalles)
+  LOOP
+    INSERT INTO "detalle_de_pedidos" ("id", "pedido_id", "producto_id", "cantidad")
+    VALUES (
+      (SELECT COALESCE(MAX("id"), 0) + 1 FROM "detalle_de_pedidos"),
+      pedido_id,
+      (item->>'producto_id')::INT,
+      (item->>'cantidad')::INT
+    );
+  END LOOP;
+END;
+$$;
 
 
 -- 8. Cambiar el estado de un pedido con validación. [Isaac]
