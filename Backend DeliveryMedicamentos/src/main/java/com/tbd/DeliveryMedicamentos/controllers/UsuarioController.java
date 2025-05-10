@@ -5,6 +5,7 @@ import com.tbd.DeliveryMedicamentos.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -15,10 +16,19 @@ import java.util.Map;
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping
+    public ResponseEntity<UsuarioEntity> createUsuario(@RequestBody UsuarioEntity usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        UsuarioEntity nuevoUsuario = usuarioService.createUsuario(usuario);
+        return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -41,11 +51,13 @@ public class UsuarioController {
                 ResponseEntity.notFound().build();
     }
 
+    /*
     @PostMapping
     public ResponseEntity<UsuarioEntity> createUsuario(@RequestBody UsuarioEntity usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         UsuarioEntity nuevoUsuario = usuarioService.createUsuario(usuario);
         return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
-    }
+    }*/
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioEntity> updateUsuario(@PathVariable Integer id,
