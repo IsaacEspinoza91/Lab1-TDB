@@ -156,7 +156,21 @@ EXECUTE FUNCTION registrar_notificacion_medicamento_sin_validacion();
 
 -- VISTAS
 -- 13. Resumen de pedidos por cliente (monto total, número de pedidos).
-
+CREATE OR REPLACE VIEW resumen_pedidos_por_cliente AS
+SELECT
+    u.id AS cliente_id,
+    u.nombre,
+    u.apellido,
+    u.email,
+    COUNT(p.id) AS cantidad_pedidos,
+    COALESCE(SUM(p.total_pagado), 0) AS monto_total
+FROM
+    usuarios u
+LEFT JOIN pedidos p ON u.id = p.cliente_id
+WHERE
+    u.tipo = 'CLIENTE'
+GROUP BY
+    u.id, u.nombre, u.apellido, u.email;
 
 -- 14. Vista de desempeño por repartidor.
 
