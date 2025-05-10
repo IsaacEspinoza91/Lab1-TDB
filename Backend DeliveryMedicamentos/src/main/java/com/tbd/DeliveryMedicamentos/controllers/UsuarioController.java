@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -58,4 +60,19 @@ public class UsuarioController {
         usuarioService.deleteUsuario(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/iniciarSesion")
+    public ResponseEntity<?> loginUsuario(@RequestParam String email, @RequestParam String password) {
+        UsuarioEntity usuario = usuarioService.getUsuarioByEmail(email);
+
+        if (usuario != null && usuario.getPassword().equals(password)) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", usuario.getId());
+            response.put("tipo", usuario.getTipo());
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body("Email o contraseña incorrectos.");
+        }
+    }
+
 }
