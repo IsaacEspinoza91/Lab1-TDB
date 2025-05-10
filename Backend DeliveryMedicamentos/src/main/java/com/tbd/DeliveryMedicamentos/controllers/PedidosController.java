@@ -73,4 +73,12 @@ public class PedidosController {
         return ResponseEntity.ok(pedidoService.tiempoPromedioPorRepartidorId(id));
     }
 
+    @PostMapping("/{id}/cambiar-estado")
+    public void cambiarEstadoPedido(
+            @PathVariable int id,
+            @RequestParam String nuevoEstado) {
+
+        pedidoService.cambiarEstadoPedido(id, nuevoEstado);
+    }
+
 }

@@ -54,4 +54,8 @@ public class PedidosService {
         return pedidoRepository.tiempoPromedioPorRepartidorId(id);
     }
 
+    public void cambiarEstadoPedido(int idPedido, String nuevoEstado) {
+        pedidoRepository.cambiarEstadoPedido(idPedido, nuevoEstado);
+    }
+
 }

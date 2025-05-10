@@ -10,7 +10,9 @@ import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +95,20 @@ public class PedidosRepository {
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(ResumenPedidoClienteDTO.class);
+        }
+    }
+
+    public void cambiarEstadoPedido(int idPedido, String nuevoEstado) {
+        String sql = "CALL cambiar_estado_pedido(:idPedido, :nuevoEstado)";
+
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("idPedido", idPedido)
+                    .addParameter("nuevoEstado", nuevoEstado)
+                    .executeUpdate();
+        } catch (Exception e) {
+            // El mensaje de error vendrá de las RAISE EXCEPTION
+            throw new RuntimeException(e.getMessage());
         }
     }
 
