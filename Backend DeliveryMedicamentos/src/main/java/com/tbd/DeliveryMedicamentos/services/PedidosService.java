@@ -1,5 +1,6 @@
 package com.tbd.DeliveryMedicamentos.services;
 
+import com.tbd.DeliveryMedicamentos.DTO.DetallePedidoDTO;
 import com.tbd.DeliveryMedicamentos.entities.PedidosEntity;
 import com.tbd.DeliveryMedicamentos.repositories.PedidosRepository;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,10 @@ public class PedidosService {
 
     public PedidosEntity save(PedidosEntity pedido) {
         return repository.save(pedido);
+    }
+
+    public void registrarPedido(PedidosEntity pedido, List<DetallePedidoDTO> detalles) {
+        repository.registrarPedido(pedido, detalles);
     }
 
     public PedidosEntity update(PedidosEntity pedido) {

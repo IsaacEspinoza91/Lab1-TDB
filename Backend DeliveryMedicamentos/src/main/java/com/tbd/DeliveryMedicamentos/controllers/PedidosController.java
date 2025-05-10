@@ -1,5 +1,6 @@
 package com.tbd.DeliveryMedicamentos.controllers;
 
+import com.tbd.DeliveryMedicamentos.DTO.PedidoConDetallesDTO;
 import com.tbd.DeliveryMedicamentos.entities.PedidosEntity;
 import com.tbd.DeliveryMedicamentos.services.PedidosService;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ public class PedidosController {
     @PostMapping
     public ResponseEntity<PedidosEntity> create(@RequestBody PedidosEntity pedido) {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidosService.save(pedido));
+    }
+
+    @PostMapping("/registrar")
+    public void registrarPedido(@RequestBody PedidoConDetallesDTO pedidoDTO) {
+        pedidosService.registrarPedido(pedidoDTO.getPedido(), pedidoDTO.getDetalles());
     }
 
     @PutMapping("/{id}")

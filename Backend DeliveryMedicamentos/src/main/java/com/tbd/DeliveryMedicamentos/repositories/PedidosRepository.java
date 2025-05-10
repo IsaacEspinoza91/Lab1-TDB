@@ -1,6 +1,8 @@
 package com.tbd.DeliveryMedicamentos.repositories;
 
+import com.tbd.DeliveryMedicamentos.DTO.DetallePedidoDTO;
 import com.tbd.DeliveryMedicamentos.entities.PedidosEntity;
+import com.tbd.DeliveryMedicamentos.utils.ConverJsonUtil;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
@@ -50,6 +52,36 @@ public class PedidosRepository {
             return pedido;
         }
     }
+
+    public void registrarPedido(PedidosEntity pedido, List<DetallePedidoDTO> detalles) {
+        String sql = "CALL registrar_pedido(" +
+                "CAST(:fecha AS date), " +
+                "CAST(:urgencia AS boolean), " +
+                "CAST(:total_pagado AS integer), " +
+                "CAST(:estado_entrega AS varchar), " +
+                "CAST(:fecha_entrega AS date), " +
+                "CAST(:medio_pago_id AS integer), " +
+                "CAST(:farmacia_id AS integer), " +
+                "CAST(:repartidor_id AS integer), " +
+                "CAST(:cliente_id AS integer), " +
+                "CAST(:detalles AS json))";
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .addParameter("fecha", pedido.getFecha())
+                    .addParameter("urgencia", pedido.getUrgencia())
+                    .addParameter("total_pagado", pedido.getTotal_pagado())
+                    .addParameter("estado_entrega", pedido.getEstado_entrega())
+                    .addParameter("fecha_entrega", pedido.getFecha_entrega())
+                    .addParameter("medio_pago_id", pedido.getMedio_pago_id())
+                    .addParameter("farmacia_id", pedido.getFarmacia_id())
+                    .addParameter("repartidor_id", pedido.getRepartidor_id())
+                    .addParameter("cliente_id", pedido.getCliente_id())
+                    .addParameter("detalles", ConverJsonUtil.toJson(detalles))
+                    .executeUpdate();
+        }
+    }
+
+
 
     public void update(PedidosEntity pedido) {
         try (Connection conn = sql2o.open()) {
