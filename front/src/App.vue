@@ -1,5 +1,5 @@
 <template>
-  <IniciarSesion />
+  <router-view />
 </template>
 
 <script setup>

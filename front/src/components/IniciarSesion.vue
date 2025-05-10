@@ -30,6 +30,7 @@ export default {
     };
   },
   methods: {
+    //iniciar sesion
     async iniciarSesion() {
       try {
         const response = await axios.post("http://localhost:8080/api/usuarios/iniciarSesion", null, {
@@ -62,6 +63,11 @@ export default {
         alert("Error al iniciar sesion. Verifica tus credenciales.");
       }
     },
+
+    //redirigir a registro
+    redirigirRegistro() {
+      this.$router.push({ name: 'crearUsuario' });
+    }
   },
 };
 </script>
