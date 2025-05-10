@@ -6,6 +6,7 @@ import com.tbd.DeliveryMedicamentos.repositories.PedidosRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PedidosService {
@@ -39,4 +40,13 @@ public class PedidosService {
     public void deletePedido(Integer id) {
         pedidoRepository.delete(id);
     }
+
+    public List<Map<String, Object>> tiempoPromedioPorRepartidor() {
+        return pedidoRepository.tiempoPromedioPorRepartidor();
+    }
+
+    public List<Map<String, Object>> tiempoPromedioPorRepartidorId(Integer id) {
+        return pedidoRepository.tiempoPromedioPorRepartidorId(id);
+    }
+
 }

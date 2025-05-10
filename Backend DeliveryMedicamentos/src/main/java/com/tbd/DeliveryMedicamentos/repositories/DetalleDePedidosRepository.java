@@ -72,4 +72,23 @@ public class DetalleDePedidosRepository {
                     .executeUpdate();
         }
     }
+
+    public void insertarDetalleDePedido(DetalleDePedidosEntity detalle) {
+        String sql = "INSERT INTO detalle_de_pedidos (pedido_id, producto_id, cantidad) VALUES (:pedidoId, :productoId, :cantidad)";
+
+
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .addParameter("pedidoId", detalle.getPedido_id())
+                    .addParameter("productoId", detalle.getProducto_id())
+                    .addParameter("cantidad", detalle.getCantidad())
+                    .executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al insertar el detalle de pedido: " + e.getMessage());
+        }
+    }
+
+
+
 }

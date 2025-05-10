@@ -8,7 +8,10 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class PedidosRepository {
@@ -83,8 +86,6 @@ public class PedidosRepository {
         }
     }
 
-
-
     public void update(PedidosEntity pedido) {
         try (Connection conn = sql2o.open()) {
             conn.createQuery("UPDATE Pedidos SET fecha = :fecha, urgencia = :urgencia, total_pagado = :totalPagado, " +
@@ -112,4 +113,51 @@ public class PedidosRepository {
                     .executeUpdate();
         }
     }
+
+    public List<Map<String, Object>> tiempoPromedioPorRepartidor() {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+        SELECT 
+            u.nombre AS repartidores_nombre,
+            ROUND(AVG(p.fecha_entrega - p.fecha), 1) AS tiempo_promedio_dias
+        FROM Pedidos p
+        JOIN Repartidores r ON p.repartidor_id = r.usuario_id
+        JOIN Usuarios u ON r.usuario_id = u.id
+        WHERE p.fecha_entrega IS NOT NULL
+        GROUP BY u.id, u.nombre;
+        """;
+            return conn.createQuery(sql)
+                    .executeAndFetchTable()
+                    .asList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
+    public List<Map<String, Object>> tiempoPromedioPorRepartidorId(int repartidorId) {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+        SELECT 
+            u.nombre AS repartidores_nombre,
+            ROUND(AVG(p.fecha_entrega - p.fecha), 1) AS tiempo_promedio_dias
+        FROM Pedidos p
+        JOIN Repartidores r ON p.repartidor_id = r.usuario_id
+        JOIN Usuarios u ON r.usuario_id = u.id
+        WHERE p.fecha_entrega IS NOT NULL
+        AND r.usuario_id = :repartidorId
+        GROUP BY u.id, u.nombre;
+        """;
+            return conn.createQuery(sql)
+                    .addParameter("repartidorId", repartidorId)
+                    .executeAndFetchTable()
+                    .asList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
+
+
 }

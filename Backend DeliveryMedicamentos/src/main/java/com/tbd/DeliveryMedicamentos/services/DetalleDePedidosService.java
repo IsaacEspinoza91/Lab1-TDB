@@ -40,4 +40,8 @@ public class DetalleDePedidosService {
     public void deleteDetallePedido(int id) {
         detallePedidoRepository.delete(id);
     }
+
+    public void insertarDetalleDePedido(DetalleDePedidosEntity detalle) {
+        detallePedidoRepository.insertarDetalleDePedido(detalle);
+    }
 }

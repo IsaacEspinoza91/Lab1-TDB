@@ -55,4 +55,15 @@ public class DetalleDePedidosController {
         detallePedidoService.deleteDetallePedido(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/detalle")
+    public ResponseEntity<DetalleDePedidosEntity> agregarDetalle(@RequestBody DetalleDePedidosEntity detalle) {
+        try {
+            detallePedidoService.insertarDetalleDePedido(detalle);
+            return new ResponseEntity<>(detalle, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

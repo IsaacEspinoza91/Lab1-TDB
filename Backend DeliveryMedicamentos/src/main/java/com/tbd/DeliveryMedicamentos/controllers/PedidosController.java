@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -55,4 +56,15 @@ public class PedidosController {
         pedidoService.deletePedido(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/tiempo-promedio-repartidor")
+    public ResponseEntity<List<Map<String, Object>>> tiempoPromedioPorRepartidor() {
+        return ResponseEntity.ok(pedidoService.tiempoPromedioPorRepartidor());
+    }
+
+    @GetMapping("/tiempo-promedio-repartidor/{id}")
+    public ResponseEntity<List<Map<String, Object>>> tiempoPromedioPorRepartidorId(@PathVariable Integer id) {
+        return ResponseEntity.ok(pedidoService.tiempoPromedioPorRepartidorId(id));
+    }
+
 }
