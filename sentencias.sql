@@ -1,10 +1,11 @@
 -- CONSULTAS
 -- 1. ¿Qué cliente ha gastado más dinero en pedidos entregados? [Omar]
-SELECT c.Usuario_ID AS Cliente_ID, SUM(p.Total_pagado) AS TotalGastado
+SELECT u.Nombre, u.Apellido, c.Usuario_ID AS Cliente_ID, SUM(p.Total_pagado) AS TotalGastado
 FROM Clientes c
+JOIN Usuarios u ON c.Usuario_ID = u.ID
 JOIN Pedidos p ON p.Cliente_ID = c.Usuario_ID
 WHERE p.Estado_entrega = 'Entregado'
-GROUP BY c.Usuario_ID
+GROUP BY c.Usuario_ID, u.Nombre, u.Apellido
 ORDER BY TotalGastado DESC
 LIMIT 1;
 
