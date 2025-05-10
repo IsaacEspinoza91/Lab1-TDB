@@ -1,37 +1,67 @@
 package com.tbd.DeliveryMedicamentos.services;
 
 import com.tbd.DeliveryMedicamentos.entities.ClienteEntity;
+import com.tbd.DeliveryMedicamentos.entities.UsuarioEntity;
 import com.tbd.DeliveryMedicamentos.repositories.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 @Service
 public class ClienteService {
-    private final ClienteRepository repository;
+    private final ClienteRepository clienteRepository;
 
-    public ClienteService(ClienteRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public ClienteService(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
     }
 
-    public List<ClienteEntity> findAll() {
-        return repository.findAll();
+    public List<ClienteEntity> getAllClientes() {
+        return clienteRepository.findAll();
     }
 
-    public ClienteEntity findById(Integer id) {
-        return repository.findById(id);
+    public ClienteEntity getClienteByUsuarioId(Integer usuarioId) {
+        return clienteRepository.findByUsuarioId(usuarioId);
     }
 
-    public ClienteEntity save(ClienteEntity cliente) {
-        return repository.save(cliente);
+
+
+    public ClienteEntity createCliente(ClienteEntity cliente) {
+        return clienteRepository.save(cliente);
     }
 
-    public ClienteEntity update(ClienteEntity cliente) {
-        repository.update(cliente);
-        return repository.findById(cliente.getId());
+    /*
+    public void crearClienteCompleto(UsuarioEntity usuario, ClienteEntity cliente) {
+        // Primero guardar el usuario
+        usuario.setTipo("CLIENTE");
+        UsuarioEntity usuarioGuardado = usuarioRepository.save(usuario);
+
+        // Luego guardar los datos específicos del cliente
+        cliente.setUsuarioId(usuarioGuardado.getId());
+        clienteRepository.save(cliente);
     }
 
-    public void delete(Integer id) {
-        repository.delete(id);
+    @Transactional
+    public void updateClienteCompleto(UsuarioEntity usuario, ClienteEntity cliente) {
+        usuarioRepository.update(usuario);
+        clienteRepository.update(cliente);
+    }
+
+    @Transactional
+    public void deleteClienteCompleto(Integer usuarioId) {
+        clienteRepository.delete(usuarioId);
+        usuarioRepository.delete(usuarioId);
+    }*/
+
+    public ClienteEntity updateCliente(ClienteEntity cliente) {
+        clienteRepository.update(cliente);
+        return cliente;
+    }
+
+    public void deleteCliente(Integer usuarioId) {
+        clienteRepository.delete(usuarioId);
     }
 }

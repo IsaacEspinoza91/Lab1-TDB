@@ -2,6 +2,7 @@ package com.tbd.DeliveryMedicamentos.controllers;
 
 import com.tbd.DeliveryMedicamentos.entities.FarmaciasEntity;
 import com.tbd.DeliveryMedicamentos.services.FarmaciasService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,43 +12,41 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/farmacias")
 public class FarmaciasController {
+    private final FarmaciasService farmaciaService;
 
-    private final FarmaciasService farmaciasService;
-
-    public FarmaciasController(FarmaciasService farmaciasService) {
-        this.farmaciasService = farmaciasService;
+    @Autowired
+    public FarmaciasController(FarmaciasService farmaciaService) {
+        this.farmaciaService = farmaciaService;
     }
 
-    // Get todas las farmacias
     @GetMapping
-    public ResponseEntity<List<FarmaciasEntity>> findAll() {
-        return ResponseEntity.ok(farmaciasService.findAll());
+    public ResponseEntity<List<FarmaciasEntity>> getAllFarmacias() {
+        List<FarmaciasEntity> farmacias = farmaciaService.getAllFarmacias();
+        return new ResponseEntity<>(farmacias, HttpStatus.OK);
     }
 
-    // Get de farmacia segun id
     @GetMapping("/{id}")
-    public ResponseEntity<FarmaciasEntity> findById(@PathVariable Integer id) {
-        FarmaciasEntity farmacia = farmaciasService.findById(id);
-        return farmacia != null ? ResponseEntity.ok(farmacia) : ResponseEntity.notFound().build();
+    public ResponseEntity<FarmaciasEntity> getFarmaciaById(@PathVariable int id) {
+        FarmaciasEntity farmacia = farmaciaService.getFarmaciaById(id);
+        return new ResponseEntity<>(farmacia, HttpStatus.OK);
     }
 
-    // Create de farmacia
     @PostMapping
-    public ResponseEntity<FarmaciasEntity> create(@RequestBody FarmaciasEntity farmacia) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(farmaciasService.save(farmacia));
+    public ResponseEntity<FarmaciasEntity> createFarmacia(@RequestBody FarmaciasEntity farmacia) {
+        FarmaciasEntity nuevaFarmacia = farmaciaService.createFarmacia(farmacia);
+        return new ResponseEntity<>(nuevaFarmacia, HttpStatus.CREATED);
     }
 
-    // Update de farmacia
     @PutMapping("/{id}")
-    public ResponseEntity<FarmaciasEntity> update(@PathVariable Integer id, @RequestBody FarmaciasEntity farmacia) {
+    public ResponseEntity<FarmaciasEntity> updateFarmacia(@PathVariable int id, @RequestBody FarmaciasEntity farmacia) {
         farmacia.setId(id);
-        return ResponseEntity.ok(farmaciasService.update(farmacia));
+        FarmaciasEntity farmaciaActualizada = farmaciaService.updateFarmacia(farmacia);
+        return new ResponseEntity<>(farmaciaActualizada, HttpStatus.OK);
     }
 
-    // Delete de farmacia
     @DeleteMapping("/{id}")
-    public ResponseEntity<FarmaciasEntity> delete(@PathVariable Integer id) {
-        farmaciasService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteFarmacia(@PathVariable int id) {
+        farmaciaService.deleteFarmacia(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

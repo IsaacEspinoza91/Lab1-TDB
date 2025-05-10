@@ -3,6 +3,7 @@ package com.tbd.DeliveryMedicamentos.repositories;
 import com.tbd.DeliveryMedicamentos.DTO.DetallePedidoDTO;
 import com.tbd.DeliveryMedicamentos.entities.PedidosEntity;
 import com.tbd.DeliveryMedicamentos.utils.ConverJsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.util.List;
 public class PedidosRepository {
     private final Sql2o sql2o;
 
+    @Autowired
     public PedidosRepository(Sql2o sql2o) {
         this.sql2o = sql2o;
     }

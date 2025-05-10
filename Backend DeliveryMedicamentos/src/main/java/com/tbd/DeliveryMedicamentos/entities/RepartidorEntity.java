@@ -1,56 +1,31 @@
 package com.tbd.DeliveryMedicamentos.entities;
 
-import java.sql.Date;
-import java.util.List;
-
 public class RepartidorEntity {
-    private int id;
-    private String rut;
-    private String nombre;
-    private String telefono;
+    private int usuario_id; // FK a Usuarios
+    private String tipo_vehiculo; // AUTO, MOTO, BICICLETA, CAMIONETA
 
     // Constructores
     public RepartidorEntity() {}
 
-    public RepartidorEntity(int id, String rut, String nombre, String telefono) {
-        this.id = id;
-        this.rut = rut;
-        this.nombre = nombre;
-        this.telefono = telefono;
+    public RepartidorEntity(int usuario_id, String tipo_vehiculo) {
+        this.usuario_id = usuario_id;
+        this.tipo_vehiculo = tipo_vehiculo;
     }
 
-    // Getters
-    public int getId() {
-        return id;
+    // Getters y Setters
+    public int getUsuario_id() {
+        return usuario_id;
     }
 
-    public String getRut() {
-        return rut;
+    public void setUsuario_id(int usuario_id) {
+        this.usuario_id = usuario_id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTipo_vehiculo() {
+        return tipo_vehiculo;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public void setTipo_vehiculo(String tipo_vehiculo) {
+        this.tipo_vehiculo = tipo_vehiculo;
     }
-
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
 }

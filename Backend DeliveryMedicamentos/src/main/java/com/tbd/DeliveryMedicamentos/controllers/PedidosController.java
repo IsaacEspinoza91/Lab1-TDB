@@ -3,6 +3,7 @@ package com.tbd.DeliveryMedicamentos.controllers;
 import com.tbd.DeliveryMedicamentos.DTO.PedidoConDetallesDTO;
 import com.tbd.DeliveryMedicamentos.entities.PedidosEntity;
 import com.tbd.DeliveryMedicamentos.services.PedidosService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,44 +13,46 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/pedidos")
 public class PedidosController {
-    private final PedidosService pedidosService;
+    private final PedidosService pedidoService;
 
-    public PedidosController(PedidosService pedidosService) {
-        this.pedidosService = pedidosService;
+    @Autowired
+    public PedidosController(PedidosService pedidoService) {
+        this.pedidoService = pedidoService;
     }
 
     @GetMapping
-    public ResponseEntity<List<PedidosEntity>> findAll() {
-        return ResponseEntity.ok(pedidosService.findAll());
+    public ResponseEntity<List<PedidosEntity>> getAllPedidos() {
+        List<PedidosEntity> pedidos = pedidoService.getAllPedidos();
+        return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PedidosEntity> findById(@PathVariable Integer id) {
-        PedidosEntity pedido = pedidosService.findById(id);
-        return pedido != null ?
-                ResponseEntity.ok(pedido) :
-                ResponseEntity.notFound().build();
+    public ResponseEntity<PedidosEntity> getPedidoById(@PathVariable int id) {
+        PedidosEntity pedido = pedidoService.getPedidoById(id);
+        return new ResponseEntity<>(pedido, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<PedidosEntity> create(@RequestBody PedidosEntity pedido) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidosService.save(pedido));
+    public ResponseEntity<PedidosEntity> createPedido(@RequestBody PedidosEntity pedido) {
+        PedidosEntity nuevoPedido = pedidoService.createPedido(pedido);
+        return new ResponseEntity<>(nuevoPedido, HttpStatus.CREATED);
     }
 
     @PostMapping("/registrar")
     public void registrarPedido(@RequestBody PedidoConDetallesDTO pedidoDTO) {
-        pedidosService.registrarPedido(pedidoDTO.getPedido(), pedidoDTO.getDetalles());
+        pedidoService.registrarPedido(pedidoDTO.getPedido(), pedidoDTO.getDetalles());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PedidosEntity> update(@PathVariable Integer id, @RequestBody PedidosEntity pedido) {
+    public ResponseEntity<PedidosEntity> updatePedido(@PathVariable int id, @RequestBody PedidosEntity pedido) {
         pedido.setId(id);
-        return ResponseEntity.ok(pedidosService.update(pedido));
+        PedidosEntity pedidoActualizado = pedidoService.updatePedido(pedido);
+        return new ResponseEntity<>(pedidoActualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        pedidosService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deletePedido(@PathVariable int id) {
+        pedidoService.deletePedido(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

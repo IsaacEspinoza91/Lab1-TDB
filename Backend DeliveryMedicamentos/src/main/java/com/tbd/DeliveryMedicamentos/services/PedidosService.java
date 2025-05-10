@@ -9,34 +9,34 @@ import java.util.List;
 
 @Service
 public class PedidosService {
-    private final PedidosRepository repository;
+    private final PedidosRepository pedidoRepository;
 
     public PedidosService(PedidosRepository repository) {
-        this.repository = repository;
+        this.pedidoRepository = repository;
     }
 
-    public List<PedidosEntity> findAll() {
-        return repository.findAll();
+    public List<PedidosEntity> getAllPedidos() {
+        return pedidoRepository.findAll();
     }
 
-    public PedidosEntity findById(Integer id) {
-        return repository.findById(id);
+    public PedidosEntity getPedidoById(Integer id) {
+        return pedidoRepository.findById(id);
     }
 
-    public PedidosEntity save(PedidosEntity pedido) {
-        return repository.save(pedido);
+    public PedidosEntity createPedido(PedidosEntity pedido) {
+        return pedidoRepository.save(pedido);
     }
 
     public void registrarPedido(PedidosEntity pedido, List<DetallePedidoDTO> detalles) {
-        repository.registrarPedido(pedido, detalles);
+        pedidoRepository.registrarPedido(pedido, detalles);
     }
 
-    public PedidosEntity update(PedidosEntity pedido) {
-        repository.update(pedido);
-        return repository.findById(pedido.getId());
+    public PedidosEntity updatePedido(PedidosEntity pedido) {
+        pedidoRepository.update(pedido);
+        return pedidoRepository.findById(pedido.getId());
     }
 
-    public void delete(Integer id) {
-        repository.delete(id);
+    public void deletePedido(Integer id) {
+        pedidoRepository.delete(id);
     }
 }

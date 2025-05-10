@@ -2,6 +2,7 @@ package com.tbd.DeliveryMedicamentos.controllers;
 
 import com.tbd.DeliveryMedicamentos.entities.RepartidorEntity;
 import com.tbd.DeliveryMedicamentos.services.RepartidorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,37 +14,39 @@ import java.util.List;
 public class RepartidorController {
     private final RepartidorService repartidorService;
 
+    @Autowired
     public RepartidorController(RepartidorService repartidorService) {
         this.repartidorService = repartidorService;
     }
 
     @GetMapping
-    public ResponseEntity<List<RepartidorEntity>> findAll() {
-        return ResponseEntity.ok(repartidorService.findAll());
+    public ResponseEntity<List<RepartidorEntity>> getAllRepartidores() {
+        List<RepartidorEntity> repartidores = repartidorService.getAllRepartidores();
+        return new ResponseEntity<>(repartidores, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RepartidorEntity> findById(@PathVariable Integer id) {
-        RepartidorEntity repartidor = repartidorService.findById(id);
-        return repartidor != null ?
-                ResponseEntity.ok(repartidor) :
-                ResponseEntity.notFound().build();
+    @GetMapping("/{usuarioId}")
+    public ResponseEntity<RepartidorEntity> getRepartidorByUsuarioId(@PathVariable int usuarioId) {
+        RepartidorEntity repartidor = repartidorService.getRepartidorByUsuarioId(usuarioId);
+        return new ResponseEntity<>(repartidor, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<RepartidorEntity> create(@RequestBody RepartidorEntity repartidor) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(repartidorService.save(repartidor));
+    public ResponseEntity<RepartidorEntity> createRepartidor(@RequestBody RepartidorEntity repartidor) {
+        RepartidorEntity nuevoRepartidor = repartidorService.createRepartidor(repartidor);
+        return new ResponseEntity<>(nuevoRepartidor, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RepartidorEntity> update(@PathVariable Integer id, @RequestBody RepartidorEntity repartidor) {
-        repartidor.setId(id);
-        return ResponseEntity.ok(repartidorService.update(repartidor));
+    @PutMapping("/{usuarioId}")
+    public ResponseEntity<RepartidorEntity> updateRepartidor(@PathVariable int usuarioId, @RequestBody RepartidorEntity repartidor) {
+        repartidor.setUsuario_id(usuarioId);
+        RepartidorEntity repartidorActualizado = repartidorService.updateRepartidor(repartidor);
+        return new ResponseEntity<>(repartidorActualizado, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        repartidorService.delete(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{usuarioId}")
+    public ResponseEntity<Void> deleteRepartidor(@PathVariable int usuarioId) {
+        repartidorService.deleteRepartidor(usuarioId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

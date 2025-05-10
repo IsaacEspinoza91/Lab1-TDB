@@ -2,6 +2,7 @@ package com.tbd.DeliveryMedicamentos.controllers;
 
 import com.tbd.DeliveryMedicamentos.entities.ProductosEntity;
 import com.tbd.DeliveryMedicamentos.services.ProductosService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,39 +12,41 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/productos")
 public class ProductosController {
-    private final ProductosService productosService;
+    private final ProductosService productoService;
 
-    public ProductosController(ProductosService productosService) {
-        this.productosService = productosService;
+    @Autowired
+    public ProductosController(ProductosService productoService) {
+        this.productoService = productoService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductosEntity>> findAll() {
-        return ResponseEntity.ok(productosService.findAll());
+    public ResponseEntity<List<ProductosEntity>> getAllProductos() {
+        List<ProductosEntity> productos = productoService.getAllProductos();
+        return new ResponseEntity<>(productos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductosEntity> findById(@PathVariable Integer id) {
-        ProductosEntity producto = productosService.findById(id);
-        return producto != null ?
-                ResponseEntity.ok(producto) :
-                ResponseEntity.notFound().build();
+    public ResponseEntity<ProductosEntity> getProductoById(@PathVariable int id) {
+        ProductosEntity producto = productoService.getProductoById(id);
+        return new ResponseEntity<>(producto, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ProductosEntity> create(@RequestBody ProductosEntity producto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productosService.save(producto));
+    public ResponseEntity<ProductosEntity> createProducto(@RequestBody ProductosEntity producto) {
+        ProductosEntity nuevoProducto = productoService.createProducto(producto);
+        return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductosEntity> update(@PathVariable Integer id, @RequestBody ProductosEntity producto) {
+    public ResponseEntity<ProductosEntity> updateProducto(@PathVariable int id, @RequestBody ProductosEntity producto) {
         producto.setId(id);
-        return ResponseEntity.ok(productosService.update(producto));
+        ProductosEntity productoActualizado = productoService.updateProducto(producto);
+        return new ResponseEntity<>(productoActualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        productosService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteProducto(@PathVariable int id) {
+        productoService.deleteProducto(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

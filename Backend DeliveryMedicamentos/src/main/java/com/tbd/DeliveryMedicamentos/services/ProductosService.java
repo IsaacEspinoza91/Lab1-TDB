@@ -2,36 +2,38 @@ package com.tbd.DeliveryMedicamentos.services;
 
 import com.tbd.DeliveryMedicamentos.entities.ProductosEntity;
 import com.tbd.DeliveryMedicamentos.repositories.ProductosRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ProductosService {
-    private final ProductosRepository repository;
+    private final ProductosRepository productoRepository;
 
-    public ProductosService(ProductosRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public ProductosService(ProductosRepository productoRepository) {
+        this.productoRepository = productoRepository;
     }
 
-    public List<ProductosEntity> findAll() {
-        return repository.findAll();
+    public List<ProductosEntity> getAllProductos() {
+        return productoRepository.findAll();
     }
 
-    public ProductosEntity findById(Integer id) {
-        return repository.findById(id);
+    public ProductosEntity getProductoById(int id) {
+        return productoRepository.findById(id);
     }
 
-    public ProductosEntity save(ProductosEntity producto) {
-        return repository.save(producto);
+    public ProductosEntity createProducto(ProductosEntity producto) {
+        return productoRepository.save(producto);
     }
 
-    public ProductosEntity update(ProductosEntity producto) {
-        repository.update(producto);
-        return repository.findById(producto.getId());
+    public ProductosEntity updateProducto(ProductosEntity producto) {
+        productoRepository.update(producto);
+        return producto;
     }
 
-    public void delete(Integer id) {
-        repository.delete(id);
+    public void deleteProducto(int id) {
+        productoRepository.delete(id);
     }
 }

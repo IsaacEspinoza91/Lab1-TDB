@@ -2,6 +2,7 @@ package com.tbd.DeliveryMedicamentos.controllers;
 
 import com.tbd.DeliveryMedicamentos.entities.CalificacionesEntity;
 import com.tbd.DeliveryMedicamentos.services.CalificacionesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,39 +12,41 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/calificaciones")
 public class CalificacionesController {
-    private final CalificacionesService calificacionesService;
+    private final CalificacionesService calificacionService;
 
-    public CalificacionesController(CalificacionesService calificacionesService) {
-        this.calificacionesService = calificacionesService;
+    @Autowired
+    public CalificacionesController(CalificacionesService calificacionService) {
+        this.calificacionService = calificacionService;
     }
 
     @GetMapping
-    public ResponseEntity<List<CalificacionesEntity>> findAll() {
-        return ResponseEntity.ok(calificacionesService.findAll());
+    public ResponseEntity<List<CalificacionesEntity>> getAllCalificaciones() {
+        List<CalificacionesEntity> calificaciones = calificacionService.getAllCalificaciones();
+        return new ResponseEntity<>(calificaciones, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CalificacionesEntity> findById(@PathVariable Integer id) {
-        CalificacionesEntity calificacion = calificacionesService.findById(id);
-        return calificacion != null ?
-                ResponseEntity.ok(calificacion) :
-                ResponseEntity.notFound().build();
+    public ResponseEntity<CalificacionesEntity> getCalificacionById(@PathVariable int id) {
+        CalificacionesEntity calificacion = calificacionService.getCalificacionById(id);
+        return new ResponseEntity<>(calificacion, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CalificacionesEntity> create(@RequestBody CalificacionesEntity calificacion) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(calificacionesService.save(calificacion));
+    public ResponseEntity<CalificacionesEntity> createCalificacion(@RequestBody CalificacionesEntity calificacion) {
+        CalificacionesEntity nuevaCalificacion = calificacionService.createCalificacion(calificacion);
+        return new ResponseEntity<>(nuevaCalificacion, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CalificacionesEntity> update(@PathVariable Integer id, @RequestBody CalificacionesEntity calificacion) {
+    public ResponseEntity<CalificacionesEntity> updateCalificacion(@PathVariable int id, @RequestBody CalificacionesEntity calificacion) {
         calificacion.setId(id);
-        return ResponseEntity.ok(calificacionesService.update(calificacion));
+        CalificacionesEntity calificacionActualizada = calificacionService.updateCalificacion(calificacion);
+        return new ResponseEntity<>(calificacionActualizada, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        calificacionesService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteCalificacion(@PathVariable int id) {
+        calificacionService.deleteCalificacion(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

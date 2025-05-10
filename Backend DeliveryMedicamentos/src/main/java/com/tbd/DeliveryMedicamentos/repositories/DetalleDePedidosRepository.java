@@ -1,6 +1,7 @@
 package com.tbd.DeliveryMedicamentos.repositories;
 
 import com.tbd.DeliveryMedicamentos.entities.DetalleDePedidosEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import java.util.List;
 public class DetalleDePedidosRepository {
     private final Sql2o sql2o;
 
+    @Autowired
     public DetalleDePedidosRepository(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
@@ -18,6 +20,14 @@ public class DetalleDePedidosRepository {
     public List<DetalleDePedidosEntity> findAll() {
         try (Connection conn = sql2o.open()) {
             return conn.createQuery("SELECT * FROM Detalle_de_pedidos").executeAndFetch(DetalleDePedidosEntity.class);
+        }
+    }
+
+    public List<DetalleDePedidosEntity> findByPedidoId(int pedidoId) {
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery("SELECT * FROM Detalle_de_pedidos WHERE pedido_id = :pedidoId")
+                    .addParameter("pedidoId", pedidoId)
+                    .executeAndFetch(DetalleDePedidosEntity.class);
         }
     }
 

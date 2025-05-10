@@ -2,36 +2,42 @@ package com.tbd.DeliveryMedicamentos.services;
 
 import com.tbd.DeliveryMedicamentos.entities.DetalleDePedidosEntity;
 import com.tbd.DeliveryMedicamentos.repositories.DetalleDePedidosRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class DetalleDePedidosService {
-    private final DetalleDePedidosRepository repository;
+    private final DetalleDePedidosRepository detallePedidoRepository;
 
-    public DetalleDePedidosService(DetalleDePedidosRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public DetalleDePedidosService(DetalleDePedidosRepository detallePedidoRepository) {
+        this.detallePedidoRepository = detallePedidoRepository;
     }
 
-    public List<DetalleDePedidosEntity> findAll() {
-        return repository.findAll();
+    public List<DetalleDePedidosEntity> getAllDetallesPedido() {
+        return detallePedidoRepository.findAll();
     }
 
-    public DetalleDePedidosEntity findById(Integer id) {
-        return repository.findById(id);
+    public List<DetalleDePedidosEntity> getDetallesByPedidoId(int pedidoId) {
+        return detallePedidoRepository.findByPedidoId(pedidoId);
     }
 
-    public DetalleDePedidosEntity save(DetalleDePedidosEntity detalle) {
-        return repository.save(detalle);
+    public DetalleDePedidosEntity getDetallePedidoById(int id) {
+        return detallePedidoRepository.findById(id);
     }
 
-    public DetalleDePedidosEntity update(DetalleDePedidosEntity detalle) {
-        repository.update(detalle);
-        return repository.findById(detalle.getId());
+    public DetalleDePedidosEntity createDetallePedido(DetalleDePedidosEntity detallePedido) {
+        return detallePedidoRepository.save(detallePedido);
     }
 
-    public void delete(Integer id) {
-        repository.delete(id);
+    public DetalleDePedidosEntity updateDetallePedido(DetalleDePedidosEntity detallePedido) {
+        detallePedidoRepository.update(detallePedido);
+        return detallePedido;
+    }
+
+    public void deleteDetallePedido(int id) {
+        detallePedidoRepository.delete(id);
     }
 }

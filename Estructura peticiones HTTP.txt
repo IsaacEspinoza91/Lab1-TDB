@@ -18,28 +18,89 @@ Farmacias:
 
 
 
+Usuarios:
+- GET, obtener todos los usuarios: http://localhost:8080/api/usuarios
+- GET, obtener usuario por id: http://localhost:8080/api/usuarios/2
+- POST, crear usuario (no crea registro en la tabla del rol, esto se hace manualmente): http://localhost:8080/api/usuarios
+{
+    "rut": "19345678-9",
+    "nombre": "Pipa",
+    "apellido": "Iguain",
+    "email": "igain@gmail.com",
+    "password": "$2a$10$N9qo8uLOickgx2ZMRZoMy...",
+    "telefono": "+56916543678",
+    "tipo": "CLIENTE"
+}
+- PUT, update de usuario según id: http://localhost:8080/api/usuarios/19
+{
+    "rut": "19345678-9",
+    "nombre": "Pipa",
+    "apellido": "Iguaincito",
+    "email": "igain@gmail.com",
+    "password": "$2a$10$N9qo8uLOickgx2ZMRZoMy...",
+    "telefono": "+56916543678",
+    "tipo": "CLIENTE"
+}
+- DELETE, eliminar usuario según id: http://localhost:8080/api/usuarios/19
+Se elimina automáticamente el registro de la tabla del rol que tenia, es decir, si se elimina un usuario cliente, este se elimina de la tabla Clientes.
+
+
+
+
+
 Clientes:
 - GET, obtener todos los clientes: http://localhost:8080/api/clientes
 - GET, obtener cliente por id: http://localhost:8080/api/clientes/2
 - POST, crear cliente: http://localhost:8080/api/clientes
 {
-    "rut": "18762321-0",
-    "nombre": "Isaac",
-    "apellido": "Espinoza",
-    "direccion": "Irlanda 12",
-    "email": "iskito@gmail.com",
-    "telefono": "+56982334321"
+    "usuario_id": 19,
+    "direccion": "Baires 1123"
 }
-- PUT, update de cliente según id: http://localhost:8080/api/clientes/2
+// se indica la id del usuario de tipo cliente
+- PUT, update de cliente según id: http://localhost:8080/api/clientes/10
 {
-    "rut": "17654321-0",
-    "nombre": "Pedro",
-    "apellido": "Perez",
-    "direccion": "Calle Maipu 12345",
-    "email": "pedro.perez@gmail.com",
-    "telefono": "+56987654321"
+    "direccion": "Baires 13"
 }
-- DELETE, delete de cliente: http://localhost:8080/api/clientes/11
+- DELETE, eliminar registro de cliente (no elimina usuario): http://localhost:8080/api/clientes/10
+
+
+
+
+
+Repartidor:
+- GET, obtener todos los repartidores: http://localhost:8080/api/repartidores
+- GET, obtener repartidor según id: http://localhost:8080/api/repartidores/2
+- POST, crear repartidor:  http://localhost:8080/api/repartidores
+{
+    "usuario_id": 19,
+    "tipo_vehiculo": "MOTO"
+}
+- PUT, actualizar repartidor: http://localhost:8080/api/repartidores/6
+{
+    "tipo_vehiculo": "AUTO"
+}
+- DELETE, eliminar repartidor (no elimina usuario): http://localhost:8080/api/repartidores/6
+
+
+
+
+
+Administradores:
+- GET, obtener todos los admins: http://localhost:8080/api/administradores
+- GET, obtener admin segun id: http://localhost:8080/api/administradores/2
+- POST, crear admin: http://localhost:8080/api/administradores
+{
+    "usuario_id": 17,
+    "nivel_acceso": 3,
+    "departamento": "Operaciones"
+}
+- PUT, update de admin: http://localhost:8080/api/administradores/17
+{
+    "nivel_acceso": 3,
+    "departamento": "Operaciones"
+}
+- DELETE, eliminar admin (no elimina usuario): http://localhost:8080/api/administradores/17
+
 
 
 
@@ -56,26 +117,6 @@ Medio de Pago:
     "tipo": "Tarjeta RedCompra PLUS"
 }
 - DELETE, eliminar medio de pago: http://localhost:8080/api/medios_de_pago/4
-
-
-
-
-Repartidor:
-- GET, obtener todos los repartidores: http://localhost:8080/api/repartidores
-- GET, obtener repartidor según id: http://localhost:8080/api/repartidores/2
-- POST, crear repartidor:  http://localhost:8080/api/repartidores
-{
-    "rut": "11738847-5",
-    "nombre": "Isaac Lopez",
-    "telefono": "+56916662222"
-}
-- PUT, actualizar repartidor: http://localhost:8080/api/repartidores/6
-{
-    "rut": "11738847-5",
-    "nombre": "Isaac Fernandez",
-    "telefono": "+56916662222"
-}
-- DELETE, eliminar repartidor: http://localhost:8080/api/repartidores/6
 
 
 
@@ -99,6 +140,7 @@ Calificaciones:
     "repartidor_id": 1
 }
 - DELETE, eliminar calificación: http://localhost:8080/api/calificaciones/25
+
 
 
 
@@ -158,6 +200,7 @@ Pedidos:
 
 
 
+
 Farmacia Productos:
 - GET, obtener todos: http://localhost:8080/api/farmacias_productos
 - GET, obtener según ambas id: http://localhost:8080/api/farmacias_productos/farmacia/1/producto/1
@@ -168,6 +211,7 @@ Farmacia Productos:
 }
 - (Al ser tabla intermedia con solo llave compuesta, no es necesario update)
 - DELETE, eliminar: http://localhost:8080/api/farmacias_productos/farmacia/3/producto/8
+
 
 
 

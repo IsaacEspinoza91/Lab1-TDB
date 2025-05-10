@@ -2,36 +2,38 @@ package com.tbd.DeliveryMedicamentos.services;
 
 import com.tbd.DeliveryMedicamentos.entities.CalificacionesEntity;
 import com.tbd.DeliveryMedicamentos.repositories.CalificacionesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CalificacionesService {
-    private final CalificacionesRepository repository;
+    private final CalificacionesRepository calificacionRepository;
 
-    public CalificacionesService(CalificacionesRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public CalificacionesService(CalificacionesRepository calificacionRepository) {
+        this.calificacionRepository = calificacionRepository;
     }
 
-    public List<CalificacionesEntity> findAll() {
-        return repository.findAll();
+    public List<CalificacionesEntity> getAllCalificaciones() {
+        return calificacionRepository.findAll();
     }
 
-    public CalificacionesEntity findById(Integer id) {
-        return repository.findById(id);
+    public CalificacionesEntity getCalificacionById(int id) {
+        return calificacionRepository.findById(id);
     }
 
-    public CalificacionesEntity save(CalificacionesEntity calificacion) {
-        return repository.save(calificacion);
+    public CalificacionesEntity createCalificacion(CalificacionesEntity calificacion) {
+        return calificacionRepository.save(calificacion);
     }
 
-    public CalificacionesEntity update(CalificacionesEntity calificacion) {
-        repository.update(calificacion);
-        return repository.findById(calificacion.getId());
+    public CalificacionesEntity updateCalificacion(CalificacionesEntity calificacion) {
+        calificacionRepository.update(calificacion);
+        return calificacion;
     }
 
-    public void delete(Integer id) {
-        repository.delete(id);
+    public void deleteCalificacion(int id) {
+        calificacionRepository.delete(id);
     }
 }

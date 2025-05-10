@@ -1,6 +1,7 @@
 package com.tbd.DeliveryMedicamentos.repositories;
 
 import com.tbd.DeliveryMedicamentos.entities.FarmaciasEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ public class FarmaciasRepository {
 
     private final Sql2o sql2o;
 
+    @Autowired
     public FarmaciasRepository(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
