@@ -7,6 +7,7 @@ import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UsuarioRepository {

@@ -90,4 +90,80 @@ public class UsuarioEntity {
         this.tipo = tipo;
     }
 
+
+
+
+
+
+
+
+    // Construccion del builder
+    public static UsuarioBuilder builder() {
+        return new UsuarioBuilder();
+    }
+
+    public static class UsuarioBuilder {
+        private int id;
+        private String rut;
+        private String nombre;
+        private String apellido;
+        private String email;
+        private String password;
+        private String telefono;
+        private String tipo;
+
+        public UsuarioBuilder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public UsuarioBuilder rut(String rut) {
+            this.rut = rut;
+            return this;
+        }
+
+        public UsuarioBuilder nombre(String nombre) {
+            this.nombre = nombre;
+            return this;
+        }
+
+        public UsuarioBuilder apellido(String apellido) {
+            this.apellido = apellido;
+            return this;
+        }
+
+        public UsuarioBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UsuarioBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+        public UsuarioBuilder telefono(String telefono) {
+            this.telefono = telefono;
+            return this;
+        }
+
+        public UsuarioBuilder tipo(String tipo) {
+            this.tipo = tipo;
+            return this;
+        }
+
+
+        public UsuarioEntity build() {
+            UsuarioEntity usuario = new UsuarioEntity();
+            usuario.setId(id);
+            usuario.setRut(rut);
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setEmail(email);
+            usuario.setPassword(password);
+            usuario.setTelefono(telefono);
+            usuario.setTipo(tipo);
+            return usuario;
+        }
+    }
+
 }
