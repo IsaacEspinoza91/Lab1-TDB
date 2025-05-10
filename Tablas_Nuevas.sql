@@ -1,26 +1,32 @@
--- Creamos la base de datos primeramente
-CREATE DATABASE delivery_medicamentos;
-
--- Conectamos a la base de datos creada previamente
-\connect delivery_medicamentos;
-
--- Crear tabla Clientes
-CREATE TABLE Clientes (
+-- Crear tabla Usuarios (base común)
+CREATE TABLE Usuarios (
     ID SERIAL PRIMARY KEY,
     RUT VARCHAR(20) UNIQUE,
-    Nombre VARCHAR(50),
-    Apellido VARCHAR(50),
-    Direccion VARCHAR(100),
-    Email VARCHAR(100),
-    Telefono VARCHAR(20)
+    Nombre VARCHAR(50) NOT NULL,
+    Apellido VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    Password VARCHAR(100) NOT NULL,
+    Telefono VARCHAR(20),
+    Tipo VARCHAR(20) NOT NULL CHECK (Tipo IN ('CLIENTE', 'REPARTIDOR', 'ADMIN'))
 );
 
--- Crear tabla Repartidores
+-- Crear tabla Clientes (hereda de Usuarios)
+CREATE TABLE Clientes (
+    Usuario_ID INT PRIMARY KEY REFERENCES Usuarios(ID) ON DELETE CASCADE,
+    Direccion VARCHAR(100) NOT NULL
+);
+
+-- Crear tabla Repartidores (hereda de Usuarios con nuevos atributos)
 CREATE TABLE Repartidores (
-    ID SERIAL PRIMARY KEY,
-    RUT VARCHAR(20) UNIQUE,
-    Nombre VARCHAR(50),
-    Telefono VARCHAR(20)
+    Usuario_ID INT PRIMARY KEY REFERENCES Usuarios(ID) ON DELETE CASCADE,
+    Tipo_vehiculo VARCHAR(20) NOT NULL CHECK (Tipo_vehiculo IN ('AUTO', 'MOTO', 'BICICLETA', 'CAMIONETA'))
+);
+
+-- Crear tabla Administradores (nueva tabla)
+CREATE TABLE Administradores (
+    Usuario_ID INT PRIMARY KEY REFERENCES Usuarios(ID) ON DELETE CASCADE,
+    Nivel_acceso INT DEFAULT 1,
+    Departamento VARCHAR(50)
 );
 
 -- Crear tabla Medios_de_pago
@@ -36,7 +42,7 @@ CREATE TABLE Farmacias (
     Lugar VARCHAR(100)
 );
 
--- Crear tabla Pedidos (con referencia a Farmacias)
+-- Crear tabla Pedidos (modificada para usar Usuarios)
 CREATE TABLE Pedidos (
     ID SERIAL PRIMARY KEY,
     Fecha DATE,
@@ -44,10 +50,10 @@ CREATE TABLE Pedidos (
     Total_pagado INT,
     Estado_entrega VARCHAR(50),
     Fecha_entrega DATE,
-    Cliente_ID INT REFERENCES Clientes(ID),
+    Cliente_ID INT REFERENCES Usuarios(ID),
     Medio_pago_ID INT REFERENCES Medios_de_pago(ID),
     Farmacia_ID INT REFERENCES Farmacias(ID),
-    Repartidor_ID INT REFERENCES Repartidores(ID) 
+    Repartidor_ID INT REFERENCES Usuarios(ID)
 );
 
 -- Crear tabla Productos
@@ -67,19 +73,19 @@ CREATE TABLE Detalle_de_pedidos (
     Cantidad INT
 );
 
--- Crear tabla Calificaciones
+-- Crear tabla Calificaciones (modificada para usar Usuarios)
 CREATE TABLE Calificaciones (
     ID SERIAL PRIMARY KEY,
     Puntuacion VARCHAR(50),
     Estrellas INT,
-    Cliente_ID INT REFERENCES Clientes(ID),
-    Repartidor_ID INT REFERENCES Repartidores(ID)
+    Cliente_ID INT REFERENCES Usuarios(ID),
+    Repartidor_ID INT REFERENCES Usuarios(ID)
 );
 
--- Crear tabla Pedidos_Repartidores
+-- Crear tabla Pedidos_Repartidores (modificada para usar Usuarios)
 CREATE TABLE Pedidos_Repartidores (
     Pedido_ID INT REFERENCES Pedidos(ID),
-    Repartidor_ID INT REFERENCES Repartidores(ID),
+    Repartidor_ID INT REFERENCES Usuarios(ID),
     PRIMARY KEY (Pedido_ID, Repartidor_ID)
 );
 
