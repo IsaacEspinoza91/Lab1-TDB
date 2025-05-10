@@ -87,34 +87,30 @@ $$;
 
 -- 8. Cambiar el estado de un pedido con validación. [Isaac]
 CREATE OR REPLACE PROCEDURE cambiar_estado_pedido(
-    IN id_pedido INT,
-    IN nuevo_estado VARCHAR(50),
-    OUT resultado VARCHAR(100)
+    id_pedido INT,
+    nuevo_estado VARCHAR(50)
 )
 LANGUAGE plpgsql
-AS $cuerpo$
+AS $$
 BEGIN
-    -- verificar si pedido existe
-    IF NOT EXISTS (SELECT * FROM pedidos WHERE id = id_pedido) THEN
-        resultado := 'Error: Pedido no existe';
-        RETURN;
+    -- Verificar si pedido existe
+    IF NOT EXISTS (SELECT 1 FROM pedidos WHERE id = id_pedido) THEN
+        RAISE EXCEPTION 'Error: Pedido no existe';
     END IF;
     
-    -- validar el nuevo estado
+    -- Validar el nuevo estado
     IF nuevo_estado NOT IN ('Entregado', 'Fallido', 'Pendiente') THEN
-        resultado := 'Error: Estado invalido';
-        RETURN;
+        RAISE EXCEPTION 'Error: Estado invalido';
     END IF;
     
     -- Actualizar el estado del pedido
     UPDATE pedidos 
     SET estado_entrega = nuevo_estado
     WHERE id = id_pedido;
-    resultado := 'Estado del pedido actualizado correctamente';
 END;
-$cuerpo$;
+$$;
 -- Ejemplo llamada, muestra tabla con resultadod de ejecuion
-CALL cambiar_estado_pedido(2,'Fallido', NULL);
+CALL cambiar_estado_pedido(2,'Fallido');
 
 
 -- 9. Descontar stock al confirmar pedido.

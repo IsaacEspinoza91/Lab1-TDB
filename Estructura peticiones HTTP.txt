@@ -197,7 +197,7 @@ Pedidos:
     "repartidor_id": 1
 }
 - DELETE, eliminar pedido: http://localhost:8080/api/pedidos/21
-
+- POST, cambiar estado de pedido (procedimiento): http://localhost:8080/api/pedidos/4/cambiar-estado?nuevoEstado=Fallido
 
 
 
