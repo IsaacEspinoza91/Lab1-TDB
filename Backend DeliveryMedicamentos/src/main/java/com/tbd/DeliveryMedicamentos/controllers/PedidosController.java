@@ -1,6 +1,7 @@
 package com.tbd.DeliveryMedicamentos.controllers;
 
 import com.tbd.DeliveryMedicamentos.DTO.PedidoConDetallesDTO;
+import com.tbd.DeliveryMedicamentos.DTO.ResumenPedidoClienteDTO;
 import com.tbd.DeliveryMedicamentos.entities.PedidosEntity;
 import com.tbd.DeliveryMedicamentos.services.PedidosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class PedidosController {
     @PostMapping("/registrar")
     public void registrarPedido(@RequestBody PedidoConDetallesDTO pedidoDTO) {
         pedidoService.registrarPedido(pedidoDTO.getPedido(), pedidoDTO.getDetalles());
+    }
+
+    @GetMapping("/resumen")
+    public List<ResumenPedidoClienteDTO> getResumen() {
+        return pedidoService.obtenerResumen();
     }
 
     @PutMapping("/{id}")

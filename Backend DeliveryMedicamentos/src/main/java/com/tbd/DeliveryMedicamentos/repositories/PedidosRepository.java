@@ -1,6 +1,7 @@
 package com.tbd.DeliveryMedicamentos.repositories;
 
 import com.tbd.DeliveryMedicamentos.DTO.DetallePedidoDTO;
+import com.tbd.DeliveryMedicamentos.DTO.ResumenPedidoClienteDTO;
 import com.tbd.DeliveryMedicamentos.entities.PedidosEntity;
 import com.tbd.DeliveryMedicamentos.utils.ConverJsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,15 @@ public class PedidosRepository {
                     .addParameter("cliente_id", pedido.getCliente_id())
                     .addParameter("detalles", ConverJsonUtil.toJson(detalles))
                     .executeUpdate();
+        }
+    }
+
+    public List<ResumenPedidoClienteDTO> obtenerResumenPedidos() {
+        String sql = "SELECT * FROM resumen_pedidos_por_cliente";
+
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery(sql)
+                    .executeAndFetch(ResumenPedidoClienteDTO.class);
         }
     }
 
