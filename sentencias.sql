@@ -245,37 +245,34 @@ EXECUTE FUNCTION registrar_notificacion_medicamento_sin_validacion();
 
 
 -- 12. Insertar una calificación automática si no se recibe en 48 horas. [Williams]
-CREATE OR REPLACE FUNCTION public.revisar_pedidos_tardados()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    VOLATILE
-    COST 100
-AS $BODY$
-DECLARE
-    -- Declarar la variable como RECORD para poder usarla en el bucle de adelante
-    pedido RECORD;
+
+-- Función para que el trigger utilice
+
+CREATE OR REPLACE FUNCTION revisar_pedidos_tardados()
+RETURNS TRIGGER AS $$
 BEGIN
-    -- Buscar todos los pedidos pendientes y vencidos
-    FOR pedido IN
-        SELECT id, repartidor_id
-        FROM pedidos
-        WHERE estado_entrega = 'Pendiente'
-          AND fecha < NOW() - INTERVAL '48 hours'
-    LOOP
+    -- Verificar si el pedido está pendiente y lleva más de 48 horas
+    IF NEW.estado_entrega = 'Pendiente' AND NEW.fecha_entrega < NOW() - INTERVAL '48 hours' THEN
         -- Marcar como 'Tardado'
         UPDATE pedidos
         SET estado_entrega = 'Tardado'
-        WHERE id = pedido.id;
+        WHERE id = NEW.id;
 
-        -- Insertar la calificación automática
+        -- Insertar calificación automática
         INSERT INTO calificaciones (puntuacion, estrellas, cliente_id, repartidor_id)
-        VALUES ('Fallo', 1, NULL, pedido.repartidor_id);
-    END LOOP;
+        VALUES ('Fallo por demora en evaluación', 1, NEW.cliente_id, NEW.repartidor_id);
+    END IF;
 
     RETURN NEW;
 END;
-$BODY$;
+$$ LANGUAGE plpgsql;
 
+-- Trigger
+
+CREATE TRIGGER trigger_revisar_pedidos_tardados
+AFTER INSERT OR UPDATE ON pedidos
+FOR EACH ROW
+EXECUTE FUNCTION revisar_pedidos_tardados();
 
 -- VISTAS
 -- 13. Resumen de pedidos por cliente (monto total, número de pedidos).
