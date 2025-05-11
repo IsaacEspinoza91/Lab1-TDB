@@ -24,7 +24,6 @@ import NavBar from '@/components/NavBar.vue'
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  /* Efecto parallax opcional */
   position: relative;
 }
 

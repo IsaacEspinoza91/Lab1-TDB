@@ -58,6 +58,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
+import api from '@/api'
 
 const form = ref({
   rut: '',
@@ -80,7 +81,7 @@ const handleRegister = async () => {
   error.value = null
 
   try {
-    const response = await axios.post('http://localhost:8080/api/auth/register', form.value)
+    const response = await api.post('/auth/register', form.value)
 
     // Mostrar mensaje de éxito en lugar de redirigir directamente
     showSuccess.value = true

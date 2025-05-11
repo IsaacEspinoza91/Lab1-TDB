@@ -28,6 +28,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
+import api from '@/api'
 
 const form = ref({
   email: '',
@@ -44,13 +45,13 @@ const handleLogin = async () => {
   error.value = null
 
   try {
-    const response = await axios.post('http://localhost:8080/api/auth/login', {
+    const response = await api.post('/auth/login', {
       email: form.value.email,
       password: form.value.password
     })
 
     // Asumimos que el backend devuelve el tipo de usuario en la respuesta
-    const userType = response.data.tipo || 'CLIENTE'
+    const userType = response.data.tipo || 'ADMIN'
     authStore.setToken(response.data.token, userType)
 
     // Redirigir según el tipo de usuario
