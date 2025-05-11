@@ -281,4 +281,16 @@ public class PedidosRepository {
         }
     }
 
+    public List<Integer> obtenerPedidosConNotificaciones() {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+            SELECT DISTINCT pedido_id
+            FROM Notificaciones;
+        """;
+            return conn.createQuery(sql)
+                    .executeAndFetch(Integer.class);
+        }
+    }
+
+
 }

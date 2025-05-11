@@ -78,6 +78,11 @@ public class PedidosService {
         return pedidoRepository.obtenerMedioPagoMasUsadoEnUrgentes();
     }
 
+    public List<Integer> obtenerPedidosConNotificaciones() {
+        return pedidoRepository.obtenerPedidosConNotificaciones();
+    }
+
+
 
 
 }

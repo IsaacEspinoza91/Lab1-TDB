@@ -12,173 +12,193 @@
     </button>
     <!-- Tabla de Pedidos -->
     <div class="table-responsive" v-if="!loadingPedidos">
-      <table class="pedidos-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Fecha</th>
-            <th>Urgencia</th>
-            <th>Total Pagado</th>
-            <th>Estado de Entrega</th>
-            <th>Fecha de Entrega</th>
-            <th>Cliente</th>
-            <th>Medio de Pago</th>
-            <th>Farmacia</th>
-            <th>Repartidor</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="pedido in pedidos" :key="pedido.id">
-            <td>{{ pedido.id }}</td>
-            <td>{{ pedido.fecha }}</td>
-            <td>{{ pedido.urgencia ? 'Sí' : 'No' }}</td>
-            <td>{{ pedido.total_pagado }}</td>
-            <td>{{ pedido.estado_entrega }}</td>
-            <td>{{ pedido.fecha_entrega }}</td>
-            <td>{{ pedido.cliente_id }}</td>
-            <td>{{ pedido.medio_pago_id }}</td>
-            <td>{{ pedido.farmacia_id }}</td>
-            <td>{{ pedido.repartidor_id }}</td>
-            <td class="actions">
-              <button @click="editPedido(pedido)" class="edit-button">
-                <i class="fas fa-edit">Modificar</i>
-              </button>
-              <button @click="confirmDelete(pedido.id)" class="delete-button">
-                <i class="fas fa-trash">Eliminar</i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- Tabla de Pedidos -->
 
-
-    <div v-if="showModal" class="modal-overlay">
-      <div class="modal-content">
-        <h3>{{ isEditing ? 'Editar Pedido' : 'Nuevo Pedido' }}</h3>
-        <form @submit.prevent="isEditing ? updatePedido() : createPedido()">
-          <div class="form-group">
-            <label>Fecha:</label>
-            <input v-model="form.fecha" type="date" required />
-          </div>
-          <div class="form-group">
-            <label>Urgencia:</label>
-            <input v-model="form.urgencia" type="checkbox" />
-          </div>
-          <div class="form-group">
-            <label>Total Pagado:</label>
-            <input v-model="form.total_pagado" type="number" required />
-          </div>
-          <div class="form-group">
-            <label>Estado de Entrega:</label>
-            <input v-model="form.estado_entrega" type="text" required />
-          </div>
-          <div class="form-group">
-            <label>Fecha de Entrega:</label>
-            <input v-model="form.fecha_entrega" type="date" required />
-          </div>
-          <div class="form-group">
-            <label>Cliente ID:</label>
-            <input v-model="form.cliente_id" type="number" required />
-          </div>
-          <div class="form-group">
-            <label>Medio de Pago ID:</label>
-            <input v-model="form.medio_pago_id" type="number" required />
-          </div>
-          <div class="form-group">
-            <label>Farmacia ID:</label>
-            <input v-model="form.farmacia_id" type="number" required />
-          </div>
-          <div class="form-group">
-            <label>Repartidor ID:</label>
-            <input v-model="form.repartidor_id" type="number" required />
-          </div>
-          <div class="modal-actions">
-            <button type="button" @click="closeModal" class="cancel-button">Cancelar</button>
-            <button type="submit" class="save-button">{{ isEditing ? 'Actualizar' : 'Guardar' }}</button>
-          </div>
-        </form>
+      <div class="table-responsive">
+        <table class="pedidos-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Urgencia</th>
+              <th>Total Pagado</th>
+              <th>Estado de Entrega</th>
+              <th>Fecha de Entrega</th>
+              <th>Cliente</th>
+              <th>Medio de Pago</th>
+              <th>Farmacia</th>
+              <th>Repartidor</th>
+              <th>Alerta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="pedido in pedidos" :key="pedido.id"
+              :class="{ 'pedido-con-alerta': pedidosConAlerta.includes(pedido.id) }">
+              <td>{{ pedido.id }}</td>
+              <td>{{ pedido.fecha }}</td>
+              <td>{{ pedido.urgencia ? 'Sí' : 'No' }}</td>
+              <td>{{ pedido.total_pagado }}</td>
+              <td>{{ pedido.estado_entrega }}</td>
+              <td>{{ pedido.fecha_entrega }}</td>
+              <td>{{ pedido.cliente_id }}</td>
+              <td>{{ pedido.medio_pago_id }}</td>
+              <td>{{ pedido.farmacia_id }}</td>
+              <td>{{ pedido.repartidor_id }}</td>
+              <td>
+                <span v-if="pedidosConAlerta.includes(pedido.id)" class="alerta-text">Si</span>
+              </td>
+              <td class="actions">
+                <button @click="editPedido(pedido)" class="edit-button">
+                  <i class="fas fa-edit">Modificar</i>
+                </button>
+                <button @click="confirmDelete(pedido.id)" class="delete-button">
+                  <i class="fas fa-trash">Eliminar</i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+      <!-- Tabla de Pedidos -->
 
-    <div v-if="showDeleteModal" class="modal-overlay">
-      <div class="modal-content delete-modal">
-        <h3>¿Eliminar pedido?</h3>
-        <p>Esta acción no se puede deshacer.</p>
-        <div class="modal-actions">
-          <button @click="showDeleteModal = false" class="cancel-button">Cancelar</button>
-          <button @click="deletePedido" class="delete-button">Eliminar</button>
+
+      <div v-if="showModal" class="modal-overlay">
+        <div class="modal-content">
+          <h3>{{ isEditing ? 'Editar Pedido' : 'Nuevo Pedido' }}</h3>
+          <form @submit.prevent="isEditing ? updatePedido() : createPedido()">
+            <div class="form-group">
+              <label>Fecha:</label>
+              <input v-model="form.fecha" type="date" required />
+            </div>
+            <div class="form-group">
+              <label>Urgencia:</label>
+              <input v-model="form.urgencia" type="checkbox" />
+            </div>
+            <div class="form-group">
+              <label>Total Pagado:</label>
+              <input v-model="form.total_pagado" type="number" required />
+            </div>
+            <div class="form-group">
+              <label>Estado de Entrega:</label>
+              <input v-model="form.estado_entrega" type="text" required />
+            </div>
+            <div class="form-group">
+              <label>Fecha de Entrega:</label>
+              <input v-model="form.fecha_entrega" type="date" required />
+            </div>
+            <div class="form-group">
+              <label>Cliente ID:</label>
+              <input v-model="form.cliente_id" type="number" required />
+            </div>
+            <div class="form-group">
+              <label>Medio de Pago ID:</label>
+              <input v-model="form.medio_pago_id" type="number" required />
+            </div>
+            <div class="form-group">
+              <label>Farmacia ID:</label>
+              <input v-model="form.farmacia_id" type="number" required />
+            </div>
+            <div class="form-group">
+              <label>Repartidor ID:</label>
+              <input v-model="form.repartidor_id" type="number" required />
+            </div>
+            <div class="modal-actions">
+              <button type="button" @click="closeModal" class="cancel-button">Cancelar</button>
+              <button type="submit" class="save-button">{{
+                isEditing ? 'Actualizar' : 'Guardar'
+                }}</button>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
 
-    <hr v-if="!loadingPedidos" style="margin: 30px 0;">
+      <div v-if="showDeleteModal" class="modal-overlay">
+        <div class="modal-content delete-modal">
+          <h3>¿Eliminar pedido?</h3>
+          <p>Esta acción no se puede deshacer.</p>
+          <div class="modal-actions">
+            <button @click="showDeleteModal = false" class="cancel-button">Cancelar</button>
+            <button @click="deletePedido" class="delete-button">Eliminar</button>
+          </div>
+        </div>
+      </div>
 
-    <div class="medio-pago-urgente-section" v-if="!loadingPedidos">
-      <h2>Medio de Pago Más Usado en Pedidos Urgentes</h2>
-      <div v-if="loadingMedioPagoUrgente" class="loading-overlay-inline">
-        <div class="spinner-small"></div>
-        <p>Cargando datos...</p>
-      </div>
-      <div v-if="medioPagoUrgenteData" class="table-responsive">
-        <table class="medio-pago-urgente-table">
-          <thead>
-            <tr>
-              <th>Medio de Pago</th>
-              <th>Cantidad de Usos</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ medioPagoUrgenteData.medio_pago }}</td>
-              <td>{{ medioPagoUrgenteData.cantidad_usos }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p v-if="medioPagoUrgenteError" class="error-message">
-        Error al cargar el medio de pago más usado.
-      </p>
-      <p v-if="!loadingMedioPagoUrgente && !medioPagoUrgenteData && !medioPagoUrgenteError">
-        No hay datos disponibles sobre el medio de pago más usado en urgencias.
-      </p>
-    </div>
-    <hr v-if="!loadingPedidos" style="margin: 30px 0;">
+      <hr v-if="!loadingPedidos" style="margin: 30px 0;">
+      <hr style="margin: 30px 0" />
 
-    <div class="cliente-mayor-gasto-section" v-if="!loadingPedidos">
-      <h2>Cliente con Mayor Gasto en Pedidos Entregados</h2>
-      <div v-if="loadingClienteMayorGasto" class="loading-overlay-inline">
-        <div class="spinner-small"></div>
-        <p>Cargando datos...</p>
+      <div class="medio-pago-urgente-section" v-if="!loadingPedidos">
+        <h2>Medio de Pago Más Usado en Pedidos Urgentes</h2>
+        <div v-if="loadingMedioPagoUrgente" class="loading-overlay-inline">
+          <div class="spinner-small"></div>
+          <p>Cargando datos...</p>
+        </div>
+        <div v-if="medioPagoUrgenteData" class="table-responsive">
+          <table class="medio-pago-urgente-table">
+            <thead>
+              <tr>
+                <th>Medio de Pago</th>
+                <th>Cantidad de Usos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ medioPagoUrgenteData.medio_pago }}</td>
+                <td>{{ medioPagoUrgenteData.cantidad_usos }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p v-if="medioPagoUrgenteError" class="error-message">
+          Error al cargar el medio de pago más usado.
+        </p>
+        <p v-if="
+          !loadingMedioPagoUrgente &&
+          !medioPagoUrgenteData &&
+          !medioPagoUrgenteError
+        ">
+          No hay datos disponibles sobre el medio de pago más usado en urgencias.
+        </p>
       </div>
-      <div v-if="clienteMayorGastoData" class="table-responsive">
-        <table class="cliente-mayor-gasto-table">
-          <thead>
-            <tr>
-              <th>ID Cliente</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Total Gastado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ clienteMayorGastoData.cliente_id }}</td>
-              <td>{{ clienteMayorGastoData.nombre }}</td>
-              <td>{{ clienteMayorGastoData.apellido }}</td>
-              <td>{{ clienteMayorGastoData.totalgastado }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <hr v-if="!loadingPedidos" style="margin: 30px 0;">
+      <hr style="margin: 30px 0" />
+
+      <div class="cliente-mayor-gasto-section" v-if="!loadingPedidos">
+        <h2>Cliente con Mayor Gasto en Pedidos Entregados</h2>
+        <div v-if="loadingClienteMayorGasto" class="loading-overlay-inline">
+          <div class="spinner-small"></div>
+          <p>Cargando datos...</p>
+        </div>
+        <div v-if="clienteMayorGastoData" class="table-responsive">
+          <table class="cliente-mayor-gasto-table">
+            <thead>
+              <tr>
+                <th>ID Cliente</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Total Gastado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ clienteMayorGastoData.cliente_id }}</td>
+                <td>{{ clienteMayorGastoData.nombre }}</td>
+                <td>{{ clienteMayorGastoData.apellido }}</td>
+                <td>{{ clienteMayorGastoData.totalgastado }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p v-if="clienteMayorGastoError" class="error-message">
+          Error al cargar el cliente con mayor gasto.
+        </p>
+        <p v-if="
+          !loadingClienteMayorGasto &&
+          !clienteMayorGastoData &&
+          !clienteMayorGastoError
+        ">
+          No hay datos disponibles sobre el cliente con mayor gasto.
+        </p>
       </div>
-      <p v-if="clienteMayorGastoError" class="error-message">
-        Error al cargar el cliente con mayor gasto.
-      </p>
-      <p v-if="!loadingClienteMayorGasto && !clienteMayorGastoData && !clienteMayorGastoError">
-        No hay datos disponibles sobre el cliente con mayor gasto.
-      </p>
     </div>
   </div>
 </template>
@@ -206,12 +226,36 @@ const form = ref({
   cliente_id: '',
   medio_pago_id: '',
   farmacia_id: '',
-  repartidor_id: ''
+  repartidor_id: '',
 })
 
 const medioPagoUrgenteData = ref(null)
 const loadingMedioPagoUrgente = ref(true)
 const medioPagoUrgenteError = ref(null)
+
+const clienteMayorGastoData = ref(null)
+const loadingClienteMayorGasto = ref(true)
+const clienteMayorGastoError = ref(null)
+
+const pedidosConAlerta = ref([])
+const loadingAlertas = ref(false)
+const errorAlertas = ref(null)
+
+const fetchPedidosConAlerta = async () => {
+  loadingAlertas.value = true
+  pedidosConAlerta.value = []
+  errorAlertas.value = null
+  try {
+    const response = await api.get('/pedidos/pedidos-con-alerta')
+    pedidosConAlerta.value = response.data
+    console.log('Pedidos con alerta:', pedidosConAlerta.value)
+  } catch (error) {
+    console.error('Error al obtener pedidos con alerta:', error)
+    errorAlertas.value = 'Error al cargar las alertas de pedidos.'
+  } finally {
+    loadingAlertas.value = false
+  }
+}
 
 const fetchMedioPagoUrgente = async () => {
   loadingMedioPagoUrgente.value = true
@@ -228,10 +272,6 @@ const fetchMedioPagoUrgente = async () => {
   }
 }
 
-const clienteMayorGastoData = ref(null)
-const loadingClienteMayorGasto = ref(true)
-const clienteMayorGastoError = ref(null)
-
 const fetchClienteMayorGasto = async () => {
   loadingClienteMayorGasto.value = true
   clienteMayorGastoData.value = null
@@ -241,7 +281,8 @@ const fetchClienteMayorGasto = async () => {
     clienteMayorGastoData.value = response.data
   } catch (error) {
     console.error('Error al obtener el cliente con mayor gasto:', error)
-    clienteMayorGastoError.value = 'Hubo un error al cargar los datos del cliente con mayor gasto.'
+    clienteMayorGastoError.value =
+      'Hubo un error al cargar los datos del cliente con mayor gasto.'
   } finally {
     loadingClienteMayorGasto.value = false
   }
@@ -283,8 +324,7 @@ const editPedido = (pedido) => {
     cliente_id: pedido.cliente_id,
     medio_pago_id: pedido.medio_pago_id,
     farmacia_id: pedido.farmacia_id,
-    repartidor_id: pedido.repartidor_id
-
+    repartidor_id: pedido.repartidor_id,
   }
   currentPedidoId.value = pedido.id
   isEditing.value = true
@@ -336,16 +376,19 @@ const closeModal = () => {
     cliente_id: '',
     medio_pago_id: '',
     farmacia_id: '',
-    repartidor_id: ''
+    repartidor_id: '',
   }
   currentPedidoId.value = null
 }
 
 // Cargar datos al montar el componente
-onMounted(() => {
-  fetchPedidos()
-  fetchMedioPagoUrgente()
-  fetchClienteMayorGasto()
+onMounted(async () => {
+  await Promise.all([
+    fetchPedidos(),
+    fetchMedioPagoUrgente(),
+    fetchClienteMayorGasto(),
+    fetchPedidosConAlerta(),
+  ])
 })
 </script>
 
@@ -694,6 +737,15 @@ onMounted(() => {
 
 .cliente-mayor-gasto-table thead th {
   background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.pedido-con-alerta {
+  background-color: #ffdddd !important;
+}
+
+.alerta-text {
+  color: red;
   font-weight: bold;
 }
 </style>

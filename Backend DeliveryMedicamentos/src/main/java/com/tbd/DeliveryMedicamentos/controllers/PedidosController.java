@@ -115,5 +115,11 @@ public class PedidosController {
         return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/pedidos-con-alerta")
+    public ResponseEntity<List<Integer>> pedidosConAlertas() {
+        return ResponseEntity.ok(pedidoService.obtenerPedidosConNotificaciones());
+    }
+
+
 
 }
