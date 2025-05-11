@@ -8,6 +8,7 @@
             <router-link to="/admin/farmacias" class="nav-link">Farmacias</router-link>
             <router-link to="/admin/pedidos" class="nav-link">Pedidos</router-link>
             <router-link to="/admin/productos" class="nav-link">Productos</router-link>
+            <router-link to="/admin/calificaciones" class="nav-link">Calificaciones</router-link>
             <button @click="logout" class="nav-button">Cerrar Sesión</button>
         </div>
     </nav>

@@ -15,6 +15,7 @@ const RepartidoresView = () => import('@/views/admin/RepartidoresView.vue')
 const FarmaciasView = () => import('@/views/admin/FarmaciasView.vue')
 const PedidosView = () => import('@/views/admin/PedidosView.vue')
 const ProductosView = () => import('@/views/admin/ProductosView.vue')
+const CalificacionesView = () => import('@/views/admin/CalificacionesView.vue')
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +74,11 @@ const router = createRouter({
                     path: 'productos',
                     name: 'admin-productos',
                     component: ProductosView
+                },
+                {
+                    path: 'calificaciones',
+                    name: 'admin-calificaciones',
+                    component: CalificacionesView
                 }
             ]
         }
