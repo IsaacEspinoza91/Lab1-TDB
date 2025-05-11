@@ -1,5 +1,7 @@
 package com.tbd.DeliveryMedicamentos.controllers;
 
+import com.tbd.DeliveryMedicamentos.DTO.ClienteDetalladoDTO;
+import com.tbd.DeliveryMedicamentos.DTO.ResumenPedidoClienteDTO;
 import com.tbd.DeliveryMedicamentos.entities.ClienteEntity;
 import com.tbd.DeliveryMedicamentos.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -24,6 +27,25 @@ public class ClienteController {
     public ResponseEntity<List<ClienteEntity>> getAllClientes() {
         List<ClienteEntity> clientes = clienteService.getAllClientes();
         return new ResponseEntity<>(clientes, HttpStatus.OK);
+    }
+
+    @GetMapping("/resumen-pedidos")
+    public List<ResumenPedidoClienteDTO> obtenerResumenPedidos() {
+        return clienteService.obtenerResumenPedidos();
+    }
+
+    @GetMapping("/mayor-gasto")
+    public ResponseEntity<?> clienteConMayorGasto() {
+        Map<String, Object> resultado = clienteService.clienteQueMasGasto();
+        if (resultado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultado);
+    }
+
+    @GetMapping("/detallado")
+    public List<ClienteDetalladoDTO> getClientesDetallado() {
+        return clienteService.getClientesDetallados();
     }
 
 
@@ -52,4 +74,6 @@ public class ClienteController {
         clienteService.deleteCliente(usuarioId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
 }

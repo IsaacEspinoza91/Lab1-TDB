@@ -10,6 +10,7 @@ const RegisterView = () => import('@/views/RegisterView.vue')
 const AdminView = () => import('@/views/AdminView.vue')
 const AdminDashboard = () => import('@/views/admin/DashboardView.vue')
 const UsuariosView = () => import('@/views/admin/UsuariosView.vue')
+const ClientesView = () => import('@/views/admin/ClientesView.vue')
 const RepartidoresView = () => import('@/views/admin/RepartidoresView.vue')
 const FarmaciasView = () => import('@/views/admin/FarmaciasView.vue')
 const PedidosView = () => import('@/views/admin/PedidosView.vue')
@@ -47,6 +48,11 @@ const router = createRouter({
                     path: 'usuarios',
                     name: 'admin-usuarios',
                     component: UsuariosView
+                },
+                {
+                    path: 'clientes',
+                    name: 'admin-clientes',
+                    component: ClientesView
                 },
                 {
                     path: 'repartidores',

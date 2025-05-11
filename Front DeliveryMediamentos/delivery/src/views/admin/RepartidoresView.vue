@@ -92,6 +92,38 @@
 
     </div>
   </div>
+
+  <!-- Vista de desempeño por repartidor -->
+<div class="table-responsive">
+  <h2>Desempeño por Repartidor</h2>
+  <table class="clientes-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Vehículo</th>
+        <th>Prom. Estrellas</th>
+        <th>Total Pedidos</th>
+        <th>Total Productos Pedidos</th>
+        <th>Total Productos Entregados</th>
+        <th>% Entregas Exitosas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="r in desempenoRepartidores" :key="r.nombre + r.apellido">
+        <td>{{ r.nombre }}</td>
+        <td>{{ r.apellido }}</td>
+        <td>{{ r.vehiculo }}</td>
+        <td>{{ r.promedio_estrellas.toFixed(2) }}</td>
+        <td>{{ r.total_pedidos }}</td>
+        <td>{{ r.total_productos_pedidos }}</td>
+        <td>{{ r.total_productos_entregados }}</td>
+        <td>{{ r.porcentaje_entregas_exitosas }}%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </template>
 
 <script setup>
@@ -100,6 +132,22 @@ import api from '@/api'
 
 const repartidores = ref([])
 const loadingRepartidores = ref(true)
+const desempenoRepartidores = ref([])
+
+// Desempeno de repartidores
+const fetchDesempenoRepartidores = async () => {
+  try {
+    const response = await api.get('/repartidores/desempeno')
+    desempenoRepartidores.value = response.data
+  } catch (error) {
+    console.error('Error al obtener el desempeño de repartidores:', error)
+  }
+}
+
+onMounted(() => {
+  fetchDesempenoRepartidores()
+})
+
 
 // Para la tabla de todos los tiempos promedio
 const tiempoPromedioTodosRepartidores = ref([])
@@ -309,4 +357,32 @@ onMounted(() => {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+/* Vista de desempeño por repartidor */
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.clientes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.clientes-table th,
+.clientes-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.clientes-table thead th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.clientes-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
 </style>

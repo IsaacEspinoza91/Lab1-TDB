@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/repartidores")
@@ -24,6 +25,12 @@ public class RepartidorController {
         List<RepartidorEntity> repartidores = repartidorService.getAllRepartidores();
         return new ResponseEntity<>(repartidores, HttpStatus.OK);
     }
+
+    @GetMapping("/desempeno")
+    public List<Map<String, Object>> obtenerVistaDesempenoRepartidor() {
+        return repartidorService.obtenerVistaDesempenoRepartidor();
+    }
+
 
     @GetMapping("/{usuarioId}")
     public ResponseEntity<RepartidorEntity> getRepartidorByUsuarioId(@PathVariable int usuarioId) {

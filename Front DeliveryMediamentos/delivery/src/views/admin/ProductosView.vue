@@ -11,6 +11,10 @@
         <button @click="showModal = true" class="add-button">
             <i class="fas fa-plus"></i> Agregar Producto
         </button>
+        <!-- Botón para ver productos por farmacia -->
+        <button @click="showModal = true" class="add-button">
+            <i class="fas fa-plus"></i> Productos por farmacia
+        </button>
 
         <!-- Tabla de productos -->
         <div class="table-responsive">

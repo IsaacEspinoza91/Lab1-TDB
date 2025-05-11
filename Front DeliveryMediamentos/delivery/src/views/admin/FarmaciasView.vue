@@ -106,6 +106,32 @@
       </p>
     </div>
   </div>
+
+  <!-- Vista: Farmacias con mayor volumen de productos entregados -->
+  <div class="table-responsive">
+    <h2>Farmacias con mayor volumen de productos entregados</h2>
+    <table class="farmacias-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Total Productos Pedidos</th>
+          <th>Total Productos Entregados</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="farmacia in farmaciasVolumen" :key="farmacia.id">
+          <td>{{ farmacia.id }}</td>
+          <td>{{ farmacia.farmacia }}</td>
+          <td>{{ farmacia.lugar }}</td>
+          <td>{{ farmacia.total_productos_pedidos }}</td>
+          <td>{{ farmacia.total_productos_entregados }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </template>
 
 <script setup>
@@ -126,6 +152,22 @@ const form = ref({ nombre: '', lugar: '' })
 const farmaciasFallidasData = ref([])
 const loadingFarmaciasFallidas = ref(true)
 const farmaciasFallidasError = ref(null)
+
+const farmaciasVolumen = ref([])
+
+const fetchFarmaciasVolumen = async () => {
+  try {
+    const response = await api.get('/farmacias/volumen-entregado')
+    farmaciasVolumen.value = response.data
+  } catch (error) {
+    console.error('Error al obtener farmacias con mayor volumen:', error)
+  }
+}
+
+onMounted(() => {
+  fetchFarmaciasVolumen()
+})
+
 
 const fetchFarmaciasFallidas = async () => {
   loadingFarmaciasFallidas.value = true
@@ -477,4 +519,23 @@ onMounted(() => {
   margin-top: 10px;
   text-align: center;
 }
+
+.farmacias-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.farmacias-table th,
+.farmacias-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.farmacias-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
 </style>

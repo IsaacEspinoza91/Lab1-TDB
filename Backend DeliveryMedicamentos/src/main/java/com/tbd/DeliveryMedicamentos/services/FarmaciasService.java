@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FarmaciasService {
@@ -40,4 +41,9 @@ public class FarmaciasService {
     public long countFarmacias() {
         return farmaciaRepository.count();
     }
+
+    public List<Map<String, Object>> obtenerFarmaciasMayorVolumenEntregado() {
+        return farmaciaRepository.obtenerFarmaciasMayorVolumenEntregado();
+    }
+
 }

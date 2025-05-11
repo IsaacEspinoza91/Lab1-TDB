@@ -1,5 +1,7 @@
 package com.tbd.DeliveryMedicamentos.services;
 
+import com.tbd.DeliveryMedicamentos.DTO.ClienteDetalladoDTO;
+import com.tbd.DeliveryMedicamentos.DTO.ResumenPedidoClienteDTO;
 import com.tbd.DeliveryMedicamentos.entities.ClienteEntity;
 import com.tbd.DeliveryMedicamentos.entities.UsuarioEntity;
 import com.tbd.DeliveryMedicamentos.repositories.ClienteRepository;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -59,6 +62,18 @@ public class ClienteService {
     public ClienteEntity updateCliente(ClienteEntity cliente) {
         clienteRepository.update(cliente);
         return cliente;
+    }
+
+    public List<ClienteDetalladoDTO> getClientesDetallados() {
+        return clienteRepository.obtenerClientesDetallados();
+    }
+
+    public Map<String, Object> clienteQueMasGasto() {
+        return clienteRepository.obtenerClienteQueMasGasto();
+    }
+
+    public List<ResumenPedidoClienteDTO> obtenerResumenPedidos() {
+        return clienteRepository.getResumenPedidos();
     }
 
     public void deleteCliente(Integer usuarioId) {

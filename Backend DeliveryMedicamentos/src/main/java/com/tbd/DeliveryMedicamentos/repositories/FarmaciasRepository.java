@@ -7,6 +7,7 @@ import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class FarmaciasRepository {
@@ -69,5 +70,10 @@ public class FarmaciasRepository {
             return conn.createQuery("SELECT COUNT(*) FROM Farmacias")
                     .executeScalar(Long.class);
         }
+    }
+
+    public List<Map<String, Object>> obtenerFarmaciasMayorVolumenEntregado() {
+        String sql = "SELECT * FROM farmacias_volumen_entregas_exitosas";
+        return sql2o.open().createQuery(sql).executeAndFetchTable().asList();
     }
 }

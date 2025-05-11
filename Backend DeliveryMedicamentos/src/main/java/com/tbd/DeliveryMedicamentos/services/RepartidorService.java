@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RepartidorService {
@@ -35,4 +36,9 @@ public class RepartidorService {
     public void deleteRepartidor(Integer usuarioId) {
         repartidorRepository.delete(usuarioId);
     }
+
+    public List<Map<String, Object>> obtenerVistaDesempenoRepartidor() {
+        return repartidorRepository.obtenerVistaDesempenoRepartidor();
+    }
+
 }

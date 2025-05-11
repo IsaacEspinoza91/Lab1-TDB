@@ -7,6 +7,7 @@ import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class RepartidorRepository {
@@ -57,4 +58,12 @@ public class RepartidorRepository {
                     .executeUpdate();
         }
     }
+
+    public List<Map<String, Object>> obtenerVistaDesempenoRepartidor() {
+        String sql = "SELECT * FROM vista_desempeno_repartidor";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql).executeAndFetchTable().asList();
+        }
+    }
+
 }

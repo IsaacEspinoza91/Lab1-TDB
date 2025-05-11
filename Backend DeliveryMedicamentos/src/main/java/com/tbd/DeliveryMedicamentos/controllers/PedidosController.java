@@ -29,6 +29,16 @@ public class PedidosController {
         return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 
+    @GetMapping("/urgentes/medio-pago-frecuente")
+    public ResponseEntity<?> obtenerMedioPagoMasUsadoEnUrgentes() {
+        Map<String, Object> resultado = pedidoService.obtenerMedioPagoMasUsadoEnUrgentes();
+        if (resultado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultado);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<PedidosEntity> getPedidoById(@PathVariable int id) {
         PedidosEntity pedido = pedidoService.getPedidoById(id);

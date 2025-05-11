@@ -3,6 +3,7 @@
         <router-link to="/admin" class="navbar-brand">Delivery Medicamentos</router-link>
         <div class="admin-nav-links">
             <router-link to="/admin/usuarios" class="nav-link">Usuarios</router-link>
+            <router-link to="/admin/clientes" class="nav-link">Clientes</router-link>
             <router-link to="/admin/repartidores" class="nav-link">Repartidores</router-link>
             <router-link to="/admin/farmacias" class="nav-link">Farmacias</router-link>
             <router-link to="/admin/pedidos" class="nav-link">Pedidos</router-link>

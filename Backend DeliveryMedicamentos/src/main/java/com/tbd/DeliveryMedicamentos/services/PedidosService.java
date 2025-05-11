@@ -74,5 +74,10 @@ public class PedidosService {
         return pedidoRepository.clienteConMasGastoEnPedidosEntregados();
     }
 
+    public Map<String, Object> obtenerMedioPagoMasUsadoEnUrgentes() {
+        return pedidoRepository.obtenerMedioPagoMasUsadoEnUrgentes();
+    }
+
+
 
 }

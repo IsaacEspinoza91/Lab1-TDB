@@ -10,7 +10,7 @@
     <button @click="showModal = true" class="add-button">
       <i class="fas fa-plus"></i> Agregar Pedido
     </button>
-
+    <!-- Tabla de Pedidos -->
     <div class="table-responsive">
       <table class="pedidos-table">
         <thead>
@@ -52,7 +52,9 @@
         </tbody>
       </table>
     </div>
-
+    <!-- Tabla de Pedidos -->
+     
+    
     <div v-if="showModal" class="modal-overlay">
       <div class="modal-content">
         <h3>{{ isEditing ? 'Editar Pedido' : 'Nuevo Pedido' }}</h3>
@@ -282,6 +284,7 @@ const editPedido = (pedido) => {
     medio_pago_id: pedido.medio_pago_id,
     farmacia_id: pedido.farmacia_id,
     repartidor_id: pedido.repartidor_id
+
   }
   currentPedidoId.value = pedido.id
   isEditing.value = true

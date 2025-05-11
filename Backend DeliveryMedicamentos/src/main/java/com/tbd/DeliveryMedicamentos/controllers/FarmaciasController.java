@@ -27,6 +27,12 @@ public class FarmaciasController {
         return new ResponseEntity<>(farmacias, HttpStatus.OK);
     }
 
+    @GetMapping("/volumen-entregado")
+    public ResponseEntity<List<Map<String, Object>>> getFarmaciasMayorVolumenEntregado() {
+        return ResponseEntity.ok(farmaciaService.obtenerFarmaciasMayorVolumenEntregado());
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<FarmaciasEntity> getFarmaciaById(@PathVariable int id) {
         FarmaciasEntity farmacia = farmaciaService.getFarmaciaById(id);
@@ -57,4 +63,6 @@ public class FarmaciasController {
         long numFarmacias = farmaciaService.countFarmacias();
         return ResponseEntity.ok(Collections.singletonMap("count", numFarmacias));
     }
+
+
 }

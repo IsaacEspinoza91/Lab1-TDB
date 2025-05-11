@@ -89,6 +89,27 @@ public class PedidosRepository {
         }
     }
 
+    public Map<String, Object> obtenerMedioPagoMasUsadoEnUrgentes() {
+        String sql = """
+        SELECT mdp.tipo AS medio_pago, COUNT(*) AS cantidad_usos
+        FROM pedidos p
+        JOIN medios_de_pago mdp ON p.medio_pago_id = mdp.id
+        WHERE p.urgencia = true
+        GROUP BY mdp.tipo
+        ORDER BY cantidad_usos DESC
+        LIMIT 1;
+    """;
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .executeAndFetchTable()
+                    .asList()
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+        }
+    }
+
+
     public List<ResumenPedidoClienteDTO> obtenerResumenPedidos() {
         String sql = "SELECT * FROM resumen_pedidos_por_cliente";
 
