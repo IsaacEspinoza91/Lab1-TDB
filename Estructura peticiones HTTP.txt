@@ -64,6 +64,7 @@ Clientes:
     "direccion": "Baires 13"
 }
 - DELETE, eliminar registro de cliente (no elimina usuario): http://localhost:8080/api/clientes/10
+- GET, cliente con mayor gasto en pedidos entregados: http://localhost:8080/api/clientes/cliente-mayor-gasto
 
 
 
@@ -166,6 +167,8 @@ Productos:
 }
 - DELETE, eliminar producto: http://localhost:8080/api/productos/25
 - GET, contar productos: http://localhost:8080/api/productos/contar
+- GET, ranking productos devueltos: http://localhost:8080/api/productos/top-productos-devueltos
+- GET, ranking productos cancelados: http://localhost:8080/api/productos/top-productos-cancelados
 
 
 

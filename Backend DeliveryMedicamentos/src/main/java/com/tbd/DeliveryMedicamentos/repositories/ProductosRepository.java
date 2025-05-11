@@ -1,5 +1,7 @@
 package com.tbd.DeliveryMedicamentos.repositories;
 
+import com.tbd.DeliveryMedicamentos.DTO.RankingProductosCanceladosDTO;
+import com.tbd.DeliveryMedicamentos.DTO.RankingProductosDevueltosDTO;
 import com.tbd.DeliveryMedicamentos.entities.ProductosEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.sql2o.Connection;
@@ -71,6 +73,67 @@ public class ProductosRepository {
         try (Connection conn = sql2o.open()) {
             return conn.createQuery("SELECT COUNT(*) FROM Productos")
                     .executeScalar(Long.class);
+        }
+    }
+
+    public List<RankingProductosCanceladosDTO> findProductosMasCancelados() {
+        String sql = "SELECT " +
+                "p.ID AS producto_id, " +
+                "p.Nombre AS nombre_producto, " +
+                "COUNT(dp.ID) AS veces_cancelado, " +
+                "CONCAT( " +
+                "    ROUND( " +
+                "        COUNT(dp.ID) * 100.0 / " +
+                "        NULLIF(SUM(COUNT(dp.ID)) OVER (), 0), " +
+                "        2 " +
+                "    ), " +
+                "    '%' " +
+                ") AS porcentaje_cancelaciones " +
+                "FROM " +
+                "    Productos p " +
+                "JOIN " +
+                "    Detalle_de_pedidos dp ON p.ID = dp.Producto_ID " +
+                "JOIN " +
+                "    Pedidos ped ON dp.Pedido_ID = ped.ID " +
+                "WHERE " +
+                "    ped.Estado_entrega = 'Cancelado' " +
+                "GROUP BY " +
+                "    p.ID, p.Nombre " +
+                "ORDER BY " +
+                "    veces_cancelado DESC " +
+                "LIMIT 10";
+
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(sql)
+                    .executeAndFetch(RankingProductosCanceladosDTO.class);
+        }
+    }
+
+
+    public List<RankingProductosDevueltosDTO> findProductosMasDevueltos() {
+        String sql = "SELECT " +
+                "p.ID AS producto_id, " +
+                "p.Nombre AS nombre_producto, " +
+                "COUNT(dp.ID) AS veces_devuelto, " +
+                "CONCAT( " +
+                "    ROUND( " +
+                "        COUNT(dp.ID) * 100.0 / " +
+                "        NULLIF(SUM(COUNT(dp.ID)) OVER (), 0), " +
+                "        2 " +
+                "    ), " +
+                "    '%' " +
+                ") AS porcentaje_devoluciones " +
+                "FROM Productos p " +
+                "JOIN Detalle_de_pedidos dp ON p.ID = dp.Producto_ID " +
+                "JOIN Pedidos ped ON dp.Pedido_ID = ped.ID " +
+                "WHERE ped.Estado_entrega = 'Devuelto' " +
+                "GROUP BY p.ID, p.Nombre " +
+                "ORDER BY veces_devuelto DESC " +
+                "LIMIT 10";
+
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(sql)
+                    .executeAndFetch(RankingProductosDevueltosDTO.class);
         }
     }
 }

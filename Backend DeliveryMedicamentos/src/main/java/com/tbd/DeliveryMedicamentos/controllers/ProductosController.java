@@ -1,5 +1,7 @@
 package com.tbd.DeliveryMedicamentos.controllers;
 
+import com.tbd.DeliveryMedicamentos.DTO.RankingProductosCanceladosDTO;
+import com.tbd.DeliveryMedicamentos.DTO.RankingProductosDevueltosDTO;
 import com.tbd.DeliveryMedicamentos.entities.ProductosEntity;
 import com.tbd.DeliveryMedicamentos.services.ProductosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +58,17 @@ public class ProductosController {
     public ResponseEntity<Map<String, Long>> contarProductos() {
         long num = productoService.countProductos();
         return ResponseEntity.ok(Collections.singletonMap("count", num));
+    }
+
+    @GetMapping("/top-productos-cancelados")
+    public ResponseEntity<List<RankingProductosCanceladosDTO>> getProductosMasCancelados() {
+        List<RankingProductosCanceladosDTO> ranking = productoService.findProductosMasCancelados();
+        return ResponseEntity.ok(ranking);
+    }
+
+    @GetMapping("/top-productos-devueltos")
+    public ResponseEntity<List<RankingProductosDevueltosDTO>> getProductosMasDevueltos() {
+        List<RankingProductosDevueltosDTO> ranking = productoService.findProductosMasDevueltos();
+        return ResponseEntity.ok(ranking);
     }
 }

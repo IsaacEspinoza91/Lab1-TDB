@@ -1,5 +1,7 @@
 package com.tbd.DeliveryMedicamentos.services;
 
+import com.tbd.DeliveryMedicamentos.DTO.RankingProductosCanceladosDTO;
+import com.tbd.DeliveryMedicamentos.DTO.RankingProductosDevueltosDTO;
 import com.tbd.DeliveryMedicamentos.entities.ProductosEntity;
 import com.tbd.DeliveryMedicamentos.repositories.ProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,13 @@ public class ProductosService {
 
     public long countProductos() {
         return productoRepository.count();
+    }
+
+    public List<RankingProductosCanceladosDTO> findProductosMasCancelados() {
+        return productoRepository.findProductosMasCancelados();
+    }
+
+    public List<RankingProductosDevueltosDTO> findProductosMasDevueltos() {
+        return productoRepository.findProductosMasDevueltos();
     }
 }
