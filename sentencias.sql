@@ -51,7 +51,24 @@ GROUP BY u.id, u.nombre;
 
 
 
--- 5. Obtener los 3 repartidores con mejor rendimiento (basado en entregas y puntuación).
+-- 5. Obtener los 3 repartidores con mejor rendimiento (basado en puntuación). [Williams]
+WITH Ranking AS (
+	SELECT
+		repartidor_id,
+		ROUND(AVG(estrellas),2) AS puntuacion, 
+		RANK() OVER (ORDER BY ROUND(AVG(estrellas),2) DESC) AS ranking
+	FROM public.calificaciones
+	GROUP BY repartidor_id
+	ORDER BY puntuacion DESC
+)
+SELECT
+	I.nombre,
+	I.apellido,
+	R.puntuacion
+FROM Ranking R
+JOIN public.usuarios I ON R.repartidor_id = I.id
+WHERE R.ranking <= 3
+ORDER BY R.ranking;
 
 
 -- 6. ¿Qué medio de pago se utiliza más en pedidos urgentes? [Emir]
