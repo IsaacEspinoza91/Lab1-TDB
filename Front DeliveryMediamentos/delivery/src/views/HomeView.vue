@@ -15,37 +15,55 @@ import NavBar from '@/components/NavBar.vue'
 <style scoped>
 .main-content {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  text-align: center;
+  min-height: 100vh;
   padding-top: 60px;
-  background-color: #f5f5f5;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  background-image: url('/images/background-home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* Efecto parallax opcional */
+  position: relative;
+}
+
+/* Capa oscura semitransparente para mejorar legibilidad */
+.main-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 0;
 }
 
 .welcome-container {
   max-width: 800px;
-  padding: 2rem;
-  background: white;
+  padding: 3rem;
+  background-color: rgba(255, 255, 255, 0.85);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  /* Para que aparezca sobre el pseudo-elemento */
+  z-index: 1;
+  backdrop-filter: blur(2px);
+  /* Efecto de vidrio esmerilado */
 }
 
 .welcome-title {
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   color: #1a237e;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 1s ease-in-out;
 }
 
 .welcome-subtitle {
   font-size: 1.5rem;
-  color: #555;
-  max-width: 600px;
+  color: #333;
   line-height: 1.6;
 }
 

@@ -60,6 +60,19 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
+.auth-background {
+  min-height: 100vh;
+  padding-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/images/background-home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
 .auth-container {
   max-width: 400px;
   margin: 80px auto 0;
