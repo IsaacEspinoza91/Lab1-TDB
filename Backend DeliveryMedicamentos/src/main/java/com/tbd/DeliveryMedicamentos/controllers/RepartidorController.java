@@ -1,5 +1,6 @@
 package com.tbd.DeliveryMedicamentos.controllers;
 
+import com.tbd.DeliveryMedicamentos.DTO.RepartidorRankingDTO;
 import com.tbd.DeliveryMedicamentos.entities.RepartidorEntity;
 import com.tbd.DeliveryMedicamentos.services.RepartidorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,15 @@ public class RepartidorController {
         return new ResponseEntity<>(repartidores, HttpStatus.OK);
     }
 
+    @GetMapping("/top")
+    public List<Map<String, Object>> obtenerTopRepartidores() {
+        return repartidorService.obtenerTopRepartidores();
+    }
+
     @GetMapping("/desempeno")
     public List<Map<String, Object>> obtenerVistaDesempenoRepartidor() {
         return repartidorService.obtenerVistaDesempenoRepartidor();
     }
-
 
     @GetMapping("/{usuarioId}")
     public ResponseEntity<RepartidorEntity> getRepartidorByUsuarioId(@PathVariable int usuarioId) {

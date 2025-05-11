@@ -1,5 +1,6 @@
 package com.tbd.DeliveryMedicamentos.services;
 
+import com.tbd.DeliveryMedicamentos.DTO.RepartidorRankingDTO;
 import com.tbd.DeliveryMedicamentos.entities.RepartidorEntity;
 import com.tbd.DeliveryMedicamentos.repositories.RepartidorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,10 @@ public class RepartidorService {
     public List<Map<String, Object>> obtenerVistaDesempenoRepartidor() {
         return repartidorRepository.obtenerVistaDesempenoRepartidor();
     }
+
+    public List<Map<String, Object>> obtenerTopRepartidores() {
+        return repartidorRepository.obtenerTopRepartidores();
+    }
+
 
 }

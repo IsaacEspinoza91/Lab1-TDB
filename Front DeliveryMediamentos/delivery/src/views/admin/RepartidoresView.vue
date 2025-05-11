@@ -125,6 +125,26 @@
     </table>
   </div>
 
+  <div class="repartidores-table">
+    <h2>Top 3 Repartidores con Mejor Rendimiento</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Puntuación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="repartidor in topRepartidores" :key="repartidor.nombre">
+          <td>{{ repartidor.nombre }}</td>
+          <td>{{ repartidor.apellido }}</td>
+          <td>{{ repartidor.puntuacion }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </template>
 
 <script setup>
@@ -134,6 +154,21 @@ import api from '@/api'
 const repartidores = ref([])
 const loadingRepartidores = ref(true)
 const desempenoRepartidores = ref([])
+
+const topRepartidores = ref([])
+
+const fetchTopRepartidores = async () => {
+  try {
+    const response = await api.get('/repartidores/top')
+    topRepartidores.value = response.data
+  } catch (error) {
+    console.error('Error al obtener los repartidores:', error)
+  }
+}
+
+onMounted(() => {
+  fetchTopRepartidores()
+})
 
 // Desempeno de repartidores
 const fetchDesempenoRepartidores = async () => {
@@ -389,5 +424,39 @@ onMounted(() => {
 
 .clientes-table tbody tr:hover {
   background-color: #f1f1f1;
+}
+
+.repartidores-table {
+  margin: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f4f4f4;
+}
+
+.table tr:hover {
+  background-color: #f9f9f9;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 </style>
