@@ -7,11 +7,11 @@
       <p>Cargando pedidos...</p>
     </div>
 
-    <button @click="showModal = true" class="add-button">
+    <button @click="showModal = true" class="add-button" v-if="!loadingPedidos">
       <i class="fas fa-plus"></i> Agregar Pedido
     </button>
     <!-- Tabla de Pedidos -->
-    <div class="table-responsive">
+    <div class="table-responsive" v-if="!loadingPedidos">
       <table class="pedidos-table">
         <thead>
           <tr>
@@ -53,8 +53,8 @@
       </table>
     </div>
     <!-- Tabla de Pedidos -->
-     
-    
+
+
     <div v-if="showModal" class="modal-overlay">
       <div class="modal-content">
         <h3>{{ isEditing ? 'Editar Pedido' : 'Nuevo Pedido' }}</h3>
@@ -114,9 +114,9 @@
       </div>
     </div>
 
-    <hr style="margin: 30px 0;">
+    <hr v-if="!loadingPedidos" style="margin: 30px 0;">
 
-    <div class="medio-pago-urgente-section">
+    <div class="medio-pago-urgente-section" v-if="!loadingPedidos">
       <h2>Medio de Pago Más Usado en Pedidos Urgentes</h2>
       <div v-if="loadingMedioPagoUrgente" class="loading-overlay-inline">
         <div class="spinner-small"></div>
@@ -145,9 +145,9 @@
         No hay datos disponibles sobre el medio de pago más usado en urgencias.
       </p>
     </div>
-    <hr style="margin: 30px 0;">
+    <hr v-if="!loadingPedidos" style="margin: 30px 0;">
 
-    <div class="cliente-mayor-gasto-section">
+    <div class="cliente-mayor-gasto-section" v-if="!loadingPedidos">
       <h2>Cliente con Mayor Gasto en Pedidos Entregados</h2>
       <div v-if="loadingClienteMayorGasto" class="loading-overlay-inline">
         <div class="spinner-small"></div>
@@ -651,8 +651,13 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {
@@ -691,5 +696,4 @@ onMounted(() => {
   background-color: #f8f8f8;
   font-weight: bold;
 }
-
 </style>

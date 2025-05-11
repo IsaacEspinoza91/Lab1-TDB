@@ -1,6 +1,7 @@
 package com.tbd.DeliveryMedicamentos.controllers;
 
 import com.tbd.DeliveryMedicamentos.DTO.ClienteDetalladoDTO;
+import com.tbd.DeliveryMedicamentos.DTO.ClienteTopGastoDTO;
 import com.tbd.DeliveryMedicamentos.DTO.ResumenPedidoClienteDTO;
 import com.tbd.DeliveryMedicamentos.entities.ClienteEntity;
 import com.tbd.DeliveryMedicamentos.services.ClienteService;
@@ -75,5 +76,11 @@ public class ClienteController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
+    @GetMapping("/cliente-mayor-gasto")
+    public ResponseEntity<ClienteTopGastoDTO> getClienteMayorGasto() {
+        ClienteTopGastoDTO resultado = clienteService.findClienteMayorGasto();
+        return ResponseEntity.ok(resultado);
+    }
 
 }

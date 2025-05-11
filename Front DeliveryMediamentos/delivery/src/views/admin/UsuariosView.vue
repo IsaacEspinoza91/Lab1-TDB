@@ -7,11 +7,11 @@
       <p>Cargando usuarios...</p>
     </div>
 
-    <button @click="showModal = true" class="add-button">
+    <button @click="showModal = true" class="add-button" v-if="!loading">
       <i class="fas fa-plus"></i> Agregar Usuario
     </button>
 
-    <div class="table-responsive">
+    <div class="table-responsive" v-if="!loading">
       <table class="productos-table">
         <thead>
           <tr>
@@ -159,7 +159,8 @@ const editUsuario = (usuario) => {
     apellido: usuario.apellido,
     email: usuario.email,
     telefono: usuario.telefono,
-    tipo: usuario.tipo
+    tipo: usuario.tipo,
+    password: usuario.password
   }
   currentUsuarioId.value = usuario.id
   isEditing.value = true

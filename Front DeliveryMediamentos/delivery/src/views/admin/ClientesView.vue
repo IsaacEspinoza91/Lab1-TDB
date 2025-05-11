@@ -8,7 +8,7 @@
       <p>Cargando clientes...</p>
     </div>
 
-    <!-- Tabla de Clientes --
+    <!-- Tabla de Clientes  -->
     <div v-if="!loading" class="table-responsive">
       <table class="clientes-table">
         <thead>
@@ -29,7 +29,34 @@
         </tbody>
       </table>
     </div>
-    >
+
+
+    <hr v-if="!loading" style="margin: 30px 0;">
+
+    <!-- Sección Cliente con Mayor Gasto -->
+    <div class="top-client-card" v-if="!loading && clienteMayorGasto">
+      <div class="top-client-header">
+        <h2>Cliente con Mayor Gasto en Pedidos Entregados</h2>
+        <span class="badge">TOP CLIENTE</span>
+      </div>
+      <div class="top-client-details">
+        <div class="detail-item">
+          <span class="detail-label">Nombre:</span>
+          <span class="detail-value">{{ clienteMayorGasto.nombre }} {{ clienteMayorGasto.apellido }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Total Gastado:</span>
+          <span class="detail-value highlight">{{ formatCurrency(clienteMayorGasto.totalGastado) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">ID Cliente:</span>
+          <span class="detail-value">{{ clienteMayorGasto.clienteId }}</span>
+        </div>
+      </div>
+    </div>
+
+    <hr v-if="!loading" style="margin: 30px 0;">
+
 
     <!-- Resumen de Pedidos por Cliente -->
     <div v-if="resumenPedidosData" class="resumen-pedidos">
@@ -70,6 +97,29 @@ const clientes = ref([]) // Lista de clientes
 const resumenPedidosData = ref(null) // Resumen de pedidos por cliente
 const loading = ref(true) // Estado de carga de clientes
 const loadingResumenPedidos = ref(true) // Estado de carga del resumen de pedidos
+const clienteMayorGasto = ref(null)
+
+
+// Función para formatear moneda
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP'
+  }).format(value)
+}
+
+
+// Función para obtener el cliente con mayor gasto
+const fetchClienteMayorGasto = async () => {
+  try {
+    const response = await api.get('/clientes/cliente-mayor-gasto')
+    clienteMayorGasto.value = response.data
+  } catch (error) {
+    console.error('Error al obtener cliente con mayor gasto:', error)
+  }
+}
+
+
 
 // Función para obtener los clientes
 const fetchClientes = async () => {
@@ -107,6 +157,7 @@ const fetchResumenPedidos = async () => {
 onMounted(() => {
   fetchClientes()
   fetchResumenPedidos()
+  fetchClienteMayorGasto()
 })
 </script>
 
@@ -175,8 +226,91 @@ onMounted(() => {
   margin-right: 10px;
 }
 
+
+.top-client-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  padding: 20px;
+  border-left: 4px solid #1a237e;
+}
+
+.top-client-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.top-client-header h2 {
+  margin: 0;
+  color: #1a237e;
+  font-size: 1.4rem;
+}
+
+.badge {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.top-client-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.detail-item {
+  margin-bottom: 10px;
+}
+
+.detail-label {
+  display: block;
+  font-weight: bold;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 3px;
+}
+
+.detail-value {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.highlight {
+  color: #1a237e;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+  .top-client-details {
+    grid-template-columns: 1fr;
+  }
+
+  .top-client-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .badge {
+    margin-top: 10px;
+  }
+}
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

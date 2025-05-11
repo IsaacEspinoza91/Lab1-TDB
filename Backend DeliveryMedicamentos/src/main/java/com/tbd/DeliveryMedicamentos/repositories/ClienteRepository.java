@@ -2,6 +2,7 @@ package com.tbd.DeliveryMedicamentos.repositories;
 
 import com.tbd.DeliveryMedicamentos.DTO.ClienteDetalladoDTO;
 import com.tbd.DeliveryMedicamentos.DTO.ResumenPedidoClienteDTO;
+import com.tbd.DeliveryMedicamentos.DTO.ClienteTopGastoDTO;
 import com.tbd.DeliveryMedicamentos.entities.ClienteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.sql2o.Connection;
@@ -105,5 +106,21 @@ public class ClienteRepository {
         }
     }
 
+    public ClienteTopGastoDTO findClienteMayorGasto() {
+        try (Connection connection = sql2o.open()) {
+            String sql = "SELECT u.nombre AS nombre, u.apellido AS apellido, " +
+                    "c.usuario_id AS clienteId, SUM(p.total_pagado) AS totalGastado " +
+                    "FROM clientes c " +
+                    "JOIN usuarios u ON c.usuario_id = u.id " +
+                    "JOIN pedidos p ON p.cliente_id = c.usuario_id " +
+                    "WHERE p.estado_entrega = 'Entregado' " +
+                    "GROUP BY c.usuario_id, u.nombre, u.apellido " +
+                    "ORDER BY totalGastado DESC " +
+                    "LIMIT 1";
+
+            return connection.createQuery(sql)
+                    .executeAndFetchFirst(ClienteTopGastoDTO.class);
+        }
+    }
 
 }

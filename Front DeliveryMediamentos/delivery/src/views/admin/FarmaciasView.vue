@@ -7,11 +7,11 @@
       <p>Cargando farmacias...</p>
     </div>
 
-    <button @click="showModal = true" class="add-button">
+    <button @click="showModal = true" class="add-button" v-if="!loadingFarmacias">
       <i class="fas fa-plus"></i> Agregar Farmacia
     </button>
 
-    <div class="table-responsive">
+    <div class="table-responsive" v-if="!loadingFarmacias">
       <table class="farmacias-table">
         <thead>
           <tr>
@@ -72,9 +72,9 @@
       </div>
     </div>
 
-    <hr style="margin: 30px 0;">
+    <hr v-if="!loadingFarmacias" style="margin: 30px 0;">
 
-    <div class="farmacias-fallidas-section">
+    <div class="farmacias-fallidas-section" v-if="!loadingFarmacias">
       <h2>Farmacias con Más Entregas Fallidas</h2>
       <div v-if="loadingFarmaciasFallidas" class="loading-overlay-inline">
         <div class="spinner-small"></div>
@@ -107,8 +107,10 @@
     </div>
   </div>
 
+  <hr v-if="!loadingFarmacias" style="margin: 30px 0;">
+
   <!-- Vista: Farmacias con mayor volumen de productos entregados -->
-  <div class="table-responsive">
+  <div class="table-responsive" v-if="!loadingFarmacias">
     <h2>Farmacias con mayor volumen de productos entregados</h2>
     <table class="farmacias-table">
       <thead>
@@ -299,7 +301,8 @@ onMounted(() => {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  margin-bottom: 30px; /* Espacio entre tablas */
+  margin-bottom: 30px;
+  /* Espacio entre tablas */
 }
 
 .farmacias-table th,
@@ -510,8 +513,13 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {
@@ -537,5 +545,4 @@ onMounted(() => {
   background-color: #f2f2f2;
   font-weight: bold;
 }
-
 </style>

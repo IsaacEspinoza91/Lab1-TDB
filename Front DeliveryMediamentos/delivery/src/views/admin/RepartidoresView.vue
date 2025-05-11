@@ -7,7 +7,7 @@
       <p>Cargando repartidores...</p>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive" v-if="!loadingRepartidores">
       <table class="repartidores-table">
         <thead>
           <tr>
@@ -24,9 +24,9 @@
       </table>
     </div>
 
-    <hr style="margin: 30px 0;">
+    <hr v-if="!loadingRepartidores" style="margin: 30px 0;">
 
-    <div class="tiempo-promedio-todos-section">
+    <div class="tiempo-promedio-todos-section" v-if="!loadingRepartidores">
       <h2>Tiempo Promedio de Entrega de Todos los Repartidores</h2>
 
       <div v-if="loadingTiempoPromedioTodos" class="loading-overlay-inline">
@@ -56,15 +56,16 @@
       </p>
     </div>
 
-    <hr style="margin: 30px 0;">
+    <hr v-if="!loadingRepartidores" style="margin: 30px 0;">
 
-    <div class="tiempo-promedio-por-id-section">
+    <div class="tiempo-promedio-por-id-section" v-if="!loadingRepartidores">
       <h2>Tiempo Promedio de Entrega por ID de Repartidor</h2>
 
       <div class="input-group">
         <label for="repartidorId">ID del Repartidor:</label>
         <input type="number" id="repartidorId" v-model="repartidorIdConsulta" placeholder="Ingrese ID" />
-        <button @click="fetchTiempoPromedioPorId" :disabled="!repartidorIdConsulta" class="add-button" style="margin-bottom: 0;">Buscar</button>
+        <button @click="fetchTiempoPromedioPorId" :disabled="!repartidorIdConsulta" class="add-button"
+          style="margin-bottom: 0;">Buscar</button>
       </div>
 
       <div v-if="loadingTiempoPromedioPorId" class="loading-overlay-inline">
@@ -94,35 +95,35 @@
   </div>
 
   <!-- Vista de desempeño por repartidor -->
-<div class="table-responsive">
-  <h2>Desempeño por Repartidor</h2>
-  <table class="clientes-table">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Vehículo</th>
-        <th>Prom. Estrellas</th>
-        <th>Total Pedidos</th>
-        <th>Total Productos Pedidos</th>
-        <th>Total Productos Entregados</th>
-        <th>% Entregas Exitosas</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="r in desempenoRepartidores" :key="r.nombre + r.apellido">
-        <td>{{ r.nombre }}</td>
-        <td>{{ r.apellido }}</td>
-        <td>{{ r.vehiculo }}</td>
-        <td>{{ r.promedio_estrellas.toFixed(2) }}</td>
-        <td>{{ r.total_pedidos }}</td>
-        <td>{{ r.total_productos_pedidos }}</td>
-        <td>{{ r.total_productos_entregados }}</td>
-        <td>{{ r.porcentaje_entregas_exitosas }}%</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="table-responsive" v-if="!loadingRepartidores">
+    <h2>Desempeño por Repartidor</h2>
+    <table class="clientes-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Vehículo</th>
+          <th>Prom. Estrellas</th>
+          <th>Total Pedidos</th>
+          <th>Total Productos Pedidos</th>
+          <th>Total Productos Entregados</th>
+          <th>% Entregas Exitosas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="r in desempenoRepartidores" :key="r.nombre + r.apellido">
+          <td>{{ r.nombre }}</td>
+          <td>{{ r.apellido }}</td>
+          <td>{{ r.vehiculo }}</td>
+          <td>{{ r.promedio_estrellas.toFixed(2) }}</td>
+          <td>{{ r.total_pedidos }}</td>
+          <td>{{ r.total_productos_pedidos }}</td>
+          <td>{{ r.total_productos_entregados }}</td>
+          <td>{{ r.porcentaje_entregas_exitosas }}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </template>
 
@@ -266,8 +267,13 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .table-responsive {
@@ -384,5 +390,4 @@ onMounted(() => {
 .clientes-table tbody tr:hover {
   background-color: #f1f1f1;
 }
-
 </style>

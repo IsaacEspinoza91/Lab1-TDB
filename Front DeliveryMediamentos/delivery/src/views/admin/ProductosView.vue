@@ -8,16 +8,16 @@
         </div>
 
         <!-- Botón para agregar nuevo producto -->
-        <button @click="showModal = true" class="add-button">
+        <button @click="showModal = true" class="add-button" v-if="!loading">
             <i class="fas fa-plus"></i> Agregar Producto
         </button>
         <!-- Botón para ver productos por farmacia -->
-        <button @click="showModal = true" class="add-button">
+        <button @click="showModal = true" class="add-button" v-if="!loading">
             <i class="fas fa-plus"></i> Productos por farmacia
         </button>
 
         <!-- Tabla de productos -->
-        <div class="table-responsive">
+        <div class="table-responsive" v-if="!loading">
             <table class="productos-table">
                 <thead>
                     <tr>
@@ -106,6 +106,7 @@ const showModal = ref(false)
 const showDeleteModal = ref(false)
 const isEditing = ref(false)
 const currentProductoId = ref(null)
+const loading = ref(true)
 
 const form = ref({
     nombre: '',

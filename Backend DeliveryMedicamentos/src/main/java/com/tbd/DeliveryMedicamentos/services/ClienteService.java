@@ -1,6 +1,7 @@
 package com.tbd.DeliveryMedicamentos.services;
 
 import com.tbd.DeliveryMedicamentos.DTO.ClienteDetalladoDTO;
+import com.tbd.DeliveryMedicamentos.DTO.ClienteTopGastoDTO;
 import com.tbd.DeliveryMedicamentos.DTO.ResumenPedidoClienteDTO;
 import com.tbd.DeliveryMedicamentos.entities.ClienteEntity;
 import com.tbd.DeliveryMedicamentos.entities.UsuarioEntity;
@@ -78,5 +79,9 @@ public class ClienteService {
 
     public void deleteCliente(Integer usuarioId) {
         clienteRepository.delete(usuarioId);
+    }
+
+    public ClienteTopGastoDTO findClienteMayorGasto() {
+        return clienteRepository.findClienteMayorGasto();
     }
 }
