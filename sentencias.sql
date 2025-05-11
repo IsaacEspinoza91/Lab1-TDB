@@ -22,7 +22,7 @@ GROUP BY f.id, f.nombre, f.lugar
 ORDER BY entregas_fallidas DESC;
 
 
--- 4. Calcular el tiempo promedio entre pedido y entrega por repartidor.
+-- 4. Calcular el tiempo promedio entre pedido y entrega por repartidor. [Emir]
 SELECT 
     u.nombre AS repartidores_nombre,
     ROUND(AVG(EXTRACT(DAY FROM AGE(p.fecha_entrega, p.fecha))), 1) AS tiempo_promedio_dias
@@ -37,7 +37,14 @@ GROUP BY u.id, u.nombre;
 -- 5. Obtener los 3 repartidores con mejor rendimiento (basado en entregas y puntuación).
 
 
--- 6. ¿Qué medio de pago se utiliza más en pedidos urgentes?
+-- 6. ¿Qué medio de pago se utiliza más en pedidos urgentes? [Emir]
+SELECT mdp.tipo AS medio_pago, COUNT(*) AS cantidad_usos
+FROM pedidos p
+JOIN medios_de_pago mdp ON p.medio_pago_id = mdp.id
+WHERE p.urgencia = true
+GROUP BY mdp.tipo
+ORDER BY cantidad_usos DESC
+LIMIT 1;
 
 
 
@@ -120,7 +127,7 @@ CALL cambiar_estado_pedido(2,'Fallido');
 -- 10. Insertar automáticamente la fecha de entrega al marcar como entregado.
 
 
--- 11. Registrar una notificación si un medicamento con receta es pedido sin validación.
+-- 11. Registrar una notificación si un medicamento con receta es pedido sin validación. [Emir]
 CREATE OR REPLACE FUNCTION registrar_notificacion_medicamento_sin_validacion()
 RETURNS trigger AS
 $$

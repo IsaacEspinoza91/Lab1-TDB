@@ -81,4 +81,11 @@ public class PedidosController {
         pedidoService.cambiarEstadoPedido(id, nuevoEstado);
     }
 
+    @GetMapping("/medio-pago-urgente")
+    public ResponseEntity<Map<String, Object>> medioPagoMasUsadoEnUrgencias() {
+        Map<String, Object> result = pedidoService.medioPagoMasUsadoEnUrgencias();
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    }
+
+
 }

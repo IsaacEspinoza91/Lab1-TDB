@@ -58,4 +58,8 @@ public class PedidosService {
         pedidoRepository.cambiarEstadoPedido(idPedido, nuevoEstado);
     }
 
+    public Map<String, Object> medioPagoMasUsadoEnUrgencias() {
+        return pedidoRepository.medioPagoMasUsadoEnUrgencias();
+    }
+
 }

@@ -184,6 +184,26 @@ public class PedidosRepository {
         }
     }
 
+    public Map<String, Object> medioPagoMasUsadoEnUrgencias() {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+            SELECT mdp.tipo AS medio_pago, COUNT(*) AS cantidad_usos
+            FROM pedidos p
+            JOIN medios_de_pago mdp ON p.medio_pago_id = mdp.id
+            WHERE p.urgencia = true
+            GROUP BY mdp.tipo
+            ORDER BY cantidad_usos DESC
+            LIMIT 1;
+        """;
 
+            List<Map<String, Object>> result = conn.createQuery(sql)
+                    .executeAndFetchTable()
+                    .asList();
 
+            return result.isEmpty() ? null : result.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

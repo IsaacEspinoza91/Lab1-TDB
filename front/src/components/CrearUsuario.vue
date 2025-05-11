@@ -76,28 +76,41 @@ export default {
     },
     async crearUsuario() {
       try {
-        //validar celular
+        // Validar celular
         const celularRegex = /^\+569\d{8}$/;
         if (!celularRegex.test(this.nuevoUsuario.telefono)) {
           alert("El número de celular debe tener el formato +569XXXXXXXX");
           return;
         }
 
-        //enviar datos al backend
+        // Enviar datos al backend
         const response = await axios.post("http://localhost:8080/api/usuarios", this.nuevoUsuario);
 
-        if (response.data.includes("El correo ya está registrado")) {
-          alert(response.data);
+        // Manejar respuesta basada en tipo de dato
+        const data = response.data;
+
+        if (typeof data === "string" && data.includes("El correo ya está registrado")) {
+          alert(data);
+        } else if (typeof data === "object" && data.mensaje && data.mensaje.includes("ya está registrado")) {
+          alert(data.mensaje);
         } else {
           alert("Usuario creado con éxito.");
           this.limpiarFormulario();
           this.$router.push("/iniciarSesion");
         }
+
       } catch (error) {
         console.error("Error al crear usuario:", error);
-        alert("Error: " + error.message);
+
+        // Mensaje más claro
+        if (error.response && error.response.data && error.response.data.mensaje) {
+          alert("Error: " + error.response.data.mensaje);
+        } else {
+          alert("Error al conectar con el servidor.");
+        }
       }
     },
+
     limpiarFormulario() {
       this.nuevoUsuario = {
         nombre: "",
