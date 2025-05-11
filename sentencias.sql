@@ -12,6 +12,23 @@ LIMIT 1;
 
 --2. ¿Cuáles son los productos más pedidos en el último mes por categoría?
 
+SELECT 
+    p.nombre AS "Producto",
+    p.requiere_receta AS "Requiere_Receta",
+    SUM(dp.cantidad) AS "Total_Pedidos"
+FROM 
+    productos p
+JOIN 
+    detalle_de_pedidos dp ON p.id = dp.producto_id
+JOIN 
+    pedidos pe ON pe.id = dp.pedido_id
+WHERE 
+    pe.fecha >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month'
+    AND pe.fecha < DATE_TRUNC('month', CURRENT_DATE)
+GROUP BY 
+    p.id, p.nombre, p.requiere_receta
+ORDER BY 
+    p.requiere_receta DESC, SUM(dp.cantidad) DESC;
 
 -- 3. Listar las farmacias con más entregas fallidas.[Isaac]
 SELECT f.id, f.nombre, f.lugar, COUNT(*) AS entregas_fallidas
