@@ -206,4 +206,15 @@ public class PedidosRepository {
             return null;
         }
     }
+
+    public long countPedidosMesActual() {
+        try (Connection connection = sql2o.open()) {
+            String sql = "SELECT COUNT(*) FROM pedidos " +
+                    "WHERE EXTRACT(MONTH FROM fecha) = EXTRACT(MONTH FROM CURRENT_DATE) " +
+                    "AND EXTRACT(YEAR FROM fecha) = EXTRACT(YEAR FROM CURRENT_DATE)";
+
+            return connection.createQuery(sql)
+                    .executeScalar(Long.class);
+        }
+    }
 }

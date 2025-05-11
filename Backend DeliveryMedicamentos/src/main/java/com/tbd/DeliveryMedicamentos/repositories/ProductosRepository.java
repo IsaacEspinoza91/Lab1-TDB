@@ -66,4 +66,11 @@ public class ProductosRepository {
                     .executeUpdate();
         }
     }
+
+    public long count() {
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery("SELECT COUNT(*) FROM Productos")
+                    .executeScalar(Long.class);
+        }
+    }
 }

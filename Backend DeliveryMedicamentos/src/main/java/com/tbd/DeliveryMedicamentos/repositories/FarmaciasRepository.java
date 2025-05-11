@@ -63,4 +63,11 @@ public class FarmaciasRepository {
                     .executeUpdate();
         }
     }
+
+    public long count() {
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery("SELECT COUNT(*) FROM Farmacias")
+                    .executeScalar(Long.class);
+        }
+    }
 }

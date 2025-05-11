@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -48,5 +50,11 @@ public class ProductosController {
     public ResponseEntity<Void> deleteProducto(@PathVariable int id) {
         productoService.deleteProducto(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/contar")
+    public ResponseEntity<Map<String, Long>> contarProductos() {
+        long num = productoService.countProductos();
+        return ResponseEntity.ok(Collections.singletonMap("count", num));
     }
 }

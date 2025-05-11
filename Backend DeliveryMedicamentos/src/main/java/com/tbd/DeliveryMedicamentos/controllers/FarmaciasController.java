@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/farmacias")
@@ -48,5 +50,11 @@ public class FarmaciasController {
     public ResponseEntity<Void> deleteFarmacia(@PathVariable int id) {
         farmaciaService.deleteFarmacia(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/contar")
+    public ResponseEntity<Map<String, Long>> contarFarmacias() {
+        long numFarmacias = farmaciaService.countFarmacias();
+        return ResponseEntity.ok(Collections.singletonMap("count", numFarmacias));
     }
 }

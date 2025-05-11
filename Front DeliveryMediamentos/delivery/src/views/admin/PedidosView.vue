@@ -1,6 +1,6 @@
 <template>
   <div class="pedidos-container">
-    <h2>Gestión de Pedidos</h2>
+    <h1>Gestión de Pedidos</h1>
 
     <div v-if="loading" class="loading-overlay">
       <div class="spinner"></div>
@@ -42,10 +42,10 @@
             <td>{{ pedido.repartidor_id }}</td>
             <td class="actions">
               <button @click="editPedido(pedido)" class="edit-button">
-                <i class="fas fa-edit"></i>
+                <i class="fas fa-edit">Modificar</i>
               </button>
               <button @click="confirmDelete(pedido.id)" class="delete-button">
-                <i class="fas fa-trash"></i>
+                <i class="fas fa-trash">Eliminar</i>
               </button>
             </td>
           </tr>
@@ -140,17 +140,6 @@ const form = ref({
   repartidor_id: ''
 })
 
-// Axios con token
-const apix = axios.create({
-  baseURL: 'http://localhost:8080/api'
-})
-
-apix.interceptors.request.use(config => {
-  if (authStore.token) {
-    config.headers.Authorization = `Bearer ${authStore.token}`
-  }
-  return config
-})
 
 // Obtener pedidos
 const fetchPedidos = async () => {
@@ -286,8 +275,13 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .add-button {
@@ -314,7 +308,8 @@ onMounted(() => {
   border-spacing: 0 10px;
 }
 
-.pedidos-table th, .pedidos-table td {
+.pedidos-table th,
+.pedidos-table td {
   padding: 10px 15px;
   text-align: left;
   border-bottom: 1px solid #f0f0f0;
@@ -337,12 +332,14 @@ onMounted(() => {
   border-bottom: none;
 }
 
-.pedidos-table th:nth-child(2), /* Fecha */
+.pedidos-table th:nth-child(2),
+/* Fecha */
 .pedidos-table td:nth-child(2) {
   min-width: 120px;
 }
 
-.pedidos-table th:nth-child(6), /* Fecha de Entrega */
+.pedidos-table th:nth-child(6),
+/* Fecha de Entrega */
 .pedidos-table td:nth-child(6) {
   min-width: 120px;
 }
@@ -352,7 +349,8 @@ onMounted(() => {
   gap: 10px;
 }
 
-.edit-button, .delete-button {
+.edit-button,
+.delete-button {
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
@@ -364,12 +362,12 @@ onMounted(() => {
 }
 
 .edit-button {
-    background-color: #ffc107;
-    color: #212529;
+  background-color: #ffc107;
+  color: #212529;
 }
 
 .edit-button:hover {
-    background-color: #e0a800;
+  background-color: #e0a800;
 }
 
 .delete-button {
@@ -441,7 +439,8 @@ onMounted(() => {
   margin-top: 15px;
 }
 
-.cancel-button, .save-button {
+.cancel-button,
+.save-button {
   padding: 10px 15px;
   border-radius: 4px;
   cursor: pointer;

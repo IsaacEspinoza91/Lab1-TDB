@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,12 @@ public class UsuarioController {
         } else {
             return ResponseEntity.badRequest().body("Email o contraseña incorrectos.");
         }
+    }
+
+    @GetMapping("/contar")
+    public ResponseEntity<Map<String, Long>> contarUsuarios() {
+        long numUsers = usuarioService.countUsuarios();
+        return ResponseEntity.ok(Collections.singletonMap("count", numUsers));
     }
 
 }

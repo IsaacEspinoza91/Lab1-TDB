@@ -36,4 +36,8 @@ public class FarmaciasService {
     public void deleteFarmacia(int id) {
         farmaciaRepository.delete(id);
     }
+
+    public long countFarmacias() {
+        return farmaciaRepository.count();
+    }
 }

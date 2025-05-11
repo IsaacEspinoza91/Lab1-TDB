@@ -62,4 +62,8 @@ public class PedidosService {
         return pedidoRepository.medioPagoMasUsadoEnUrgencias();
     }
 
+    public long contarPedidosMesActual() {
+        return pedidoRepository.countPedidosMesActual();
+    }
+
 }

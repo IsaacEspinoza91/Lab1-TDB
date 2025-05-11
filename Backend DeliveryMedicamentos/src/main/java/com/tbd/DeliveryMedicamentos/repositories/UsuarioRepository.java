@@ -82,4 +82,11 @@ public class UsuarioRepository {
                     .executeUpdate();
         }
     }
+
+    public long count() {
+        try (Connection conn = sql2o.open()) {
+            return conn.createQuery("SELECT COUNT(*) FROM Usuarios")
+                    .executeScalar(Long.class);
+        }
+    }
 }

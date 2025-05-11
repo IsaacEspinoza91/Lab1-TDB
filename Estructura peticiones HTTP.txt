@@ -13,6 +13,7 @@ Farmacias:
     "lugar": "Gran Avenida 14"
 }
 - DELETE, eliminar farmcia segun id: http://localhost:8080/api/farmacias/1
+- GET, contar farmacias: http://localhost:8080/api/farmacias/contar
 
 
 

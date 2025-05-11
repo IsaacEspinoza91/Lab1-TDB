@@ -1,6 +1,6 @@
 <template>
     <div class="farmacias-container">
-        <h2>Gestión de Farmacias</h2>
+        <h1>Gestión de Farmacias</h1>
 
         <div v-if="loading" class="loading-overlay">
             <div class="spinner"></div>
@@ -30,10 +30,10 @@
                         <td>{{ farmacia.lugar }}</td>
                         <td class="actions">
                             <button @click="editFarmacia(farmacia)" class="edit-button">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-edit">Modificar</i>
                             </button>
                             <button @click="confirmDelete(farmacia.id)" class="delete-button">
-                                <i class="fas fa-trash"></i>
+                                <i class="fas fa-trash">Eliminar</i>
                             </button>
                         </td>
                     </tr>
@@ -90,23 +90,13 @@ const showModal = ref(false)
 const showDeleteModal = ref(false)
 const isEditing = ref(false)
 const currentFarmaciaId = ref(null)
+const loading = ref(false)
 
 const form = ref({
     nombre: '',
     lugar: ''
 })
 
-// Configuración de Axios con el token JWT
-const apix = axios.create({
-    baseURL: 'http://localhost:8080/api'
-})
-
-apix.interceptors.request.use(config => {
-    if (authStore.token) {
-        config.headers.Authorization = `Bearer ${authStore.token}`
-    }
-    return config
-})
 
 // Obtener todas las farmacias
 const fetchFarmacias = async () => {

@@ -1,9 +1,8 @@
 <template>
     <AdminNavBar />
     <div class="admin-container">
-        <h1>Panel de Administración</h1>
+
         <div class="admin-content">
-            <!-- Aquí irá el contenido dinámico según la ruta -->
             <router-view />
         </div>
     </div>

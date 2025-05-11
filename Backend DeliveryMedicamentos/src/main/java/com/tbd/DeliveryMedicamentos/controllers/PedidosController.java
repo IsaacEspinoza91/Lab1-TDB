@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -87,5 +88,9 @@ public class PedidosController {
         return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/contar-mes")
+    public ResponseEntity<Map<String, Long>> getPedidosMesActual() {
+        long count = pedidoService.contarPedidosMesActual();
+        return ResponseEntity.ok(Collections.singletonMap("count", count));
+    }
 }

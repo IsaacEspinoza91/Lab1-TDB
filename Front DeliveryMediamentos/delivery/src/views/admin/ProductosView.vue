@@ -1,6 +1,6 @@
 <template>
     <div class="productos-container">
-        <h2>Gestión de Productos</h2>
+        <h1>Gestión de Productos</h1>
 
         <div v-if="loading" class="loading-overlay">
             <div class="spinner"></div>
@@ -34,10 +34,10 @@
                         <td>{{ producto.requiere_receta ? 'Sí' : 'No' }}</td>
                         <td class="actions">
                             <button @click="editProducto(producto)" class="edit-button">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-edit">Modificar</i>
                             </button>
                             <button @click="confirmDelete(producto.id)" class="delete-button">
-                                <i class="fas fa-trash"></i>
+                                <i class="fas fa-trash">Eliminar</i>
                             </button>
                         </td>
                     </tr>
@@ -110,17 +110,6 @@ const form = ref({
     requiere_receta: false
 })
 
-// Configuración de Axios con el token JWT
-const apix = axios.create({
-    baseURL: 'http://localhost:8080/api'
-})
-
-apix.interceptors.request.use(config => {
-    if (authStore.token) {
-        config.headers.Authorization = `Bearer ${authStore.token}`
-    }
-    return config
-})
 
 // Obtener todos los productos
 const fetchProductos = async () => {
@@ -241,8 +230,13 @@ onMounted(() => {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Botón para agregar producto */
@@ -266,7 +260,8 @@ onMounted(() => {
     margin-bottom: 20px;
 }
 
-.productos-table th, .productos-table td {
+.productos-table th,
+.productos-table td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
@@ -282,7 +277,8 @@ onMounted(() => {
     gap: 10px;
 }
 
-.edit-button, .delete-button {
+.edit-button,
+.delete-button {
     padding: 10px 14px;
     border-radius: 4px;
     cursor: pointer;
@@ -347,7 +343,8 @@ onMounted(() => {
     border-radius: 4px;
 }
 
-.cancel-button, .save-button {
+.cancel-button,
+.save-button {
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
@@ -387,5 +384,4 @@ onMounted(() => {
     display: flex;
     justify-content: space-around;
 }
-
 </style>

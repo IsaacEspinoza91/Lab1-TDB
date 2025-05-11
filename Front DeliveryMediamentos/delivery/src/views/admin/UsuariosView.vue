@@ -1,6 +1,6 @@
 <template>
   <div class="productos-container">
-    <h2>Gestión de Usuarios</h2>
+    <h1>Gestión de Usuarios</h1>
 
     <div v-if="loading" class="loading-overlay">
       <div class="spinner"></div>
@@ -36,10 +36,10 @@
             <td>{{ usuario.tipo }}</td>
             <td class="actions">
               <button @click="editUsuario(usuario)" class="edit-button">
-                <i class="fas fa-edit"></i>
+                <i class="fas fa-edit">Modificar</i>
               </button>
               <button @click="confirmDelete(usuario.id)" class="delete-button">
-                <i class="fas fa-trash"></i>
+                <i class="fas fa-trash">Eliminar</i>
               </button>
             </td>
           </tr>
@@ -125,17 +125,6 @@ const form = ref({
   tipo: ''
 })
 
-// Axios con token
-const apix = axios.create({
-  baseURL: 'http://localhost:8080/api'
-})
-
-apix.interceptors.request.use(config => {
-  if (authStore.token) {
-    config.headers.Authorization = `Bearer ${authStore.token}`
-  }
-  return config
-})
 
 // Obtener usuarios
 const fetchUsuarios = async () => {
@@ -232,181 +221,189 @@ onMounted(() => {
 
 <style scoped>
 .productos-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .productos-container h2 {
-    text-align: center;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 2s linear infinite;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .add-button {
-    background-color: #1a237e;
-    color: white;
-    padding: 12px 18px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  background-color: #1a237e;
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .productos-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-.productos-table th, .productos-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
+.productos-table th,
+.productos-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
 }
 
 .productos-table th {
-    background-color: #f1f1f1;
-    font-weight: bold;
+  background-color: #f1f1f1;
+  font-weight: bold;
 }
 
 .actions {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
-.edit-button, .delete-button {
-    padding: 10px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.edit-button,
+.delete-button {
+  padding: 10px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .edit-button {
-    background-color: #ffc107;
-    color: #212529;
+  background-color: #ffc107;
+  color: #212529;
 }
 
 .edit-button:hover {
-    background-color: #e0a800;
+  background-color: #e0a800;
 }
 
 .delete-button {
-    background-color: #f44336;
-    color: white;
+  background-color: #f44336;
+  color: white;
 }
 
 .delete-button:hover {
-    background-color: #e53935;
+  background-color: #e53935;
 }
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 600px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
-.cancel-button, .save-button {
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
+.cancel-button,
+.save-button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .cancel-button {
-    background-color: #6c757d;
-    color: white;
+  background-color: #6c757d;
+  color: white;
 }
 
 .cancel-button:hover {
-    background-color: #5a6268;
+  background-color: #5a6268;
 }
 
 .save-button {
-    background-color: #28a745;
-    color: white;
+  background-color: #28a745;
+  color: white;
 }
 
 .save-button:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .delete-modal {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
 }
 
 .delete-modal p {
-    margin-bottom: 20px;
-    font-size: 16px;
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 
 .delete-modal .modal-actions {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 </style>
