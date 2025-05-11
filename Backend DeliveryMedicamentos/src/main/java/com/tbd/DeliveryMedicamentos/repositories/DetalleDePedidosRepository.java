@@ -6,7 +6,9 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class DetalleDePedidosRepository {
@@ -88,6 +90,38 @@ public class DetalleDePedidosRepository {
             throw new RuntimeException("Error al insertar el detalle de pedido: " + e.getMessage());
         }
     }
+
+    public List<Map<String, Object>> productosMasPedidosPorCategoriaUltimoMes() {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+            SELECT 
+                p.nombre AS producto,
+                p.requiere_receta AS requiere_receta,
+                SUM(dp.cantidad) AS total_pedidos
+            FROM 
+                productos p
+            JOIN 
+                detalle_de_pedidos dp ON p.id = dp.producto_id
+            JOIN 
+                pedidos pe ON pe.id = dp.pedido_id
+            WHERE 
+                pe.fecha >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month'
+                AND pe.fecha < DATE_TRUNC('month', CURRENT_DATE)
+            GROUP BY 
+                p.id, p.nombre, p.requiere_receta
+            ORDER BY 
+                p.requiere_receta DESC, total_pedidos DESC;
+        """;
+
+            return conn.createQuery(sql)
+                    .executeAndFetchTable()
+                    .asList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
 
 
 

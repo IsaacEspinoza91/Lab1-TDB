@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DetalleDePedidosService {
@@ -44,4 +45,9 @@ public class DetalleDePedidosService {
     public void insertarDetalleDePedido(DetalleDePedidosEntity detalle) {
         detallePedidoRepository.insertarDetalleDePedido(detalle);
     }
+
+    public List<Map<String, Object>> productosMasPedidosPorCategoriaUltimoMes() {
+        return detallePedidoRepository.productosMasPedidosPorCategoriaUltimoMes();
+    }
+
 }

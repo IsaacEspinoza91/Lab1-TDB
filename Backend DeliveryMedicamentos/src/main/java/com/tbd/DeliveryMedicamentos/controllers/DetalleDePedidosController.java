@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/detalle_pedidos")
@@ -65,5 +66,12 @@ public class DetalleDePedidosController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/productos-mas-pedidos-mes")
+    public ResponseEntity<List<Map<String, Object>>> productosMasPedidosUltimoMes() {
+        List<Map<String, Object>> result = detallePedidoService.productosMasPedidosPorCategoriaUltimoMes();
+        return result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);
+    }
+
 
 }
