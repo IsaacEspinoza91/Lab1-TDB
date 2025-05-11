@@ -10,7 +10,6 @@
     <button @click="showModal = true" class="add-button" v-if="!loadingPedidos">
       <i class="fas fa-plus"></i> Agregar Pedido
     </button>
-    <!-- Tabla de Pedidos -->
     <div class="table-responsive" v-if="!loadingPedidos">
 
       <div class="table-responsive">
@@ -54,14 +53,16 @@
                 <button @click="confirmDelete(pedido.id)" class="delete-button">
                   <i class="fas fa-trash">Eliminar</i>
                 </button>
+                <button v-if="pedido.estado_entrega.toLowerCase() !== 'entregado'" @click="marcarEntregado(pedido.id)"
+                  class="save-button">
+                  Marcar Entregado
+                </button>
+                <span v-else>Entregado</span>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <!-- Tabla de Pedidos -->
-
-
       <div v-if="showModal" class="modal-overlay">
         <div class="modal-content">
           <h3>{{ isEditing ? 'Editar Pedido' : 'Nuevo Pedido' }}</h3>
@@ -106,7 +107,7 @@
               <button type="button" @click="closeModal" class="cancel-button">Cancelar</button>
               <button type="submit" class="save-button">{{
                 isEditing ? 'Actualizar' : 'Guardar'
-                }}</button>
+              }}</button>
             </div>
           </form>
         </div>
@@ -285,6 +286,26 @@ const fetchClienteMayorGasto = async () => {
       'Hubo un error al cargar los datos del cliente con mayor gasto.'
   } finally {
     loadingClienteMayorGasto.value = false
+  }
+}
+
+// Función para marcar un pedido como entregado
+const marcarEntregado = async (pedidoId) => {
+  console.log('Intentando marcar como entregado el pedido con ID:', pedidoId);
+  try {
+    const response = await api.put(`/pedidos/actualizarEntrega/${pedidoId}`, {
+      estado_entrega: 'entregado',
+    });
+    if (response.status === 200) {
+      alert(`Pedido ${pedidoId} marcado como entregado.`);
+      await fetchPedidos();
+    } else {
+      alert(`Error al marcar el pedido ${pedidoId} como entregado.`);
+      console.error('Error al marcar como entregado:', response);
+    }
+  } catch (error) {
+    alert(`Error al marcar el pedido ${pedidoId} como entregado.`);
+    console.error('Error al marcar como entregado:', error);
   }
 }
 

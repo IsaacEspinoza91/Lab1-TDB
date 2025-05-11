@@ -82,7 +82,9 @@ public class PedidosService {
         return pedidoRepository.obtenerPedidosConNotificaciones();
     }
 
-
+    public boolean actualizarEstadoEntregaPedido(int pedidoId, String nuevoEstado) {
+        return pedidoRepository.actualizarEstadoEntrega(pedidoId, nuevoEstado);
+    }
 
 
 }

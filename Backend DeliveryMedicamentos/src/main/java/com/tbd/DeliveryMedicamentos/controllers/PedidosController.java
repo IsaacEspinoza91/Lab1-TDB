@@ -120,6 +120,17 @@ public class PedidosController {
         return ResponseEntity.ok(pedidoService.obtenerPedidosConNotificaciones());
     }
 
-
+    @PutMapping("/actualizarEntrega/{id}")
+    public ResponseEntity<String> actualizarEstadoPedido(@PathVariable int id, @RequestBody Map<String, String> body) {
+        String estadoEntrega = body.get("estado_entrega");
+        if (estadoEntrega == null) {
+            return new ResponseEntity<>("Debe proporcionar el estado de entrega.", HttpStatus.BAD_REQUEST);
+        }
+        if (pedidoService.actualizarEstadoEntregaPedido(id, estadoEntrega)) {
+            return new ResponseEntity<>("Estado del pedido actualizado.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No se pudo actualizar el estado del pedido.", HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

@@ -292,5 +292,18 @@ public class PedidosRepository {
         }
     }
 
-
+    public boolean actualizarEstadoEntrega(int pedidoId, String nuevoEstado) {
+        try (Connection conn = sql2o.open()) {
+            String sql = "UPDATE Pedidos SET estado_entrega = :estadoEntrega WHERE id = :id";
+            int rowsAffected = conn.createQuery(sql)
+                    .addParameter("estadoEntrega", nuevoEstado)
+                    .addParameter("id", pedidoId)
+                    .executeUpdate()
+                    .getResult();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
