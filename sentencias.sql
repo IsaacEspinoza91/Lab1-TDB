@@ -177,6 +177,33 @@ GROUP BY
 
 -- 14. Vista de desempeño por repartidor.
 
+CREATE VIEW vista_desempeno_repartidor AS
+SELECT 
+    u.nombre AS nombre,
+    u.apellido AS apellido,
+    r.tipo_vehiculo AS vehiculo,
+    COUNT(p.id) AS total_pedidos,
+    AVG(c.estrellas) AS promedio_estrellas,
+    COALESCE(fve.total_productos_entregados, 0) AS total_productos_entregados,
+    COALESCE(fve.total_productos_pedidos, 0) AS total_productos_pedidos,
+    CASE 
+        WHEN fve.total_productos_pedidos > 0 
+        THEN ROUND((fve.total_productos_entregados::decimal / fve.total_productos_pedidos) * 100, 2)
+        ELSE 0 
+    END AS porcentaje_entregas_exitosas
+FROM repartidores r
+JOIN usuarios u ON r.usuario_id = u.id
+LEFT JOIN pedidos p ON p.repartidor_id = r.usuario_id
+LEFT JOIN calificaciones c ON c.repartidor_id = r.usuario_id
+LEFT JOIN farmacias_volumen_entregas_exitosas fve ON fve.farmacia = (
+    SELECT f.nombre 
+    FROM farmacias f 
+    JOIN pedidos p2 ON p2.farmacia_id = f.id 
+    WHERE p2.repartidor_id = r.usuario_id 
+    LIMIT 1
+)
+GROUP BY u.nombre, u.apellido, r.tipo_vehiculo, fve.total_productos_entregados, fve.total_productos_pedidos;
+
 
 -- 15. Vista de farmacias con mayor volumen de productos entregados.[Isaac]
 CREATE OR REPLACE VIEW farmacias_volumen_entregas_exitosas AS
