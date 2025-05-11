@@ -126,6 +126,25 @@ CALL cambiar_estado_pedido(2,'Fallido');
 -- TRIGGERS
 -- 10. Insertar automáticamente la fecha de entrega al marcar como entregado.
 
+-- Función que utiliza el trigger
+CREATE OR REPLACE FUNCTION actualizar_fecha_entrega()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Verifica si el estado cambia a 'entregado'
+    IF NEW.estado_entrega = 'entregado' THEN
+        NEW.fecha_entrega := NOW();  -- Asigna la fecha actual
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger
+CREATE TRIGGER trigger_actualizar_fecha_entrega
+BEFORE UPDATE ON pedidos
+FOR EACH ROW
+WHEN (OLD.estado_entrega IS DISTINCT FROM NEW.estado_entrega)
+EXECUTE FUNCTION actualizar_fecha_entrega();
+
 
 -- 11. Registrar una notificación si un medicamento con receta es pedido sin validación. [Emir]
 CREATE OR REPLACE FUNCTION registrar_notificacion_medicamento_sin_validacion()
