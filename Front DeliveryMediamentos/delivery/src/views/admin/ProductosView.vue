@@ -46,8 +46,83 @@
       </table>
     </div>
 
-    <hr style="margin: 30px 0;">
-    <div class="productos-mas-pedidos-section">
+    <hr v-if="!loading" style="margin: 30px 0;">
+
+    <!-- Productos cancelados -->
+    <div class="ranking-card" v-if="!loading">
+      <h2>Productos Más Cancelados</h2>
+      <div v-if="loadingProductosCancelados" class="loading-overlay-inline">
+        <div class="spinner-small"></div>
+        <p>Cargando datos...</p>
+      </div>
+      <div v-if="productosCancelados.length > 0" class="table-responsive">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th>ID Producto</th>
+              <th>Nombre</th>
+              <th>Cancelaciones</th>
+              <th>Porcentaje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in productosCancelados" :key="'cancelados-' + item.productoId">
+              <td>{{ index + 1 }}</td>
+              <td>{{ item.nombre_producto }}</td>
+              <td>{{ item.veces_cancelado }}</td>
+              <td>{{ item.porcentaje_cancelaciones }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p v-if="productosCancelados.length === 0 && !loadingProductosCancelados">
+        No hay datos de productos cancelados.
+      </p>
+    </div>
+
+
+
+
+    <hr v-if="!loading" style="margin: 30px 0;">
+
+    <!-- Productos devueltos -->
+    <div class="ranking-card" v-if="!loading">
+      <h2>Productos Más Devueltos</h2>
+      <div v-if="loadingProductosDevueltos" class="loading-overlay-inline">
+        <div class="spinner-small"></div>
+        <p>Cargando datos...</p>
+      </div>
+      <div v-if="productosDevueltos.length > 0" class="table-responsive">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th>ID Producto</th>
+              <th>Nombre</th>
+              <th>Devoluciones</th>
+              <th>Porcentaje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in productosDevueltos" :key="'devueltos-' + item.productoId">
+              <td>{{ index + 1 }}</td>
+              <td>{{ item.nombre_producto }}</td>
+              <td>{{ item.veces_devuelto }}</td>
+              <td>{{ item.procentajeDevoluciones }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p v-if="productosDevueltos.length === 0 && !loadingProductosDevueltos">
+        No hay datos de productos devueltos.
+      </p>
+    </div>
+
+
+
+
+
+    <hr v-if="!loading" style="margin: 30px 0;">
+    <div class="productos-mas-pedidos-section" v-if="!loading">
       <h2>Productos Más Pedidos (Último Mes)</h2>
       <div v-if="loadingProductosMasPedidos" class="loading-overlay-inline">
         <div class="spinner-small"></div>
@@ -147,6 +222,36 @@ const form = ref({
 const productosMasPedidosPorCategoria = ref([])
 const loadingProductosMasPedidos = ref(false)
 const errorProductosMasPedidos = ref(null)
+const productosCancelados = ref([])
+const loadingProductosCancelados = ref(false)
+const productosDevueltos = ref([])
+const loadingProductosDevueltos = ref(false)
+
+// Función para obtener productos cancelados
+const fetchProductosCancelados = async () => {
+  loadingProductosCancelados.value = true
+  try {
+    const response = await api.get('/productos/top-productos-cancelados')
+    productosCancelados.value = response.data
+  } catch (error) {
+    console.error('Error al obtener productos cancelados:', error)
+  } finally {
+    loadingProductosCancelados.value = false
+  }
+}
+
+// Función para obtener productos devueltos
+const fetchProductosDevueltos = async () => {
+  loadingProductosDevueltos.value = true
+  try {
+    const response = await api.get('/productos/top-productos-devueltos')
+    productosDevueltos.value = response.data
+  } catch (error) {
+    console.error('Error al obtener productos devueltos:', error)
+  } finally {
+    loadingProductosDevueltos.value = false
+  }
+}
 
 // Función para obtener los productos más pedidos en el último mes
 const fetchProductosMasPedidosPorCategoria = async () => {
@@ -246,6 +351,8 @@ const closeModal = () => {
 onMounted(async () => {
   await fetchProductos()
   await fetchProductosMasPedidosPorCategoria()
+  await fetchProductosCancelados()
+  await fetchProductosDevueltos()
 })
 </script>
 
@@ -284,8 +391,13 @@ onMounted(async () => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Botón para agregar producto */
@@ -487,9 +599,69 @@ onMounted(async () => {
   margin-right: 10px;
 }
 
+.rankings-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.ranking-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.ranking-card:hover {
+  transform: translateY(-5px);
+}
+
+.ranking-card h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #1a237e;
+  text-align: center;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ranking-table th,
+.ranking-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.ranking-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.ranking-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {
