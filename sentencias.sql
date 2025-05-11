@@ -339,3 +339,32 @@ FROM farmacias AS f LEFT JOIN pedidos AS p
 	ON p.id = dp.pedido_id
 GROUP BY f.id, f.nombre, f.lugar
 ORDER BY total_productos_entregados DESC;
+
+
+-- Extra
+-- Ranking de productos devultos
+SELECT 
+    p.ID AS producto_id,
+    p.Nombre AS nombre_producto,
+    COUNT(dp.ID) AS veces_devuelto,
+    CONCAT(
+        ROUND(
+            COUNT(dp.ID) * 100.0 / 
+            NULLIF(SUM(COUNT(dp.ID)) OVER (), 0), -- Evita división por cero
+            2
+        ), 
+        '%'
+    ) AS porcentaje_devoluciones
+FROM 
+    Productos p
+JOIN 
+    Detalle_de_pedidos dp ON p.ID = dp.Producto_ID
+JOIN 
+    Pedidos ped ON dp.Pedido_ID = ped.ID
+WHERE 
+    ped.Estado_entrega = 'Devuelto'
+GROUP BY 
+    p.ID, p.Nombre
+ORDER BY 
+    veces_devuelto DESC
+LIMIT 10;
