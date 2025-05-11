@@ -2,7 +2,7 @@
   <div class="pedidos-container">
     <h1>Gestión de Pedidos</h1>
 
-    <div v-if="loading" class="loading-overlay">
+    <div v-if="loadingPedidos" class="loading-overlay">
       <div class="spinner"></div>
       <p>Cargando pedidos...</p>
     </div>
@@ -111,6 +111,38 @@
         </div>
       </div>
     </div>
+
+    <hr style="margin: 30px 0;">
+
+    <div class="medio-pago-urgente-section">
+      <h2>Medio de Pago Más Usado en Pedidos Urgentes</h2>
+      <div v-if="loadingMedioPagoUrgente" class="loading-overlay-inline">
+        <div class="spinner-small"></div>
+        <p>Cargando datos...</p>
+      </div>
+      <div v-if="medioPagoUrgenteData" class="table-responsive">
+        <table class="medio-pago-urgente-table">
+          <thead>
+            <tr>
+              <th>Medio de Pago</th>
+              <th>Cantidad de Usos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ medioPagoUrgenteData.medio_pago }}</td>
+              <td>{{ medioPagoUrgenteData.cantidad_usos }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p v-if="medioPagoUrgenteError" class="error-message">
+        Error al cargar el medio de pago más usado.
+      </p>
+      <p v-if="!loadingMedioPagoUrgente && !medioPagoUrgenteData && !medioPagoUrgenteError">
+        No hay datos disponibles sobre el medio de pago más usado en urgencias.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -122,7 +154,7 @@ import api from '@/api'
 
 const authStore = useAuthStore()
 const pedidos = ref([])
-const loading = ref(true)
+const loadingPedidos = ref(true)
 const showModal = ref(false)
 const showDeleteModal = ref(false)
 const isEditing = ref(false)
@@ -140,6 +172,24 @@ const form = ref({
   repartidor_id: ''
 })
 
+const medioPagoUrgenteData = ref(null)
+const loadingMedioPagoUrgente = ref(true)
+const medioPagoUrgenteError = ref(null)
+
+const fetchMedioPagoUrgente = async () => {
+  loadingMedioPagoUrgente.value = true
+  medioPagoUrgenteData.value = null
+  medioPagoUrgenteError.value = null
+  try {
+    const response = await api.get('/pedidos/medio-pago-urgente')
+    medioPagoUrgenteData.value = response.data
+  } catch (error) {
+    console.error('Error al obtener el medio de pago más usado:', error)
+    medioPagoUrgenteError.value = 'Hubo un error al cargar los datos.'
+  } finally {
+    loadingMedioPagoUrgente.value = false
+  }
+}
 
 // Obtener pedidos
 const fetchPedidos = async () => {
@@ -149,7 +199,7 @@ const fetchPedidos = async () => {
   } catch (error) {
     console.error('Error al obtener pedidos:', error)
   } finally {
-    loading.value = false
+    loadingPedidos.value = false
   }
 }
 
@@ -234,9 +284,10 @@ const closeModal = () => {
   currentPedidoId.value = null
 }
 
-// Cargar pedidos al montar el componente
+// Cargar datos al montar el componente
 onMounted(() => {
   fetchPedidos()
+  fetchMedioPagoUrgente()
 })
 </script>
 
@@ -487,4 +538,69 @@ onMounted(() => {
   justify-content: center;
   gap: 10px;
 }
+
+.medio-pago-urgente-section {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.medio-pago-urgente-section h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.medio-pago-urgente-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.medio-pago-urgente-table th,
+.medio-pago-urgente-table td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.medio-pago-urgente-table thead th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.medio-pago-urgente-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.loading-overlay-inline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.spinner-small {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 1.5s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
 </style>
