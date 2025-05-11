@@ -244,7 +244,37 @@ FOR EACH ROW
 EXECUTE FUNCTION registrar_notificacion_medicamento_sin_validacion();
 
 
--- 12. Insertar una calificación automática si no se recibe en 48 horas.
+-- 12. Insertar una calificación automática si no se recibe en 48 horas. [Williams]
+CREATE OR REPLACE FUNCTION public.revisar_pedidos_tardados()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    VOLATILE
+    COST 100
+AS $BODY$
+DECLARE
+    -- Declarar la variable como RECORD para poder usarla en el bucle de adelante
+    pedido RECORD;
+BEGIN
+    -- Buscar todos los pedidos pendientes y vencidos
+    FOR pedido IN
+        SELECT id, repartidor_id
+        FROM pedidos
+        WHERE estado_entrega = 'Pendiente'
+          AND fecha < NOW() - INTERVAL '48 hours'
+    LOOP
+        -- Marcar como 'Tardado'
+        UPDATE pedidos
+        SET estado_entrega = 'Tardado'
+        WHERE id = pedido.id;
+
+        -- Insertar la calificación automática
+        INSERT INTO calificaciones (puntuacion, estrellas, cliente_id, repartidor_id)
+        VALUES ('Fallo', 1, NULL, pedido.repartidor_id);
+    END LOOP;
+
+    RETURN NEW;
+END;
+$BODY$;
 
 
 -- VISTAS
