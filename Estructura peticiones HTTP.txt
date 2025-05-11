@@ -44,6 +44,7 @@ Usuarios:
 }
 - DELETE, eliminar usuario según id: http://localhost:8080/api/usuarios/19
 Se elimina automáticamente el registro de la tabla del rol que tenia, es decir, si se elimina un usuario cliente, este se elimina de la tabla Clientes.
+- GET, contar usuarios: http://localhost:8080/api/usuarios/contar
 
 
 
@@ -164,6 +165,7 @@ Productos:
     "requiere_receta": false
 }
 - DELETE, eliminar producto: http://localhost:8080/api/productos/25
+- GET, contar productos: http://localhost:8080/api/productos/contar
 
 
 
@@ -199,6 +201,7 @@ Pedidos:
 }
 - DELETE, eliminar pedido: http://localhost:8080/api/pedidos/21
 - POST, cambiar estado de pedido (procedimiento): http://localhost:8080/api/pedidos/4/cambiar-estado?nuevoEstado=Fallido
+- GET, contar pedidos segun mes actual: http://localhost:8080/api/pedidos/contar-mes
 
 
 
