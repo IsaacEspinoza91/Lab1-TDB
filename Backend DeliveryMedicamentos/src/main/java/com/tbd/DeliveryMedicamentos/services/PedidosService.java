@@ -66,4 +66,8 @@ public class PedidosService {
         return pedidoRepository.countPedidosMesActual();
     }
 
+    public List<Map<String, Object>> farmaciasConMasEntregasFallidas() {
+        return pedidoRepository.farmaciasConMasEntregasFallidas();
+    }
+
 }

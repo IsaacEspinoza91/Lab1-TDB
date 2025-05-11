@@ -93,4 +93,10 @@ public class PedidosController {
         long count = pedidoService.contarPedidosMesActual();
         return ResponseEntity.ok(Collections.singletonMap("count", count));
     }
+
+    @GetMapping("/farmacias-mas-fallidas")
+    public ResponseEntity<List<Map<String, Object>>> farmaciasConMasEntregasFallidas() {
+        return ResponseEntity.ok(pedidoService.farmaciasConMasEntregasFallidas());
+    }
+
 }

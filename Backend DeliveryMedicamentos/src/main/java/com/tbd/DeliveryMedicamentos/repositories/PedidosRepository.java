@@ -217,4 +217,23 @@ public class PedidosRepository {
                     .executeScalar(Long.class);
         }
     }
+
+    public List<Map<String, Object>> farmaciasConMasEntregasFallidas() {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+            SELECT f.id, f.nombre, f.lugar, COUNT(*) AS entregas_fallidas
+            FROM pedidos p
+            INNER JOIN farmacias f ON p.farmacia_id = f.id
+            WHERE p.estado_entrega = 'Fallido'
+            GROUP BY f.id, f.nombre, f.lugar
+            ORDER BY entregas_fallidas DESC
+        """;
+            return conn.createQuery(sql)
+                    .executeAndFetchTable()
+                    .asList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
 }
