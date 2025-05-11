@@ -58,6 +58,10 @@
                   Marcar Entregado
                 </button>
                 <span v-else>Entregado</span>
+                <button v-if="!pedido.confirmado" @click="confirmarPedido(pedido.id)" class="confirm-button">
+                  <i class="fas fa-check">Confirmar</i>
+                </button>
+                <span v-else>Confirmado</span>
               </td>
             </tr>
           </tbody>
@@ -308,6 +312,22 @@ const marcarEntregado = async (pedidoId) => {
     console.error('Error al marcar como entregado:', error);
   }
 }
+
+// Función para confirmar un pedido
+ const confirmarPedido = async (pedidoId) => {
+  console.log('Intentando confirmar pedido con ID:', pedidoId);
+  try {
+    await api.post(`/pedidos/confirmar/${pedidoId}`);
+    alert(`Pedido ${pedidoId} confirmado.`);
+    const index = pedidos.value.findIndex(p => p.id === pedidoId);
+    if (index !== -1) {
+      pedidos.value[index] = { ...pedidos.value[index], confirmado: true };
+    }
+  } catch (error) {
+    alert(`Error al confirmar el pedido ${pedidoId}.`);
+    console.error('Error al confirmar pedido:', error);
+  }
+ }
 
 // Obtener pedidos
 const fetchPedidos = async () => {
@@ -768,5 +788,19 @@ onMounted(async () => {
 .alerta-text {
   color: red;
   font-weight: bold;
+}
+
+.confirm-button {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-size: 0.9em;
+}
+
+.confirm-button:hover {
+  background-color: #218838;
 }
 </style>

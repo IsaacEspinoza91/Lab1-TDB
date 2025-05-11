@@ -133,4 +133,14 @@ public class PedidosController {
         }
     }
 
+    @GetMapping("/tardados")
+    public List<Integer> getPedidosTardados() {
+        return pedidoService.obtenerPedidosTardados();
+    }
+
+    @PostMapping("/confirmar/{id}")
+    public void confirmarPedido(@PathVariable("id") int pedidoId) {
+        pedidoService.descontarStock(pedidoId);
+    }
+
 }

@@ -306,4 +306,24 @@ public class PedidosRepository {
             return false;
         }
     }
+
+    public List<Integer> obtenerPedidosTardados() {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+                SELECT id
+                FROM Pedidos
+                WHERE estado_entrega = 'Tardado'
+                """;
+            return conn.createQuery(sql)
+                    .executeAndFetch(Integer.class);
+        }
+    }
+
+    public void descontarStockConfirmado(int pedidoId) {
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery("CALL descontar_stock_confirmado(:pedidoId)")
+                    .addParameter("pedidoId", pedidoId)
+                    .executeUpdate();
+        }
+    }
 }

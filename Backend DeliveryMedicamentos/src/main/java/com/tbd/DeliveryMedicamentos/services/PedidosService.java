@@ -86,5 +86,13 @@ public class PedidosService {
         return pedidoRepository.actualizarEstadoEntrega(pedidoId, nuevoEstado);
     }
 
+    public List<Integer> obtenerPedidosTardados() {
+        return pedidoRepository.obtenerPedidosTardados();
+    }
+
+    public void descontarStock(int pedidoId) {
+        pedidoRepository.descontarStockConfirmado(pedidoId);
+    }
+
 
 }
