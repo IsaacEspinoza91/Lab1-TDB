@@ -49,8 +49,18 @@ const handleLogin = async () => {
       password: form.value.password
     })
 
-    authStore.setToken(response.data.token)
-    router.push({ name: 'dashboard' })
+    // Asumimos que el backend devuelve el tipo de usuario en la respuesta
+    const userType = response.data.tipo || 'CLIENTE'
+    authStore.setToken(response.data.token, userType)
+
+    // Redirigir según el tipo de usuario
+    /*if (userType === 'ADMIN') {
+      router.push({ name: 'admin' })
+    } else {
+      router.push({ name: 'home' })
+    }*/
+    // Hasta el momento solo esta la vista de admin
+    router.push({ name: 'admin' })
   } catch (err) {
     error.value = err.response?.data?.message || 'Error al iniciar sesión'
   } finally {

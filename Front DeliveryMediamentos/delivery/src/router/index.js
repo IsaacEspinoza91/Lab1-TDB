@@ -1,9 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
-import DashboardView from '../views/DashboardView.vue'
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '@/stores/auth'
+
+// Vistas principales
+const HomeView = () => import('@/views/HomeView.vue')
+const LoginView = () => import('@/views/LoginView.vue')
+const RegisterView = () => import('@/views/RegisterView.vue')
+
+// Vistas de administración
+const AdminView = () => import('@/views/AdminView.vue')
+const AdminDashboard = () => import('@/views/admin/DashboardView.vue')
+const UsuariosView = () => import('@/views/admin/UsuariosView.vue')
+const FarmaciasView = () => import('@/views/admin/FarmaciasView.vue')
+const PedidosView = () => import('@/views/admin/PedidosView.vue')
+const ProductosView = () => import('@/views/admin/ProductosView.vue')
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,18 +33,48 @@ const router = createRouter({
             component: RegisterView
         },
         {
-            path: '/dashboard',
-            name: 'dashboard',
-            component: DashboardView,
-            meta: { requiresAuth: true }
+            path: '/admin',
+            component: AdminView,
+            meta: { requiresAuth: true, requiresAdmin: true },
+            children: [
+                {
+                    path: '',
+                    name: 'admin',
+                    component: AdminDashboard
+                },
+                {
+                    path: 'usuarios',
+                    name: 'admin-usuarios',
+                    component: UsuariosView
+                },
+                {
+                    path: 'farmacias',
+                    name: 'admin-farmacias',
+                    component: FarmaciasView
+                },
+                {
+                    path: 'pedidos',
+                    name: 'admin-pedidos',
+                    component: PedidosView
+                },
+                {
+                    path: 'productos',
+                    name: 'admin-productos',
+                    component: ProductosView
+                }
+            ]
         }
     ]
 })
 
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
+    authStore.initialize()
+
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         next({ name: 'login' })
+        //} else if (to.meta.requiresAdmin && authStore.userType !== 'ADMIN') {
+        //    next({ name: 'home' })
     } else {
         next()
     }

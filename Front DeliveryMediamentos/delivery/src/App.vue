@@ -1,8 +1,4 @@
 <template>
-  <nav v-if="$route.name !== 'home'">
-    <router-link to="/">Home</router-link> |
-    <button @click="logout" v-if="authStore.isAuthenticated">Logout</button>
-  </nav>
   <router-view />
 </template>
 
@@ -27,6 +23,12 @@ const logout = () => {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
 }
 
 nav {
