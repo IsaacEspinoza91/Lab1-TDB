@@ -12,7 +12,16 @@
       <form @submit.prevent="handleRegister">
         <div class="form-group">
           <label for="rut">RUT:</label>
-          <input type="text" id="rut" v-model="form.rut" required>
+          <input
+              type="text"
+              id="rut"
+              v-model="form.rut"
+              @input="formatRut"
+              maxlength="10"
+              placeholder="12345678-9"
+              pattern="[0-9-]+"
+              required
+          >
         </div>
         <div class="form-group">
           <label for="nombre">Nombre:</label>
@@ -74,6 +83,16 @@ const error = ref(null)
 const showSuccess = ref(false)
 const router = useRouter()
 const authStore = useAuthStore()
+
+const formatRut = (event) => {
+  // Solo permite números y guión
+  form.value.rut = event.target.value.replace(/[^0-9-]/g, '');
+
+  // Limita a 10 caracteres
+  if (form.value.rut.length > 10) {
+    form.value.rut = form.value.rut.substring(0, 10);
+  }
+}
 
 const handleRegister = async () => {
   loading.value = true
