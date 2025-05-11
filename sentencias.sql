@@ -154,8 +154,45 @@ $$;
 CALL cambiar_estado_pedido(2,'Fallido');
 
 
--- 9. Descontar stock al confirmar pedido.
+-- 9. Descontar stock al confirmar pedido. [Williams]
+CREATE OR REPLACE PROCEDURE public.descontar_stock_confirmado(IN p_pedido_id integer)
+    LANGUAGE 'plpgsql'
+    
+AS $BODY$
+DECLARE
+  v_producto_id INT;
+  v_cantidad INT;
+  v_stock_actual INT;
+BEGIN
+  -- Actualizamos el estado del pedido a 'Entregado'
+  UPDATE pedidos
+  SET estado_entrega = 'Entregado'
+  WHERE id = p_pedido_id;
 
+  -- Recorremos cada producto en el detalle del pedido
+  FOR v_producto_id, v_cantidad IN
+    SELECT producto_id, cantidad
+    FROM detalle_de_pedidos
+    WHERE pedido_id = p_pedido_id
+  LOOP
+    -- Obtener el stock actual del producto
+    SELECT stock INTO v_stock_actual
+    FROM productos
+    WHERE id = v_producto_id;
+
+    -- Verificar si el stock es suficiente
+    IF v_stock_actual < v_cantidad THEN
+      RAISE EXCEPTION 'Stock insuficiente para el producto %', v_producto_id;
+    END IF;
+
+    -- Descontar el stock
+    UPDATE productos
+    SET stock = stock - v_cantidad
+    WHERE id = v_producto_id;
+  END LOOP;
+  
+END;
+$BODY$;
 
 -- TRIGGERS
 -- 10. Insertar automáticamente la fecha de entrega al marcar como entregado.
