@@ -236,4 +236,28 @@ public class PedidosRepository {
             return Collections.emptyList();
         }
     }
+
+    public Map<String, Object> clienteConMasGastoEnPedidosEntregados() {
+        try (Connection conn = sql2o.open()) {
+            String sql = """
+            SELECT u.Nombre, u.Apellido, c.Usuario_ID AS Cliente_ID, SUM(p.Total_pagado) AS TotalGastado
+            FROM Clientes c
+            JOIN Usuarios u ON c.Usuario_ID = u.ID
+            JOIN Pedidos p ON p.Cliente_ID = c.Usuario_ID
+            WHERE p.Estado_entrega = 'Entregado'
+            GROUP BY c.Usuario_ID, u.Nombre, u.Apellido
+            ORDER BY TotalGastado DESC
+            LIMIT 1;
+        """;
+            List<Map<String, Object>> result = conn.createQuery(sql)
+                    .executeAndFetchTable()
+                    .asList();
+
+            return result.isEmpty() ? null : result.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

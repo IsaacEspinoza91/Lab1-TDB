@@ -70,4 +70,9 @@ public class PedidosService {
         return pedidoRepository.farmaciasConMasEntregasFallidas();
     }
 
+    public Map<String, Object> clienteConMasGastoEnPedidosEntregados() {
+        return pedidoRepository.clienteConMasGastoEnPedidosEntregados();
+    }
+
+
 }

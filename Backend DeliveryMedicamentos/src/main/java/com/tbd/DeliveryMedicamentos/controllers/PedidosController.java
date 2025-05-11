@@ -99,4 +99,11 @@ public class PedidosController {
         return ResponseEntity.ok(pedidoService.farmaciasConMasEntregasFallidas());
     }
 
+    @GetMapping("/cliente-mas-gastador")
+    public ResponseEntity<Map<String, Object>> getClienteConMasGasto() {
+        Map<String, Object> result = pedidoService.clienteConMasGastoEnPedidosEntregados();
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    }
+
+
 }

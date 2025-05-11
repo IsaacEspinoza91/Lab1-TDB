@@ -143,6 +143,41 @@
         No hay datos disponibles sobre el medio de pago más usado en urgencias.
       </p>
     </div>
+    <hr style="margin: 30px 0;">
+
+    <div class="cliente-mayor-gasto-section">
+      <h2>Cliente con Mayor Gasto en Pedidos Entregados</h2>
+      <div v-if="loadingClienteMayorGasto" class="loading-overlay-inline">
+        <div class="spinner-small"></div>
+        <p>Cargando datos...</p>
+      </div>
+      <div v-if="clienteMayorGastoData" class="table-responsive">
+        <table class="cliente-mayor-gasto-table">
+          <thead>
+            <tr>
+              <th>ID Cliente</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Total Gastado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ clienteMayorGastoData.cliente_id }}</td>
+              <td>{{ clienteMayorGastoData.nombre }}</td>
+              <td>{{ clienteMayorGastoData.apellido }}</td>
+              <td>{{ clienteMayorGastoData.totalgastado }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p v-if="clienteMayorGastoError" class="error-message">
+        Error al cargar el cliente con mayor gasto.
+      </p>
+      <p v-if="!loadingClienteMayorGasto && !clienteMayorGastoData && !clienteMayorGastoError">
+        No hay datos disponibles sobre el cliente con mayor gasto.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -188,6 +223,25 @@ const fetchMedioPagoUrgente = async () => {
     medioPagoUrgenteError.value = 'Hubo un error al cargar los datos.'
   } finally {
     loadingMedioPagoUrgente.value = false
+  }
+}
+
+const clienteMayorGastoData = ref(null)
+const loadingClienteMayorGasto = ref(true)
+const clienteMayorGastoError = ref(null)
+
+const fetchClienteMayorGasto = async () => {
+  loadingClienteMayorGasto.value = true
+  clienteMayorGastoData.value = null
+  clienteMayorGastoError.value = null
+  try {
+    const response = await api.get('/pedidos/cliente-mas-gastador')
+    clienteMayorGastoData.value = response.data
+  } catch (error) {
+    console.error('Error al obtener el cliente con mayor gasto:', error)
+    clienteMayorGastoError.value = 'Hubo un error al cargar los datos del cliente con mayor gasto.'
+  } finally {
+    loadingClienteMayorGasto.value = false
   }
 }
 
@@ -288,6 +342,7 @@ const closeModal = () => {
 onMounted(() => {
   fetchPedidos()
   fetchMedioPagoUrgente()
+  fetchClienteMayorGasto()
 })
 </script>
 
@@ -601,6 +656,37 @@ onMounted(() => {
   color: red;
   margin-top: 10px;
   text-align: center;
+}
+
+.cliente-mayor-gasto-section {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.cliente-mayor-gasto-section h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.cliente-mayor-gasto-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cliente-mayor-gasto-table th,
+.cliente-mayor-gasto-table td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.cliente-mayor-gasto-table thead th {
+  background-color: #f8f8f8;
+  font-weight: bold;
 }
 
 </style>
