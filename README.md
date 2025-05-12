@@ -15,11 +15,11 @@
 
 ## 🛠️ Tecnologías Utilizadas
 
- - Backend: Java 17 + Spring Boot
- - Frontend: Vue.js + Node.js
+ - Backend: Java 17 + Spring Boot 3.4.5
+ - Frontend: Vue.js con Vite + Node.js 22.14.0
  - Base de Datos: PostgreSQL 17
- - SQL2O
- - Json Web Token
+ - SQL2O 1.9.1
+ - Json Web Token 0.11.5
 
 ## 🚀 Cómo Ejecutar el Proyecto
 
@@ -36,22 +36,11 @@ Ir al directorio del proyecto
 ```
 
 
-Ir al directorio del Backend
-```bash
-  cd 'Backend DeliveryMedicamentos/target'
-```
-
-Ejecutar el archivo jar
-
-```bash
-  java -jar DeliveryMedicamentos-0.0.1-SNAPSHOT.jar
-```
+Abrir la carpeta "Backend DeliveryMediamentos" desde un IDE y ejecutar
 
 Ir al directorio del Frontend
 
 ```bash
-  cd ..
-  cd ..
   cd 'Front DeliveryMediamentos/delivery'
 ```
 
@@ -70,6 +59,6 @@ Ejecutar Frontend
 Acceder a la ruta: http://localhost:5173
 ## Requisitos
 
-El proyecto utiliza los puerto 8080 y 5173 del equipo donde se ejecuta. Por lo que estos puertos deben estar libres.
+El proyecto utiliza los puerto 8080 y 5173 del equipo local donde se ejecuta. Por lo que estos puertos deben estar libres.
 
 
