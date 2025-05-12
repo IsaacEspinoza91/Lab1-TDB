@@ -58,10 +58,11 @@
                   Marcar Entregado
                 </button>
                 <span v-else>Entregado</span>
-                <button v-if="!pedido.confirmado" @click="confirmarPedido(pedido.id)" class="confirm-button">
+                <button v-if="pedido.estado_entrega.toLowerCase() === 'entregado' && !pedido.confirmado"
+                  @click="confirmarPedido(pedido.id)" class="confirm-button">
                   <i class="fas fa-check">Confirmar</i>
                 </button>
-                <span v-else>Confirmado</span>
+                <span v-else-if="pedido.confirmado" class="confirmed-text">Confirmado</span>
               </td>
             </tr>
           </tbody>
@@ -314,7 +315,7 @@ const marcarEntregado = async (pedidoId) => {
 }
 
 // Función para confirmar un pedido
- const confirmarPedido = async (pedidoId) => {
+const confirmarPedido = async (pedidoId) => {
   console.log('Intentando confirmar pedido con ID:', pedidoId);
   try {
     await api.post(`/pedidos/confirmar/${pedidoId}`);
@@ -327,7 +328,7 @@ const marcarEntregado = async (pedidoId) => {
     alert(`Error al confirmar el pedido ${pedidoId}.`);
     console.error('Error al confirmar pedido:', error);
   }
- }
+}
 
 // Obtener pedidos
 const fetchPedidos = async () => {
